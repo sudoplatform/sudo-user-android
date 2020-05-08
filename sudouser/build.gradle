@@ -132,28 +132,17 @@ apply plugin: 'maven'
 def props = new Properties()
 file("../secret.properties").withInputStream { props.load(it) }
 
-uploadArchives {
-    if (project.hasProperty('tag')) {
-        repositories {
-            mavenDeployer {
-                repository(url: "https://repo.gc.anonyome.com/nexus/content/repositories/anonyome-android") {
-                    authentication(userName: props.getProperty("mavenUser"), password: props.getProperty("mavenPassword"))
-                    pom.groupId = "com.sudoplatform.sudouser"
-                    pom.artifactId = "client"
-                    pom.version = "$tag"
-                }
-            }
-        }
-    }
-}
-
 ext {
     PUBLISH_GROUP_ID = 'com.sudoplatform'
     PUBLISH_ARTIFACT_ID = 'sudouser'
     PUBLISH_DESCRIPTION = 'User SDK for the Sudo Platform by Anonyome Labs.'
     PUBLISH_PROJECT_URL = 'https://github.com/sudoplatform/sudo-user-android'
     PUBLISH_PROJECT_SCM = 'scm:git:github.com/sudoplatform/sudo-user-android.git'
-    PUBLISH_VERSION = "6.4.1"
+    if (project.hasProperty('tag')) {
+        PUBLISH_VERSION = "$tag"
+    } else {
+        PUBLISH_VERSION = "0.0.0"
+    }
 }
 
 apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"

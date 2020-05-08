@@ -32,7 +32,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://repo.gc.anonyome.com/nexus/content/repositories/anonyome-android" }
         jcenter()
     }
 }

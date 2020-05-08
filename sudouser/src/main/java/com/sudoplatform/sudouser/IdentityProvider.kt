@@ -247,10 +247,11 @@ internal class CognitoUserPoolIdentityProvider(
                     special = true,
                     number = true
                 )
+            val cognitoAttributes = CognitoUserAttributes()
             this@CognitoUserPoolIdentityProvider.userPool.signUp(
                 uid,
                 password,
-                CognitoUserAttributes(),
+                cognitoAttributes,
                 parameters,
                 object : SignUpHandler {
                     override fun onSuccess(
