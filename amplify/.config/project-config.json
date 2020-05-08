@@ -1,0 +1,13 @@
+{
+    "projectName": "androididentityclien",
+    "version": "2.0",
+    "frontend": "android",
+    "android": {
+        "config": {
+            "ResDir": "sudouser/src/main/res"
+        }
+    },
+    "providers": [
+        "awscloudformation"
+    ]
+}

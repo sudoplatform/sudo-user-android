@@ -1,0 +1,14 @@
+# this is an auto generated file. This will be overwritten
+query NotImplemented($dummy: String!) {
+  notImplemented(dummy: $dummy)
+}
+mutation Deregister {
+  deregister {
+    success
+  }
+}
+mutation RegisterFederatedId($input: RegisterFederatedIdInput) {
+  registerFederatedId(input: $input) {
+    identityId
+  }
+}
