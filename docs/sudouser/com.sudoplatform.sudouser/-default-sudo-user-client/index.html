@@ -1,0 +1,303 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DefaultSudoUserClient - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">DefaultSudoUserClient</a><br/>
+<br/>
+<h1>DefaultSudoUserClient</h1>
+<code><span class="keyword">class </span><span class="identifier">DefaultSudoUserClient</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-sudo-user-client/index.html"><span class="identifier">SudoUserClient</span></a></code>
+<p>Default implementation of <a href="../-sudo-user-client/index.html">SudoUserClient</a> interface.</p>
+<h3>Parameters</h3>
+<p><a name="config"></a>
+<code>config</code> - configuration parameters.</p>
+<p><a name="context"></a>
+<code>context</code> - Android app context.</p>
+<p><a name="namespace"></a>
+<code>namespace</code> - namespace to use for internal data and cryptographic keys. This should be unique
+per client per app to avoid name conflicts between multiple clients.</p>
+<p><a name="logger"></a>
+<code>logger</code> - logger to use for logging messages.</p>
+<p><a name="keyManager"></a>
+<code>keyManager</code> - custom <a href="#">KeyManagerInterface</a> implementation. Mainly used for unit testing (optional)</p>
+<p><a name="identityProvider"></a>
+<code>identityProvider</code> - custom identity provider. Mainly used for unit testing (optional).</p>
+<p><a name="apiClient"></a>
+<code>apiClient</code> - custom API client. Mainly used for unit testing (optional).</p>
+<p><a name="credentialsProvider"></a>
+<code>credentialsProvider</code> - custom credentials provider. Mainly used for unit testing (optional).</p>
+<p><a name="authUI"></a>
+<code>authUI</code> - custom auth UI. Mainly used for unit testing (optional).</p>
+<p><a name="idGenerator"></a>
+<code>idGenerator</code> - custom ID generator. Mainly used for unit testing (optional).</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">DefaultSudoUserClient</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/context">context</span><span class="symbol">:</span>&nbsp;<span class="identifier">Context</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/namespace">namespace</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;"ids"<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/logger">logger</span><span class="symbol">:</span>&nbsp;<span class="identifier">Logger</span>&nbsp;<span class="symbol">=</span>&nbsp;DefaultLogger.instance<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/config">config</span><span class="symbol">:</span>&nbsp;<span class="identifier">JSONObject</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/identityProvider">identityProvider</span><span class="symbol">:</span>&nbsp;<a href="../-identity-provider/index.html"><span class="identifier">IdentityProvider</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/apiClient">apiClient</span><span class="symbol">:</span>&nbsp;<span class="identifier">AWSAppSyncClient</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/credentialsProvider">credentialsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">CognitoCredentialsProvider</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/authUI">authUI</span><span class="symbol">:</span>&nbsp;<a href="../-auth-u-i/index.html"><span class="identifier">AuthUI</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$<init>(android.content.Context, kotlin.String, com.sudoplatform.sudologging.Logger, org.json.JSONObject, com.anonyome.keymanager.KeyManagerInterface, com.sudoplatform.sudouser.IdentityProvider, com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient, com.amazonaws.auth.CognitoCredentialsProvider, com.sudoplatform.sudouser.AuthUI, com.sudoplatform.sudouser.IdGenerator)/idGenerator">idGenerator</span><span class="symbol">:</span>&nbsp;<a href="../-id-generator/index.html"><span class="identifier">IdGenerator</span></a>&nbsp;<span class="symbol">=</span>&nbsp;IdGenerateImpl()<span class="symbol">)</span></code>
+<p>Default implementation of <a href="../-sudo-user-client/index.html">SudoUserClient</a> interface.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="version.html">version</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">version</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Client version.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="clear-auth-tokens.html">clearAuthTokens</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">clearAuthTokens</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Clears cached authentication tokens.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="decrypt.html">decrypt</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">decrypt</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$decrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$decrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/algorithm">algorithm</span><span class="symbol">:</span>&nbsp;<a href="../-symmetric-key-encryption-algorithm/index.html"><span class="identifier">SymmetricKeyEncryptionAlgorithm</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$decrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a></code>
+<p>Encrypts the given data using the specified key and encryption algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="deregister.html">deregister</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">deregister</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$deregister(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>De-registers a user.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="encrypt.html">encrypt</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">encrypt</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$encrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$encrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/algorithm">algorithm</span><span class="symbol">:</span>&nbsp;<a href="../-symmetric-key-encryption-algorithm/index.html"><span class="identifier">SymmetricKeyEncryptionAlgorithm</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$encrypt(kotlin.String, com.sudoplatform.sudouser.SymmetricKeyEncryptionAlgorithm, kotlin.ByteArray)/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-byte-array/index.html"><span class="identifier">ByteArray</span></a></code>
+<p>Encrypts the given data using the specified key and encryption algorithm.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-access-token.html">getAccessToken</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getAccessToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Returns the access token cached from the last sign-in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-credentials-provider.html">getCredentialsProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getCredentialsProvider</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">CognitoCredentialsProvider</span></code>
+<p>Returns a credentials provider that can be used for authenticating into various services provided
+by Sudo Platform.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-id-token.html">getIdToken</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getIdToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Returns the ID token cached from the last sign-in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-logins.html">getLogins</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getLogins</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span></code>
+<p>Returns the logins to use for accessing other Sudo Platform services. You must be signed in to get
+logins.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-refresh-token.html">getRefreshToken</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getRefreshToken</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Returns the refresh token cached from the last sign-in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-subject.html">getSubject</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getSubject</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Returns the subject of the user associated with this client.
+Note: This is an internal method used by other Sudo platform SDKs.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-symmetric-key-id.html">getSymmetricKeyId</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getSymmetricKeyId</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Get the Symmetric Key ID associated with this client. The Symmetric Key ID is generated during a register
+request and saved within the keychain for the current device.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-token-expiry.html">getTokenExpiry</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getTokenExpiry</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a><span class="symbol">?</span></code>
+<p>Returns the ID and access token expiry cached from the last sign-in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-user-claim.html">getUserClaim</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getUserClaim</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$getUserClaim(kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html"><span class="identifier">Any</span></a><span class="symbol">?</span></code>
+<p>Returns the specified claim associated with the user's identity.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="get-user-id.html">getUserId</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">getUserId</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>Returns the user ID associated with this client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="global-sign-out.html">globalSignOut</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">globalSignOut</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$globalSignOut(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Signs out the user from all devices.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-registered.html">isRegistered</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isRegistered</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Indicates whether or not this client is registered with Sudo Platform backend.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="is-signed-in.html">isSignedIn</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">isSignedIn</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html"><span class="identifier">Boolean</span></a></code>
+<p>Indicates whether or not this client is signed in with Sudo Platform backend. The client is
+considered signed in if it cached valid ID and access tokens.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="present-federated-sign-in-u-i.html">presentFederatedSignInUI</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">presentFederatedSignInUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$presentFederatedSignInUI(kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Presents the sign in UI for federated sign in using an external identity provider.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="present-federated-sign-out-u-i.html">presentFederatedSignOutUI</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">presentFederatedSignOutUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$presentFederatedSignOutUI(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Presents the sign out UI for federated sign in using an external identity provider.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="process-federated-sign-in-tokens.html">processFederatedSignInTokens</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">processFederatedSignInTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$processFederatedSignInTokens(android.net.Uri)/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">Uri</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Processes tokens from federated sign in via Android intent data pointed to by the specified URL. The tokens
+are passed to the app via a redirect URL with custom scheme mapped to the app.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="refresh-tokens.html">refreshTokens</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">refreshTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/refreshToken">refreshToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Refresh the access and ID tokens using the refresh token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register-with-authentication-provider.html">registerWithAuthenticationProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerWithAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/authenticationProvider">authenticationProvider</span><span class="symbol">:</span>&nbsp;<a href="../-authentication-provider/index.html"><span class="identifier">AuthenticationProvider</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/registrationId">registrationId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-register-result/index.html"><span class="identifier">RegisterResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers this client against the backend with an external authentication provider. Caller must
+implement <a href="../-authentication-provider/index.html">AuthenticationProvider</a> protocol to return appropriate authentication token required
+to authorize the registration request.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register-with-safety-net-attestation.html">registerWithSafetyNetAttestation</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerWithSafetyNetAttestation</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/attestationResult">attestationResult</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/nonce">nonce</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/registrationId">registrationId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-register-result/index.html"><span class="identifier">RegisterResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers this client against the backend with a SafetyNet attestation result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="reset.html">reset</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Removes all keys associated with this client and invalidates any cached authentication credentials.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-in-with-key.html">signInWithKey</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">signInWithKey</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$signInWithKey(kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Sign into the backend using a private key. The client must have created a private/public key pair via
+one of the <em>register</em> methods.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

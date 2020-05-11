@@ -1,0 +1,52 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>AuthenticationProvider - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">AuthenticationProvider</a><br/>
+<br/>
+<h1>AuthenticationProvider</h1>
+<code><span class="keyword">interface </span><span class="identifier">AuthenticationProvider</span></code>
+<p>Encapsulates an authentication provider responsible to generating authentication information
+required to sign into the backend.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="get-authentication-info.html">getAuthenticationInfo</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">getAuthenticationInfo</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-info/index.html"><span class="identifier">AuthenticationInfo</span></a></code>
+<p>Generates and returns an authentication information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="reset.html">reset</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Resets internal state and releases any associated resources.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Inheritors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="../-t-e-s-t-authentication-provider/index.html">TESTAuthenticationProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">TESTAuthenticationProvider</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AuthenticationProvider</span></a></code>
+<p>Authentication provider for generating authentication info using a TEST registration key.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

@@ -52,7 +52,7 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/java'
         androidTest {
-            resources.srcDirs += ['../identity-system-test-config']
+            resources.srcDirs += ['/var/anonyome_key', '../identity-system-test-config']
             assets.srcDirs += ['../identity-system-test-config']
         }
     }
@@ -66,14 +66,9 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:[2.16,)'
     implementation 'com.amazonaws:aws-android-sdk-cognitoauth:[2.16,)'
     implementation 'com.amazonaws:aws-android-sdk-core:[2.16,)'
-    implementation 'com.amazonaws:aws-android-sdk-appsync:2.10.0'
+    implementation 'com.amazonaws:aws-android-sdk-appsync:[3.0,)'
     implementation 'com.amazonaws:aws-android-sdk-s3:[2.16,)'
 
-    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.1'
-    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1'
-
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-    
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-core:2.27.0'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"

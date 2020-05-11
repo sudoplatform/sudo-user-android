@@ -1,0 +1,28 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>DefaultSudoUserClient.registerWithSafetyNetAttestation - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">DefaultSudoUserClient</a>&nbsp;/&nbsp;<a href="./register-with-safety-net-attestation.html">registerWithSafetyNetAttestation</a><br/>
+<br/>
+<h1>registerWithSafetyNetAttestation</h1>
+<a name="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))"></a>
+<code><span class="keyword">fun </span><span class="identifier">registerWithSafetyNetAttestation</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/attestationResult">attestationResult</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/nonce">nonce</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/registrationId">registrationId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerWithSafetyNetAttestation(kotlin.String, kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-register-result/index.html"><span class="identifier">RegisterResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Overrides <a href="../-sudo-user-client/register-with-safety-net-attestation.html">SudoUserClient.registerWithSafetyNetAttestation</a></p>
+<p>Registers this client against the backend with a SafetyNet attestation result.</p>
+<h3>Parameters</h3>
+<p><a name="attestationResult"></a>
+<code>attestationResult</code> - SafetyNet attestation result.</p>
+<p><a name="nonce"></a>
+<code>nonce</code> - nonce used to generate SafetyNet attestation result. This should be unique for each device so
+use UUID or Android ID.</p>
+<p><a name="registrationId"></a>
+<code>registrationId</code> - registration ID to uniquely identify this registration request.</p>
+<p><a name="callback"></a>
+<code>callback</code> - callback for returning registration result containing the newly created user's ID or error.</p>
+<p><strong>Throws</strong><br/>
+(ApiException::class)</p>
+</BODY>
+</HTML>

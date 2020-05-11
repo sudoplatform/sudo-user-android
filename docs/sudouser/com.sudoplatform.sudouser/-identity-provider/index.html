@@ -1,0 +1,65 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>IdentityProvider - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">IdentityProvider</a><br/>
+<br/>
+<h1>IdentityProvider</h1>
+<code><span class="keyword">interface </span><span class="identifier">IdentityProvider</span></code>
+<p>Encapsulates interface requirements for an external identity provider to register and authenticate an identity
+within Sudo platform ecosystem.</p>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="deregister.html">deregister</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">deregister</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/uid">uid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Deregisters a user.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="global-sign-out.html">globalSignOut</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">globalSignOut</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Signs out the user from all devices.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="refresh-tokens.html">refreshTokens</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">refreshTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/refreshToken">refreshToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Refresh the access and ID tokens using the refresh token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register.html">register</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">register</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$register(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/uid">uid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$register(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$register(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.RegisterResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-register-result/index.html"><span class="identifier">RegisterResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers a new user against the identity provider.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="sign-in.html">signIn</a></p>
+</td>
+<td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">signIn</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$signIn(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/uid">uid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$signIn(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/parameters">parameters</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html"><span class="identifier">Map</span></a><span class="symbol">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">,</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">&gt;</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$signIn(kotlin.String, kotlin.collections.Map((kotlin.String, )), kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Sign into the identity provider.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

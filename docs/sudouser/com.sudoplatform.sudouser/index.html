@@ -1,0 +1,284 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>com.sudoplatform.sudouser - sudouser</title>
+<link rel="stylesheet" href="../../style.css">
+</HEAD>
+<BODY>
+<a href="../index.html">sudouser</a>&nbsp;/&nbsp;<a href="./index.html">com.sudoplatform.sudouser</a><br/>
+<br/>
+<h2>Package com.sudoplatform.sudouser</h2>
+<h3>Types</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-api-error-code/index.html">ApiErrorCode</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">ApiErrorCode</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-api-result/index.html">ApiResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">ApiResult</span></code>
+<p>Encapsulates a generic API result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-authentication-info/index.html">AuthenticationInfo</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">AuthenticationInfo</span></code>
+<p>Encapsulates an authentication information.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-authentication-provider/index.html">AuthenticationProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">AuthenticationProvider</span></code>
+<p>Encapsulates an authentication provider responsible to generating authentication information
+required to sign into the backend.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-auth-u-i/index.html">AuthUI</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">AuthUI</span></code>
+<p>Responsible for managing the authentication flow for browser based federated sign in.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-build-config/index.html">BuildConfig</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">BuildConfig</span></code><br/>
+<code><span class="keyword">class </span><span class="identifier">BuildConfig</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-cognito-auth-u-i/index.html">CognitoAuthUI</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">CognitoAuthUI</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-auth-u-i/index.html"><span class="identifier">AuthUI</span></a></code>
+<p>AuthUI implementation that uses Cognito Auth UI.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-default-logger/index.html">DefaultLogger</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DefaultLogger</span></code>
+<p>Default logger.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-default-sudo-user-client/index.html">DefaultSudoUserClient</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DefaultSudoUserClient</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-sudo-user-client/index.html"><span class="identifier">SudoUserClient</span></a></code>
+<p>Default implementation of <a href="-sudo-user-client/index.html">SudoUserClient</a> interface.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-deregister-mutation/index.html">DeregisterMutation</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">DeregisterMutation</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Mutation</span><span class="symbol">&lt;</span><a href="-deregister-mutation/-data/index.html"><span class="identifier">DeregisterMutation.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="-deregister-mutation/-data/index.html"><span class="identifier">DeregisterMutation.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<span class="identifier">Variables</span><span class="symbol">!</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-federated-sign-in-result/index.html">FederatedSignInResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">FederatedSignInResult</span></code>
+<p>Encapsulates a federated sign-in result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-graph-q-l-auth-provider/index.html">GraphQLAuthProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">GraphQLAuthProvider</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">CognitoUserPoolsAuthProvider</span></code>
+<p><a href="-sudo-user-client/index.html">SudoUserClient</a> based authentication provider implementation to be used by AWS AppSync client.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-identity-provider/index.html">IdentityProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">IdentityProvider</span></code>
+<p>Encapsulates interface requirements for an external identity provider to register and authenticate an identity
+within Sudo platform ecosystem.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-id-generate-impl/index.html">IdGenerateImpl</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">IdGenerateImpl</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-id-generator/index.html"><span class="identifier">IdGenerator</span></a></code>
+<p>Default ID generator implementation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-id-generator/index.html">IdGenerator</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">IdGenerator</span></code>
+<p>Interface for generating universally unique identifiers (UUIDs).</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-j-w-t/index.html">JWT</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">JWT</span></code>
+<p>Encapsulates a JSON Web Token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-not-implemented-query/index.html">NotImplementedQuery</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">NotImplementedQuery</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Query</span><span class="symbol">&lt;</span><a href="-not-implemented-query/-data/index.html"><span class="identifier">NotImplementedQuery.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="-not-implemented-query/-data/index.html"><span class="identifier">NotImplementedQuery.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="-not-implemented-query/-variables/index.html"><span class="identifier">NotImplementedQuery.Variables</span></a><span class="symbol">!</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-password-generator/index.html">PasswordGenerator</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">PasswordGenerator</span></code>
+<p>Generates a password complying to a specific set of rules.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-password-generator-impl/index.html">PasswordGeneratorImpl</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">PasswordGeneratorImpl</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-password-generator/index.html"><span class="identifier">PasswordGenerator</span></a></code>
+<p>Default password generator implementation.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-public-key/index.html">PublicKey</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">PublicKey</span></code>
+<p>Encapsulates a public key used for asymmetric cryptographic operations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-register-federated-id-mutation/index.html">RegisterFederatedIdMutation</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">RegisterFederatedIdMutation</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Mutation</span><span class="symbol">&lt;</span><a href="-register-federated-id-mutation/-data/index.html"><span class="identifier">RegisterFederatedIdMutation.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="-register-federated-id-mutation/-data/index.html"><span class="identifier">RegisterFederatedIdMutation.Data</span></a><span class="symbol">!</span><span class="symbol">,</span>&nbsp;<a href="-register-federated-id-mutation/-variables/index.html"><span class="identifier">RegisterFederatedIdMutation.Variables</span></a><span class="symbol">!</span><span class="symbol">&gt;</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-register-result/index.html">RegisterResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">RegisterResult</span></code>
+<p>Encapsulates a registration result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-registration-challenge/index.html">RegistrationChallenge</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">RegistrationChallenge</span></code>
+<p>Encapsulates a registration challenge.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-registration-challenge-type/index.html">RegistrationChallengeType</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">RegistrationChallengeType</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="-sign-in-result/index.html">SignInResult</a></p>
+</td>
+<td>
+<code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">SignInResult</span></code>
+<p>Encapsulates a sign-in result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-sudo-user-client/index.html">SudoUserClient</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">SudoUserClient</span></code>
+<p>Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
+cryptographic operations.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-symmetric-key-encryption-algorithm/index.html">SymmetricKeyEncryptionAlgorithm</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">SymmetricKeyEncryptionAlgorithm</span></code>
+<p>Supported symmetric key algorithms.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-t-e-s-t-authentication-info/index.html">TESTAuthenticationInfo</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">TESTAuthenticationInfo</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-authentication-info/index.html"><span class="identifier">AuthenticationInfo</span></a></code>
+<p>Authentication info consisting of a JWT signed using the TEST registration key.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-t-e-s-t-authentication-provider/index.html">TESTAuthenticationProvider</a></p>
+</td>
+<td>
+<code><span class="keyword">class </span><span class="identifier">TESTAuthenticationProvider</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="-authentication-provider/index.html"><span class="identifier">AuthenticationProvider</span></a></code>
+<p>Authentication provider for generating authentication info using a TEST registration key.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Exceptions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-api-exception/index.html">ApiException</a></p>
+</td>
+<td>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">ApiException</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-exception/index.html"><span class="identifier">Exception</span></a></code>
+<p><a href="-sudo-user-client/index.html">SudoUserClient</a> exception with a specific error code and message.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

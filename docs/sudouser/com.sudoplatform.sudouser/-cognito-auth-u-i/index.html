@@ -1,0 +1,98 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>CognitoAuthUI - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">CognitoAuthUI</a><br/>
+<br/>
+<h1>CognitoAuthUI</h1>
+<code><span class="keyword">class </span><span class="identifier">CognitoAuthUI</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-auth-u-i/index.html"><span class="identifier">AuthUI</span></a></code>
+<p>AuthUI implementation that uses Cognito Auth UI.</p>
+<h3>Parameters</h3>
+<p><a name="config"></a>
+<code>config</code> - configuration parameters.</p>
+<p><a name="context"></a>
+<code>context</code> - Android app context.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">CognitoAuthUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$<init>(org.json.JSONObject, android.content.Context)/config">config</span><span class="symbol">:</span>&nbsp;<span class="identifier">JSONObject</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$<init>(org.json.JSONObject, android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<span class="identifier">Context</span><span class="symbol">)</span></code>
+<p>AuthUI implementation that uses Cognito Auth UI.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="config.html">config</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">config</span><span class="symbol">: </span><span class="identifier">JSONObject</span></code>
+<p>configuration parameters.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="context.html">context</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">context</span><span class="symbol">: </span><span class="identifier">Context</span></code>
+<p>Android app context.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="present-federated-sign-in-u-i.html">presentFederatedSignInUI</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">presentFederatedSignInUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$presentFederatedSignInUI(kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Presents the sign in UI for federated sign in using an external identity provider.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="present-federated-sign-out-u-i.html">presentFederatedSignOutUI</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">presentFederatedSignOutUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$presentFederatedSignOutUI(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Presents the sign out UI for federated sign in using an external identity provider.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="process-federated-sign-in-tokens.html">processFederatedSignInTokens</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">processFederatedSignInTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">Uri</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.CognitoAuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Processes tokens from federated sign in via Android intent data pointed to by the specified URL. The tokens
+are passed to the app via a redirect URL with custom scheme mapped to the app.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="reset.html">reset</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Resets any internal state.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

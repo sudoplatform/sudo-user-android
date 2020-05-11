@@ -1,0 +1,164 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>JWT - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">JWT</a><br/>
+<br/>
+<h1>JWT</h1>
+<code><span class="keyword">data</span> <span class="keyword">class </span><span class="identifier">JWT</span></code>
+<p>Encapsulates a JSON Web Token.</p>
+<h3>Parameters</h3>
+<p><a name="issuer"></a>
+<code>issuer</code> - URL to token issuer.</p>
+<p><a name="audience"></a>
+<code>audience</code> - Intended audience of the token.</p>
+<p><a name="subject"></a>
+<code>subject</code> - Identity associated with the token.</p>
+<p><a name="id"></a>
+<code>id</code> - unique ID of the token.</p>
+<p><a name="algorithm"></a>
+<code>algorithm</code> - signature algorithm used to sign the token.</p>
+<p><a name="expiry"></a>
+<code>expiry</code> - date/time at which token will expire.</p>
+<p><a name="issuedAt"></a>
+<code>issuedAt</code> - date/time at which the token was issued.</p>
+<p><a name="notValidBefore"></a>
+<code>notValidBefore</code> - token is not valid before this time.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="-init-.html">&lt;init&gt;</a></p>
+</td>
+<td>
+<code><span class="identifier">JWT</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/issuer">issuer</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/audience">audience</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/subject">subject</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/id">id</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/algorithm">algorithm</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;DEFAULT_ALGORITHM<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/expiry">expiry</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Date(Date().time + (DEFAULT_LIFETIME * 1000))<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/issuedAt">issuedAt</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a>&nbsp;<span class="symbol">=</span>&nbsp;Date()<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/notValidBefore">notValidBefore</span><span class="symbol">:</span>&nbsp;<a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$<init>(kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, kotlin.String, java.util.Date, java.util.Date, java.util.Date, org.json.JSONObject)/payload">payload</span><span class="symbol">:</span>&nbsp;<span class="identifier">JSONObject</span>&nbsp;<span class="symbol">=</span>&nbsp;JSONObject()<span class="symbol">)</span></code>
+<p>Encapsulates a JSON Web Token.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Properties</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="algorithm.html">algorithm</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">algorithm</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>signature algorithm used to sign the token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="audience.html">audience</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">audience</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Intended audience of the token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="expiry.html">expiry</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">expiry</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a></code>
+<p>date/time at which token will expire.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="id.html">id</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">id</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code>
+<p>unique ID of the token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="issued-at.html">issuedAt</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">issuedAt</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a></code>
+<p>date/time at which the token was issued.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="issuer.html">issuer</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">issuer</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>URL to token issuer.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="key-id.html">keyId</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">keyId</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="not-valid-before.html">notValidBefore</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">notValidBefore</span><span class="symbol">: </span><a href="https://docs.oracle.com/javase/6/docs/api/java/util/Date.html"><span class="identifier">Date</span></a><span class="symbol">?</span></code>
+<p>token is not valid before this time.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="payload.html">payload</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">payload</span><span class="symbol">: </span><span class="identifier">JSONObject</span></code></td>
+</tr>
+<tr>
+<td>
+<p><a href="subject.html">subject</a></p>
+</td>
+<td>
+<code><span class="keyword">val </span><span class="identifier">subject</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Identity associated with the token.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="sign-and-encode.html">signAndEncode</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">signAndEncode</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.JWT$signAndEncode(com.anonyome.keymanager.KeyManagerInterface, kotlin.String)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT$signAndEncode(com.anonyome.keymanager.KeyManagerInterface, kotlin.String)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a></code>
+<p>Sign and encode the token. Mainly used for testing.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<h3>Companion Object Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<p><a href="decode.html">decode</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">decode</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.JWT.Companion$decode(kotlin.String, com.anonyome.keymanager.KeyManagerInterface)/encoded">encoded</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.JWT.Companion$decode(kotlin.String, com.anonyome.keymanager.KeyManagerInterface)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">?</span>&nbsp;<span class="symbol">=</span>&nbsp;null<span class="symbol">)</span><span class="symbol">: </span><a href="./index.html"><span class="identifier">JWT</span></a><span class="symbol">?</span></code>
+<p>Validates and decodes JWT.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>
