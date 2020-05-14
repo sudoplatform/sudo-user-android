@@ -189,12 +189,20 @@ interface SudoUserClient {
      */
     fun getTokenExpiry(): Date?
 
-    /**
-     * Returns the user ID associated with this client.
-     *
-     * @return user Id.
-     */
+    @Deprecated(
+        message ="This is deprecated and will be removed in the future.",
+        replaceWith = ReplaceWith("getUserName()"),
+        level = DeprecationLevel.WARNING
+    )
     fun getUserId(): String?
+
+    /**
+     * Returns the user name associated with this client. The username maybe needed to contact
+     * the support team when diagnosing an issue related to a specific user.
+     *
+     * @return user name.
+     */
+    fun getUserName(): String?
 
     /**
      * Returns the subject of the user associated with this client.
@@ -641,7 +649,7 @@ class DefaultSudoUserClient(
     override fun signInWithKey(callback: (SignInResult) -> Unit) {
         this.logger.info("Signing in using private key.")
 
-        val uid = this.getUserId()
+        val uid = this.getUserName()
         val userKeyId = this.keyManager.getPassword(namespace(KEY_NAME_USER_KEY_ID))
             ?.toString(Charsets.UTF_8)
 
@@ -865,6 +873,10 @@ class DefaultSudoUserClient(
     }
 
     override fun getUserId(): String? {
+        return this.getUserName()
+    }
+
+    override fun getUserName(): String? {
         return this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))?.toString(Charsets.UTF_8)
     }
 
