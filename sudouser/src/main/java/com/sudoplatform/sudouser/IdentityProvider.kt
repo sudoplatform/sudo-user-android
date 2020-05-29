@@ -189,9 +189,13 @@ internal class CognitoUserPoolIdentityProvider(
         const val SERVICE_ERROR_SERVICE_ERROR = "sudoplatform.ServiceError"
         const val SERVICE_ERROR_DECODING_ERROR = "sudoplatform.identity.DecodingError"
         const val SERVICE_ERROR_VALIDATION_FAILED = "sudoplatform.identity.UserValidationFailed"
-        const val SERVICE_ERROR_MISSING_REQUIRED_INPUT = "sudoplatform.identity.MissingRequiredInputs"
-        const val SERVICE_ERROR_SAFETY_NET_CHECK_FAILED = "sudoplatform.identity.SafetyNetCheckFailed"
+        const val SERVICE_ERROR_MISSING_REQUIRED_INPUT =
+            "sudoplatform.identity.MissingRequiredInputs"
+        const val SERVICE_ERROR_SAFETY_NET_CHECK_FAILED =
+            "sudoplatform.identity.SafetyNetCheckFailed"
         const val SERVICE_ERROR_TEST_REG_CHECK_FAILED = "sudoplatform.identity.TestRegCheckFailed"
+        const val SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED =
+            "sudoplatform.identity.ChallengeTypeNotSupported"
     }
 
     /**
@@ -330,6 +334,16 @@ internal class CognitoUserPoolIdentityProvider(
                                         )
                                     )
                                 } else if (message.contains(SERVICE_ERROR_TEST_REG_CHECK_FAILED)) {
+                                    callback(
+                                        RegisterResult.Failure(
+                                            ApiException(
+                                                ApiErrorCode.NOT_AUTHORIZED,
+                                                message
+                                            )
+                                        )
+                                    )
+                                } else if (message.contains(
+                                        SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
                                     callback(
                                         RegisterResult.Failure(
                                             ApiException(

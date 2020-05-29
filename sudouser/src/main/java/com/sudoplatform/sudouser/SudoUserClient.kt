@@ -24,6 +24,7 @@ import java.security.PrivateKey
 import java.util.*
 import org.json.JSONObject
 import com.sudoplatform.sudologging.Logger
+import org.json.JSONArray
 
 /**
  * Supported symmetric key algorithms.
@@ -260,7 +261,6 @@ interface SudoUserClient {
      */
     fun globalSignOut(callback: (ApiResult) -> Unit)
 
-
     /**
      * Returns the logins to use for accessing other Sudo Platform services. You must be signed in to get
      * logins.
@@ -290,6 +290,13 @@ interface SudoUserClient {
      * []Array].
      */
     fun getUserClaim(name: String): Any?
+
+    /**
+     * Returns the list of supported registration challenge types supported by the configured backend.
+     *
+     * @return: list of supported registration challenge types.
+     */
+    fun getSupportedRegistrationChallengeType(): List<RegistrationChallengeType>
 
 }
 
@@ -337,6 +344,7 @@ class DefaultSudoUserClient(
         private const val CONFIG_POOL_ID = "poolId"
         private const val CONFIG_IDENTITY_POOL_ID = "identityPoolId"
         private const val CONFIG_API_URL = "apiUrl"
+        private const val CONFIG_REGISTRATION_METHODS = "registrationMethods"
 
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
 
@@ -395,6 +403,11 @@ class DefaultSudoUserClient(
      */
     private val apiClient: AWSAppSyncClient
 
+    /**
+     * List of supported registration challenge types.
+     */
+    private val challengeTypes: List<RegistrationChallengeType>
+
     init {
         val configManager = DefaultSudoConfigManager(context)
 
@@ -416,13 +429,26 @@ class DefaultSudoUserClient(
         val apiUrl = identityServiceConfig[CONFIG_API_URL] as String?
         val region = identityServiceConfig[CONFIG_REGION] as String?
 
+        @Suppress("UNCHECKED_CAST")
+        val registrationMethods = identityServiceConfig.opt(CONFIG_REGISTRATION_METHODS) as JSONArray?
+        if (registrationMethods != null) {
+            this.challengeTypes = Array(registrationMethods.length()) {
+                try {
+                    RegistrationChallengeType.valueOf(registrationMethods.getString(it))
+                } catch (e: Exception) {
+                    // Ignore registration methods not relevant for Android SDK.
+                }
+            }.asList() as List<RegistrationChallengeType>
+        } else {
+            this.challengeTypes = listOf()
+        }
+
         val authProvider = GraphQLAuthProvider(this)
 
         this.apiClient = apiClient ?: AWSAppSyncClient.builder()
             .serverUrl(apiUrl)
             .region(Regions.fromName(region))
             .cognitoUserPoolsAuthProvider(authProvider)
-            .mutationQueueExecutionTimeout(30)
             .context(this.context)
             .build()
 
@@ -495,10 +521,10 @@ class DefaultSudoUserClient(
         val accessToken = this.getAccessToken()
         val expiry = this.getTokenExpiry()
 
-        if (idToken != null && accessToken != null && expiry != null) {
-            return expiry.time > Date().time
+        return if (idToken != null && accessToken != null && expiry != null) {
+            expiry.time > Date().time
         } else {
-            return false
+            false
         }
     }
 
@@ -545,10 +571,10 @@ class DefaultSudoUserClient(
                 answerPartNames.add(key)
             }
 
-            val answerMetada =
+            val answerMetadata =
                 mapOf<String, Any>(CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER_PARTS to answerPartNames)
             parameters[CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER_METADATA] =
-                JSONObject(answerMetada).toString()
+                JSONObject(answerMetadata).toString()
 
             this.identityProvider.register(uid, parameters) { result ->
                 when (result) {
@@ -963,6 +989,10 @@ class DefaultSudoUserClient(
         }
 
         return value
+    }
+
+    override fun getSupportedRegistrationChallengeType(): List<RegistrationChallengeType> {
+        return this.challengeTypes
     }
 
     /**
