@@ -8,7 +8,8 @@ package com.sudoplatform.sudouser
 
 enum class RegistrationChallengeType {
     SAFETY_NET,
-    TEST
+    TEST,
+    FSSO
 }
 
 /**
