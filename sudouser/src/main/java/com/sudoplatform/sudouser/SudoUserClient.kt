@@ -11,6 +11,9 @@ import android.net.Uri
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.auth.CognitoCredentialsProvider
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
+import com.amazonaws.mobileconnectors.appsync.PersistentMutationsCallback
+import com.amazonaws.mobileconnectors.appsync.PersistentMutationsError
+import com.amazonaws.mobileconnectors.appsync.PersistentMutationsResponse
 import com.amazonaws.regions.Regions
 import com.anonyome.keymanager.KeyManagerFactory
 import com.anonyome.keymanager.KeyManagerInterface
@@ -18,13 +21,15 @@ import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.api.Error
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
+import com.babylon.certificatetransparency.certificateTransparencyInterceptor
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
+import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
+import okhttp3.OkHttpClient
+import org.json.JSONArray
+import org.json.JSONObject
 import java.security.PrivateKey
 import java.util.*
-import org.json.JSONObject
-import com.sudoplatform.sudologging.Logger
-import org.json.JSONArray
 
 /**
  * Supported symmetric key algorithms.
@@ -450,6 +455,7 @@ class DefaultSudoUserClient(
             .region(Regions.fromName(region))
             .cognitoUserPoolsAuthProvider(authProvider)
             .context(this.context)
+            .okHttpClient(buildOkHttpClient())
             .build()
 
         this.idGenerator = idGenerator
@@ -1080,6 +1086,30 @@ class DefaultSudoUserClient(
                 ApiException(ApiErrorCode.GRAPHQL_ERROR, "$error")
             }
         }
+    }
+
+    /**
+     * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
+     */
+    private fun buildOkHttpClient(): OkHttpClient {
+        val interceptor = certificateTransparencyInterceptor {
+            // Enable for AWS hosts. The doco says I can use *.* for all hosts
+            // but that enhancement hasn't been released yet (v0.2.0)
+            +"*.amazonaws.com"
+            +"*.amazon.com"
+
+            // Enabled for testing
+            +"*.badssl.com"
+        }
+        val okHttpClient = OkHttpClient.Builder().apply {
+            // Convert exceptions from certificate transparency into http errors that stop the
+            // expoential backoff retrying of [AWSAppSyncClient]
+            addInterceptor(ConvertSslErrorsInterceptor())
+
+            // Certificate transparency checking
+            addNetworkInterceptor(interceptor)
+        }
+        return okHttpClient.build()
     }
 
 }
