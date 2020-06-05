@@ -17,7 +17,7 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient
 import com.amazonaws.services.cognitoidentityprovider.model.*
-import com.anonyome.keymanager.KeyManagerInterface
+import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope

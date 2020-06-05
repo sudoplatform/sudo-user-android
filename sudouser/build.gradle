@@ -94,7 +94,7 @@ dependencies {
     androidTestImplementation 'com.google.android.gms:play-services-base:17.0.0'
     androidTestImplementation "io.kotlintest:kotlintest-assertions:3.3.2"
 
-    implementation 'com.sudoplatform:keymanager:[3.3,)'
+    implementation 'com.sudoplatform:sudokeymanager:[3.4.2,)'
     implementation 'com.sudoplatform:sudologging:[1.0,)'
     implementation 'com.sudoplatform:sudoconfigmanager:[1.2.2,)'
 }

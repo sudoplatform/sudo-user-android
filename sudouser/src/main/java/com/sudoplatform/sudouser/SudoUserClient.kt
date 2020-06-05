@@ -11,12 +11,9 @@ import android.net.Uri
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.auth.CognitoCredentialsProvider
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
-import com.amazonaws.mobileconnectors.appsync.PersistentMutationsCallback
-import com.amazonaws.mobileconnectors.appsync.PersistentMutationsError
-import com.amazonaws.mobileconnectors.appsync.PersistentMutationsResponse
 import com.amazonaws.regions.Regions
-import com.anonyome.keymanager.KeyManagerFactory
-import com.anonyome.keymanager.KeyManagerInterface
+import com.sudoplatform.sudokeymanager.KeyManagerFactory
+import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.api.Error
 import com.apollographql.apollo.api.Response
@@ -361,7 +358,7 @@ class DefaultSudoUserClient(
         private const val MAX_VALIDATION_DATA_SIZE = 2048
     }
 
-    override val version: String = "7.3.2"
+    override val version: String = "7.4.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.

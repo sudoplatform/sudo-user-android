@@ -7,7 +7,7 @@
 package com.sudoplatform.sudouser
 
 import android.util.Base64
-import com.anonyome.keymanager.KeyManagerInterface
+import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import org.json.JSONObject
 import java.util.Date
 import java.util.concurrent.TimeUnit
