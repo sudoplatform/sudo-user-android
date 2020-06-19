@@ -300,6 +300,21 @@ interface SudoUserClient {
      */
     fun getSupportedRegistrationChallengeType(): List<RegistrationChallengeType>
 
+    /**
+     * Registers an observer for sign in status changes.
+     *
+     * @param id unique ID to associate with the observer.
+     * @param observer sign in status observer to register.
+     */
+    fun registerSignInStatusObserver(id: String, observer: SignInStatusObserver)
+
+    /**
+     * Deregisters an existing sign in status observer.
+     *
+     * @param id ID of the observer to deregister.
+     */
+    fun deregisterSignInStatusObserver(id: String)
+
 }
 
 /**
@@ -409,6 +424,11 @@ class DefaultSudoUserClient(
      * List of supported registration challenge types.
      */
     private val challengeTypes: List<RegistrationChallengeType>
+
+    /**
+     * List of sign in status observers.
+     */
+    private val signInStatusObservers: MutableMap<String, SignInStatusObserver> = mutableMapOf()
 
     init {
         val configManager = DefaultSudoConfigManager(context)
@@ -687,6 +707,8 @@ class DefaultSudoUserClient(
                 SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId
             )
 
+            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+
             this.identityProvider.signIn(uid, parameters) { result ->
                 when (result) {
                     is SignInResult.Success -> {
@@ -707,11 +729,14 @@ class DefaultSudoUserClient(
                         )
                     }
                     is SignInResult.Failure -> {
+                        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
                         callback(result)
                     }
                 }
             }
         } else {
+            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+
             val error = ApiException(
                 ApiErrorCode.NOT_REGISTERED,
                 "Not registered."
@@ -806,6 +831,8 @@ class DefaultSudoUserClient(
     override fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit) {
         this.logger.info("Refreshing authentication tokens.")
 
+        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+
         this.identityProvider.refreshTokens(refreshToken) { result ->
             when (result) {
                 is SignInResult.Success -> {
@@ -815,6 +842,11 @@ class DefaultSudoUserClient(
                         result.refreshToken,
                         result.lifetime
                     )
+
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
+                }
+                is SignInResult.Failure -> {
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
                 }
             }
             callback(result)
@@ -998,6 +1030,14 @@ class DefaultSudoUserClient(
         return this.challengeTypes
     }
 
+    override fun registerSignInStatusObserver(id: String, observer: SignInStatusObserver) {
+        this.signInStatusObservers[id] = observer
+    }
+
+    override fun deregisterSignInStatusObserver(id: String) {
+        this.signInStatusObservers.remove(id)
+    }
+
     /**
      * Stores authentication tokens in the key store.
      *
@@ -1046,6 +1086,7 @@ class DefaultSudoUserClient(
         // the federated identity again.
         val identityId = this.getUserClaim("custom:identityId")
         if (identityId != null) {
+            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
             callback(SignInResult.Success(idToken, accessToken, refreshToken, lifetime))
             return
         }
@@ -1056,6 +1097,7 @@ class DefaultSudoUserClient(
                 override fun onResponse(response: Response<RegisterFederatedIdMutation.Data>) {
                     val error = response.errors().firstOrNull()
                     if (error != null) {
+                        this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
                         callback(
                             SignInResult.Failure(
                                 this@DefaultSudoUserClient.graphQLErrorToApiException(error)
@@ -1067,6 +1109,7 @@ class DefaultSudoUserClient(
                 }
 
                 override fun onFailure(e: ApolloException) {
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
                     callback(SignInResult.Failure(e))
                 }
             })

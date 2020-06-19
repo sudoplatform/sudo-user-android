@@ -92,6 +92,15 @@ per client per app to avoid name conflicts between multiple clients.</p>
 </tr>
 <tr>
 <td>
+<p><a href="deregister-sign-in-status-observer.html">deregisterSignInStatusObserver</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">deregisterSignInStatusObserver</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$deregisterSignInStatusObserver(kotlin.String)/id">id</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Deregisters an existing sign in status observer.</p>
+</td>
+</tr>
+<tr>
+<td>
 <p><a href="encrypt.html">encrypt</a></p>
 </td>
 <td>
@@ -273,6 +282,15 @@ are passed to the app via a redirect URL with custom scheme mapped to the app.</
 <td>
 <code><span class="keyword">fun </span><span class="identifier">refreshTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/refreshToken">refreshToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Refresh the access and ID tokens using the refresh token.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="register-sign-in-status-observer.html">registerSignInStatusObserver</a></p>
+</td>
+<td>
+<code><span class="keyword">fun </span><span class="identifier">registerSignInStatusObserver</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerSignInStatusObserver(kotlin.String, com.sudoplatform.sudouser.SignInStatusObserver)/id">id</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.DefaultSudoUserClient$registerSignInStatusObserver(kotlin.String, com.sudoplatform.sudouser.SignInStatusObserver)/observer">observer</span><span class="symbol">:</span>&nbsp;<a href="../-sign-in-status-observer/index.html"><span class="identifier">SignInStatusObserver</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Registers an observer for sign in status changes.</p>
 </td>
 </tr>
 <tr>

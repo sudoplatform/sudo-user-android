@@ -80,7 +80,7 @@ required to sign into the backend.</p>
 <code><span class="keyword">class </span><span class="identifier">ConvertSslErrorsInterceptor</span>&nbsp;<span class="symbol">:</span>&nbsp;<span class="identifier">Interceptor</span></code>
 <p>Convert any SSL errors emitted by the ceritifcate transparency verification interceptor
 into an HTTP response that is interpreted as fatal and should not be retried by the
-<a href="#">AWSAppSyncClient</a>.</p>
+AWSAppSyncClient.</p>
 </td>
 </tr>
 <tr>
@@ -236,6 +236,25 @@ within Sudo platform ecosystem.</p>
 <td>
 <code><span class="keyword">sealed</span> <span class="keyword">class </span><span class="identifier">SignInResult</span></code>
 <p>Encapsulates a sign-in result.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-sign-in-status/index.html">SignInStatus</a></p>
+</td>
+<td>
+<code><span class="keyword">enum</span> <span class="keyword">class </span><span class="identifier">SignInStatus</span></code>
+<p>List of possible values for sign in status.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p><a href="-sign-in-status-observer/index.html">SignInStatusObserver</a></p>
+</td>
+<td>
+<code><span class="keyword">interface </span><span class="identifier">SignInStatusObserver</span></code>
+<p>Protocol for sign in status observer. If you wish to observe the the changes to the progress
+of sign in or refresh token operation then you must implement this protocol.</p>
 </td>
 </tr>
 <tr>
