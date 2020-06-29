@@ -15,40 +15,36 @@
 <tbody>
 <tr>
 <td>
-<p><a href="present-federated-sign-in-u-i.html">presentFederatedSignInUI</a></p>
+<h4><a href="present-federated-sign-in-u-i.html">presentFederatedSignInUI</a></h4>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">presentFederatedSignInUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$presentFederatedSignInUI(kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Presents the sign in UI for federated sign in using an external identity provider.</p>
-</td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">presentFederatedSignInUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$presentFederatedSignInUI(kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="present-federated-sign-out-u-i.html">presentFederatedSignOutUI</a></p>
+<h4><a href="present-federated-sign-out-u-i.html">presentFederatedSignOutUI</a></h4>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">presentFederatedSignOutUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$presentFederatedSignOutUI(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Presents the sign out UI for federated sign in using an external identity provider.</p>
-</td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">presentFederatedSignOutUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$presentFederatedSignOutUI(kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="process-federated-sign-in-tokens.html">processFederatedSignInTokens</a></p>
+<h4><a href="process-federated-sign-in-tokens.html">processFederatedSignInTokens</a></h4>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">processFederatedSignInTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/data">data</span><span class="symbol">:</span>&nbsp;<span class="identifier">Uri</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Processes tokens from federated sign in via Android intent data pointed to by the specified URL. The tokens
 are passed to the app via a redirect URL with custom scheme mapped to the app.</p>
-</td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">processFederatedSignInTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/data">data</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/net/Uri.html"><span class="identifier">Uri</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.AuthUI$processFederatedSignInTokens(android.net.Uri, kotlin.Function1((com.sudoplatform.sudouser.FederatedSignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-federated-sign-in-result/index.html"><span class="identifier">FederatedSignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="reset.html">reset</a></p>
+<h4><a href="reset.html">reset</a></h4>
 </td>
 <td>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Resets any internal state.</p>
-</td>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 </tbody>
 </table>
@@ -57,12 +53,11 @@ are passed to the app via a redirect URL with custom scheme mapped to the app.</
 <tbody>
 <tr>
 <td>
-<p><a href="../-cognito-auth-u-i/index.html">CognitoAuthUI</a></p>
+<h4><a href="../-cognito-auth-u-i/index.html">CognitoAuthUI</a></h4>
 </td>
 <td>
-<code><span class="keyword">class </span><span class="identifier">CognitoAuthUI</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AuthUI</span></a></code>
 <p>AuthUI implementation that uses Cognito Auth UI.</p>
-</td>
+<code><span class="keyword">class </span><span class="identifier">CognitoAuthUI</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="./index.html"><span class="identifier">AuthUI</span></a></code></td>
 </tr>
 </tbody>
 </table>

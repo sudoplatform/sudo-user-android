@@ -22,6 +22,7 @@ import com.babylon.certificatetransparency.certificateTransparencyInterceptor
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import org.json.JSONArray
 import org.json.JSONObject
@@ -629,7 +630,7 @@ class DefaultSudoUserClient(
         this.logger.info("Registering using external authentication provider.")
 
         if (!this.isRegistered()) {
-            val authInfo = authenticationProvider.getAuthenticationInfo()
+            val authInfo = runBlocking {  authenticationProvider.getAuthenticationInfo() }
             val token = authInfo.encode()
             val jwt = JWT.decode(token)
 

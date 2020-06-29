@@ -19,17 +19,18 @@
 <code>publicKey</code> - PEM encoded RSA public key.</p>
 <p><a name="keyManager"></a>
 <code>keyManager</code> - <a href="#">KeyManagerInterface</a> instance to use for signing authentication info.</p>
+<p><a name="keyId"></a>
+<code>keyId</code> - key ID of the TEST registration key which is obtained from the admin console.</p>
 <h3>Constructors</h3>
 <table>
 <tbody>
 <tr>
 <td>
-<p><a href="-init-.html">&lt;init&gt;</a></p>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
 </td>
 <td>
-<code><span class="identifier">TESTAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface)/privateKey">privateKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface)/publicKey">publicKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">)</span></code>
 <p>Authentication provider for generating authentication info using a TEST registration key.</p>
-</td>
+<code><span class="identifier">TESTAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String)/privateKey">privateKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String)/publicKey">publicKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.TESTAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a>&nbsp;<span class="symbol">=</span>&nbsp;REGISTER_KEY_NAME<span class="symbol">)</span></code></td>
 </tr>
 </tbody>
 </table>
@@ -38,21 +39,19 @@
 <tbody>
 <tr>
 <td>
-<p><a href="get-authentication-info.html">getAuthenticationInfo</a></p>
+<h4><a href="get-authentication-info.html">getAuthenticationInfo</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">getAuthenticationInfo</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-info/index.html"><span class="identifier">AuthenticationInfo</span></a></code>
 <p>Generates and returns an authentication information.</p>
-</td>
+<code><span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">getAuthenticationInfo</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-info/index.html"><span class="identifier">AuthenticationInfo</span></a></code></td>
 </tr>
 <tr>
 <td>
-<p><a href="reset.html">reset</a></p>
+<h4><a href="reset.html">reset</a></h4>
 </td>
 <td>
-<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Resets internal state and releases any associated resources.</p>
-</td>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
 </tr>
 </tbody>
 </table>

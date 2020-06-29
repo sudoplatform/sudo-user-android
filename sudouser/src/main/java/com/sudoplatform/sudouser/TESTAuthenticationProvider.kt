@@ -34,13 +34,15 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
  * @param privateKey PEM encoded RSA private key.
  * @param publicKey PEM encoded RSA public key.
  * @param keyManager [KeyManagerInterface] instance to use for signing authentication info.
+ * @param keyId key ID of the TEST registration key which is obtained from the admin console.
  */
 class TESTAuthenticationProvider(
     private val name: String,
     privateKey: String,
     publicKey: String,
-    private val keyManager: KeyManagerInterface
-) :
+    private val keyManager: KeyManagerInterface,
+    private val keyId: String = REGISTER_KEY_NAME
+    ) :
     AuthenticationProvider {
 
     companion object {
@@ -62,13 +64,13 @@ class TESTAuthenticationProvider(
                 .replace("-----END RSA PUBLIC KEY-----", ""), Base64.DEFAULT
         )
 
-        this.keyManager.deleteKeyPair(REGISTER_KEY_NAME)
-        this.keyManager.addKeyPair(privateKeyData, publicKeyData, REGISTER_KEY_NAME)
+        this.keyManager.deleteKeyPair(this.keyId)
+        this.keyManager.addKeyPair(privateKeyData, publicKeyData, this.keyId)
     }
 
-    override fun getAuthenticationInfo(): AuthenticationInfo {
+    override suspend fun getAuthenticationInfo(): AuthenticationInfo {
         val jwt = JWT(TEST_REGISTRATION_ISSUER, TEST_REGISTRATION_AUDIENCE, "${this.name}-${UUID.randomUUID().toString()}", UUID.randomUUID().toString())
-        return TESTAuthenticationInfo(jwt.signAndEncode(this.keyManager, REGISTER_KEY_NAME))
+        return TESTAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId))
     }
 
     override fun reset() {}

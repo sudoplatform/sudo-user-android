@@ -17,7 +17,7 @@ interface AuthenticationProvider {
      *
      * @return authentication information.
      */
-    fun getAuthenticationInfo(): AuthenticationInfo
+    suspend fun getAuthenticationInfo(): AuthenticationInfo
 
     /**
      * Resets internal state and releases any associated resources.
