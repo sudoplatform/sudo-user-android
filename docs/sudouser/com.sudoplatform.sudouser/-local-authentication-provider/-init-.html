@@ -1,0 +1,29 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LocalAuthenticationProvider.<init> - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">LocalAuthenticationProvider</a>&nbsp;/&nbsp;<a href="./-init-.html">&lt;init&gt;</a><br/>
+<br/>
+<h1>&lt;init&gt;</h1>
+<a name="com.sudoplatform.sudouser.LocalAuthenticationProvider$&lt;init&gt;(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)"></a>
+<code><span class="identifier">LocalAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/privateKey">privateKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/publicKey">publicKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/username">username</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span></code>
+<p>Authentication provider for generating authentication info using a locally stored private key.</p>
+<h3>Parameters</h3>
+<p><a name="name"></a>
+<code>name</code> - provider name. This name will be prepend to the generated UUID in JWT sub.</p>
+<p><a name="privateKey"></a>
+<code>privateKey</code> - PEM encoded RSA private key.</p>
+<p><a name="publicKey"></a>
+<code>publicKey</code> - PEM encoded RSA public key. This is optional. If not provided then will be
+derived from the private key.</p>
+<p><a name="keyManager"></a>
+<code>keyManager</code> - <a href="#">KeyManagerInterface</a> instance to use for signing authentication info.</p>
+<p><a name="keyId"></a>
+<code>keyId</code> - key ID of the private key used to sign the authentication info.</p>
+<p><a name="username"></a>
+<code>username</code> - username be associated with the issued authentication info.</p>
+</BODY>
+</HTML>

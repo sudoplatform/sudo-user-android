@@ -105,7 +105,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
     description = "Generate Jacoco coverage reports"
 
-    classDirectories = fileTree(
+    classDirectories.from = fileTree(
             dir: "${buildDir}/tmp/kotlin-classes/debug",
             excludes: ['**/R.class',
                        '**/R$*.class',
@@ -113,8 +113,8 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
                        '**/Manifest*.*']
     )
 
-    sourceDirectories = files("${buildDir.parent}/sudouser/src/main/java")
-    executionData = files("${buildDir}/jacoco/testDebugUnitTest.exec")
+    sourceDirectories.from = files("${buildDir.parent}/sudouser/src/main/java")
+    executionData.from = files("${buildDir}/jacoco/testDebugUnitTest.exec")
 
     reports {
         xml.enabled = true

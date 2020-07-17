@@ -16,11 +16,11 @@ import java.security.spec.RSAPublicKeySpec
 import java.util.*
 
 /**
- * Authentication info consisting of a JWT signed using the TEST registration key.
+ * Authentication info consisting of a JWT signed using the locally stored private key..
  */
-class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
+class LocalAuthenticationInfo(private val jwt: String, private val username: String) : AuthenticationInfo {
 
-    override val type: String = "TEST"
+    override val type: String = "FSSO"
 
     override fun encode(): String {
         return this.jwt
@@ -31,34 +31,34 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
     }
 
     override fun getUsername(): String {
-        return ""
+        return this.username
     }
 
 }
 
 /**
- * Authentication provider for generating authentication info using a TEST registration key.
+ * Authentication provider for generating authentication info using a locally stored private key.
  *
  * @param name provider name. This name will be prepend to the generated UUID in JWT sub.
  * @param privateKey PEM encoded RSA private key.
  * @param publicKey PEM encoded RSA public key. This is optional. If not provided then will be
  * derived from the private key.
  * @param keyManager [KeyManagerInterface] instance to use for signing authentication info.
- * @param keyId key ID of the TEST registration key which is obtained from the admin console.
+ * @param keyId key ID of the private key used to sign the authentication info.
+ * @param username username be associated with the issued authentication info.
  */
-class TESTAuthenticationProvider(
+class LocalAuthenticationProvider(
     private val name: String,
     privateKey: String,
     publicKey: String?,
     private val keyManager: KeyManagerInterface,
-    private val keyId: String = REGISTER_KEY_NAME
-    ) :
+    private val keyId: String,
+    private val username: String
+) :
     AuthenticationProvider {
 
     companion object {
-        private const val REGISTER_KEY_NAME = "register_key"
-        private const val TEST_REGISTRATION_ISSUER = "testRegisterIssuer"
-        private const val TEST_REGISTRATION_AUDIENCE = "testRegisterAudience"
+        private const val AUDIENCE = "identity-service"
     }
 
     init {
@@ -98,8 +98,8 @@ class TESTAuthenticationProvider(
     }
 
     override suspend fun getAuthenticationInfo(): AuthenticationInfo {
-        val jwt = JWT(TEST_REGISTRATION_ISSUER, TEST_REGISTRATION_AUDIENCE, "${this.name}-${UUID.randomUUID().toString()}", UUID.randomUUID().toString())
-        return TESTAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId))
+        val jwt = JWT(this.name, AUDIENCE, this.username, UUID.randomUUID().toString())
+        return LocalAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId), this.username)
     }
 
     override fun reset() {}

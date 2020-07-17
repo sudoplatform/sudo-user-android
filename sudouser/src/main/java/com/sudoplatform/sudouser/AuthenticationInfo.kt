@@ -30,4 +30,11 @@ interface AuthenticationInfo {
      */
     fun encode(): String
 
+    /**
+     * Returns the username associated with this authentication information.
+     *
+     * @return username.
+     */
+    fun getUsername(): String
+
 }

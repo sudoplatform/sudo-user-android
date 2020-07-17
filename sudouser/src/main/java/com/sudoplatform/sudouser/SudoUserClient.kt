@@ -144,6 +144,16 @@ interface SudoUserClient {
     fun presentFederatedSignInUI(callback: (SignInResult) -> Unit)
 
     /**
+     * Sign into the backend  with an external authentication provider. Caller must implement `AuthenticationProvider`
+     * protocol to return the appropriate authentication token associated with the external identity registered with
+     * [registerWithAuthenticationProvider].
+     *
+     * @param authenticationProvider authentication provider that provides the authentication token.
+     * @param callback callback for returning sign in result containing ID, access and refresh token or error.
+     */
+    fun signInWithAuthenticationProvider(authenticationProvider: AuthenticationProvider, callback: (SignInResult) -> Unit)
+
+    /**
      * Presents the sign out UI for federated sign in using an external identity provider.
      *
      * @param callback callback for returning successful sign out result or error.
@@ -194,7 +204,7 @@ interface SudoUserClient {
     fun getTokenExpiry(): Date?
 
     @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
+        message = "This is deprecated and will be removed in the future.",
         replaceWith = ReplaceWith("getUserName()"),
         level = DeprecationLevel.WARNING
     )
@@ -365,6 +375,8 @@ class DefaultSudoUserClient(
         private const val CONFIG_REGISTRATION_METHODS = "registrationMethods"
 
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
+        private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
+        private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
 
         private const val AES_BLOCK_SIZE = 16
 
@@ -453,7 +465,8 @@ class DefaultSudoUserClient(
         val region = identityServiceConfig[CONFIG_REGION] as String?
 
         @Suppress("UNCHECKED_CAST")
-        val registrationMethods = identityServiceConfig.opt(CONFIG_REGISTRATION_METHODS) as JSONArray?
+        val registrationMethods =
+            identityServiceConfig.opt(CONFIG_REGISTRATION_METHODS) as JSONArray?
         if (registrationMethods != null) {
             this.challengeTypes = Array(registrationMethods.length()) {
                 try {
@@ -574,7 +587,13 @@ class DefaultSudoUserClient(
             // Clear out any partial registration data.
             this.reset()
 
-            val (uid, publicKey) = this.generateRegistrationData()
+            // Generate user ID.
+            val uid = this.idGenerator.generateId().toUpperCase(Locale.US)
+
+            val publicKey = this.generateRegistrationData()
+
+            // Generate the shared encryption key.
+            this.generateSymmetricKey()
 
             val parameters: MutableMap<String, String> = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to RegistrationChallengeType.SAFETY_NET.name,
@@ -630,24 +649,30 @@ class DefaultSudoUserClient(
         this.logger.info("Registering using external authentication provider.")
 
         if (!this.isRegistered()) {
-            val authInfo = runBlocking {  authenticationProvider.getAuthenticationInfo() }
+            val authInfo = runBlocking { authenticationProvider.getAuthenticationInfo() }
             val token = authInfo.encode()
             val jwt = JWT.decode(token)
 
-            // Clear out any partial registration data.
-            this.reset()
+            val uid = jwt?.subject ?: this.idGenerator.generateId().toUpperCase(Locale.US)
 
-            val (uid, publicKey) = this.generateRegistrationData()
-
-            val parameters = mapOf(
+            val parameters = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to authInfo.encode(),
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (registrationId
-                    ?: this.idGenerator.generateId()),
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PUBLIC_KEY to publicKey.encode()
+                    ?: this.idGenerator.generateId())
             )
 
-            this.identityProvider.register(jwt?.subject ?: uid, parameters) { result ->
+            if (authInfo.type == "TEST") {
+                // Generate a signing key for TEST registration.
+                val publicKey = this.generateRegistrationData()
+                parameters[CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PUBLIC_KEY] =
+                    publicKey.encode()
+            }
+
+            // Generate the shared encryption key.
+            this.generateSymmetricKey()
+
+            this.identityProvider.register(uid, parameters) { result ->
                 when (result) {
                     is RegisterResult.Success -> {
                         this.setUserId(result.uid)
@@ -730,7 +755,11 @@ class DefaultSudoUserClient(
                         )
                     }
                     is SignInResult.Failure -> {
-                        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+                        this.signInStatusObservers.values.forEach {
+                            it.signInStatusChanged(
+                                SignInStatus.NOT_SIGNED_IN
+                            )
+                        }
                         callback(result)
                     }
                 }
@@ -829,6 +858,61 @@ class DefaultSudoUserClient(
         }
     }
 
+    override fun signInWithAuthenticationProvider(authenticationProvider: AuthenticationProvider, callback: (SignInResult) -> Unit) {
+        this.logger.info("Signing in with authentication provider.")
+
+        val authInfo = runBlocking { authenticationProvider.getAuthenticationInfo() }
+        val uid = authInfo.getUsername()
+
+        if (uid != null) {
+            val parameters = mapOf(
+                SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
+                SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode()
+            )
+
+            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+
+            this.identityProvider.signIn(uid, parameters) { result ->
+                when (result) {
+                    is SignInResult.Success -> {
+                        this.storeTokens(
+                            result.idToken,
+                            result.accessToken,
+                            result.refreshToken,
+                            result.lifetime
+                        )
+
+                        this.credentialsProvider.logins = this.getLogins()
+                        this.registerFederatedIdAndRefreshTokens(
+                            result.idToken,
+                            result.accessToken,
+                            result.refreshToken,
+                            result.lifetime,
+                            callback
+                        )
+                    }
+                    is SignInResult.Failure -> {
+                        this.signInStatusObservers.values.forEach {
+                            it.signInStatusChanged(
+                                SignInStatus.NOT_SIGNED_IN
+                            )
+                        }
+                        callback(result)
+                    }
+                }
+            }
+        } else {
+            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+
+            val error = ApiException(
+                ApiErrorCode.NOT_REGISTERED,
+                "Not registered."
+            )
+            this.logger.error("$error")
+            callback(SignInResult.Failure(error))
+        }
+    }
+
     override fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit) {
         this.logger.info("Refreshing authentication tokens.")
 
@@ -844,10 +928,18 @@ class DefaultSudoUserClient(
                         result.lifetime
                     )
 
-                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                        it.signInStatusChanged(
+                            SignInStatus.SIGNED_IN
+                        )
+                    }
                 }
                 is SignInResult.Failure -> {
-                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                        it.signInStatusChanged(
+                            SignInStatus.NOT_SIGNED_IN
+                        )
+                    }
                 }
             }
             callback(result)
@@ -865,15 +957,17 @@ class DefaultSudoUserClient(
     }
 
     /**
-     * Generates cryptographic keys and user ID required for registration.
+     * Generates cryptographic keys required for registration.
      *
-     * @return user ID and public key.
+     * @return public key.
      */
-    private fun generateRegistrationData(): Pair<String, PublicKey> {
-        this.reset()
-
-        // Generate user ID.
-        val uid = this.idGenerator.generateId().toUpperCase(Locale.US)
+    private fun generateRegistrationData(): PublicKey {
+        // Delete existing key.
+        val userKeyId = this.keyManager.getPassword(namespace(KEY_NAME_USER_KEY_ID))?.toString(Charsets.UTF_8)
+        if (userKeyId != null) {
+            this.keyManager.deleteKeyPair(userKeyId)
+            this.keyManager.deletePassword(namespace(KEY_NAME_USER_KEY_ID))
+        }
 
         // Generate and store user's key ID.
         val keyId = this.idGenerator.generateId().toUpperCase(Locale.US)
@@ -884,11 +978,8 @@ class DefaultSudoUserClient(
 
         // Retrieve the public key so it can be registered with the backend.
         val keyData = this.keyManager.getPublicKeyData(keyId)
-        val publicKey = PublicKey(keyId, keyData)
 
-        this.generateSymmetricKey()
-
-        return uid to publicKey
+        return PublicKey(keyId, keyData)
     }
 
     private fun generateSymmetricKey() {
@@ -1098,7 +1189,11 @@ class DefaultSudoUserClient(
                 override fun onResponse(response: Response<RegisterFederatedIdMutation.Data>) {
                     val error = response.errors().firstOrNull()
                     if (error != null) {
-                        this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+                        this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                            it.signInStatusChanged(
+                                SignInStatus.NOT_SIGNED_IN
+                            )
+                        }
                         callback(
                             SignInResult.Failure(
                                 this@DefaultSudoUserClient.graphQLErrorToApiException(error)
@@ -1110,7 +1205,11 @@ class DefaultSudoUserClient(
                 }
 
                 override fun onFailure(e: ApolloException) {
-                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+                    this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                        it.signInStatusChanged(
+                            SignInStatus.NOT_SIGNED_IN
+                        )
+                    }
                     callback(SignInResult.Failure(e))
                 }
             })
@@ -1134,7 +1233,7 @@ class DefaultSudoUserClient(
      */
     private fun buildOkHttpClient(): OkHttpClient {
         val interceptor = certificateTransparencyInterceptor {
-            // Enable for AWS hosts. The doco says I can use *.* for all hosts
+            // Enable for AWS hosts. The document says I can use *.* for all hosts
             // but that enhancement hasn't been released yet (v0.2.0)
             +"*.amazonaws.com"
             +"*.amazon.com"
@@ -1144,7 +1243,7 @@ class DefaultSudoUserClient(
         }
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
-            // expoential backoff retrying of [AWSAppSyncClient]
+            // exponential backoff retrying of [AWSAppSyncClient]
             addInterceptor(ConvertSslErrorsInterceptor())
 
             // Certificate transparency checking

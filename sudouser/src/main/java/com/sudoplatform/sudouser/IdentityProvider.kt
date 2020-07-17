@@ -182,6 +182,8 @@ internal class CognitoUserPoolIdentityProvider(
         const val REGISTRATION_PARAM_REGISTRATION_ID = "registrationId"
 
         const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
+        const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
+        const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
 
         const val SIGN_IN_JWT_LIFETIME = 300
         const val SIGN_IN_JWT_ALGORITHM = "RS256"
@@ -381,9 +383,7 @@ internal class CognitoUserPoolIdentityProvider(
         this.logger.debug("uid: $uid, parameters: $parameters")
 
         GlobalScope.launch(Dispatchers.IO) {
-            val userKeyId = parameters[SIGN_IN_PARAM_NAME_USER_KEY_ID]
 
-            if (userKeyId != null) {
                 val initiateAuthRequest = InitiateAuthRequest()
                 initiateAuthRequest.authFlow = "CUSTOM_AUTH"
                 initiateAuthRequest.clientId =
@@ -408,50 +408,74 @@ internal class CognitoUserPoolIdentityProvider(
                         respondToAuthChallengeRequest.challengeName = challengeName
                         respondToAuthChallengeRequest.session = session
 
-                        val jwt = JWT(
-                            uid,
-                            audience,
-                            uid,
-                            nonce,
-                            SIGN_IN_JWT_ALGORITHM,
-                            null,
-                            Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000))
-                        )
-                        val encodedJWT = jwt.signAndEncode(
-                            this@CognitoUserPoolIdentityProvider.keyManager,
-                            userKeyId
-                        )
-                        respondToAuthChallengeRequest.challengeResponses = mapOf(
-                            AUTH_PARAM_NAME_USER_NAME to uid,
-                            AUTH_PARAM_NAME_ANSWER to encodedJWT
-                        )
+                        var answer: String? = null
+                        val challengeType = parameters[SIGN_IN_PARAM_NAME_CHALLENGE_TYPE]
+                        if (challengeType == "FSSO") {
+                            answer = parameters[SIGN_IN_PARAM_NAME_ANSWER]
+                            respondToAuthChallengeRequest.clientMetadata = mapOf(SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to "FSSO")
+                        } else {
+                            val userKeyId = parameters[SIGN_IN_PARAM_NAME_USER_KEY_ID]
 
-                        val respondToAuthChallengeResult =
-                            this@CognitoUserPoolIdentityProvider.idpClient.respondToAuthChallenge(
-                                respondToAuthChallengeRequest
-                            )
-                        val idToken = respondToAuthChallengeResult.authenticationResult.idToken
-                        val accessToken =
-                            respondToAuthChallengeResult.authenticationResult.accessToken
-                        val refreshToken =
-                            respondToAuthChallengeResult.authenticationResult.refreshToken
-                        val lifetime = respondToAuthChallengeResult.authenticationResult.expiresIn
-
-                        if (idToken != null && accessToken != null && refreshToken != null) {
-                            callback(
-                                SignInResult.Success(
-                                    idToken,
-                                    accessToken,
-                                    refreshToken,
-                                    lifetime
+                            if (userKeyId != null) {
+                                val jwt = JWT(
+                                    uid,
+                                    audience,
+                                    uid,
+                                    nonce,
+                                    SIGN_IN_JWT_ALGORITHM,
+                                    null,
+                                    Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000))
                                 )
+                                answer = jwt.signAndEncode(
+                                    this@CognitoUserPoolIdentityProvider.keyManager,
+                                    userKeyId
+                                )
+                            }
+                        }
+
+                        if (answer != null) {
+                            respondToAuthChallengeRequest.challengeResponses = mapOf(
+                                AUTH_PARAM_NAME_USER_NAME to uid,
+                                AUTH_PARAM_NAME_ANSWER to answer
                             )
+
+                            val respondToAuthChallengeResult =
+                                this@CognitoUserPoolIdentityProvider.idpClient.respondToAuthChallenge(
+                                    respondToAuthChallengeRequest
+                                )
+                            val idToken = respondToAuthChallengeResult.authenticationResult.idToken
+                            val accessToken =
+                                respondToAuthChallengeResult.authenticationResult.accessToken
+                            val refreshToken =
+                                respondToAuthChallengeResult.authenticationResult.refreshToken
+                            val lifetime =
+                                respondToAuthChallengeResult.authenticationResult.expiresIn
+
+                            if (idToken != null && accessToken != null && refreshToken != null) {
+                                callback(
+                                    SignInResult.Success(
+                                        idToken,
+                                        accessToken,
+                                        refreshToken,
+                                        lifetime
+                                    )
+                                )
+                            } else {
+                                callback(
+                                    SignInResult.Failure(
+                                        ApiException(
+                                            ApiErrorCode.FATAL_ERROR,
+                                            "Authentication tokens not found."
+                                        )
+                                    )
+                                )
+                            }
                         } else {
                             callback(
                                 SignInResult.Failure(
                                     ApiException(
                                         ApiErrorCode.FATAL_ERROR,
-                                        "Authentication tokens not found."
+                                        "Challenge answer not found."
                                     )
                                 )
                             )
@@ -485,16 +509,6 @@ internal class CognitoUserPoolIdentityProvider(
                         )
                     )
                 }
-            } else {
-                callback(
-                    SignInResult.Failure(
-                        ApiException(
-                            ApiErrorCode.NOT_REGISTERED,
-                            "Not registered."
-                        )
-                    )
-                )
-            }
         }
     }
 

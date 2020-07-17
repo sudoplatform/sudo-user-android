@@ -1,0 +1,62 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>LocalAuthenticationProvider - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="./index.html">LocalAuthenticationProvider</a><br/>
+<br/>
+<h1>LocalAuthenticationProvider</h1>
+<code><span class="keyword">class </span><span class="identifier">LocalAuthenticationProvider</span>&nbsp;<span class="symbol">:</span>&nbsp;<a href="../-authentication-provider/index.html"><span class="identifier">AuthenticationProvider</span></a></code>
+<p>Authentication provider for generating authentication info using a locally stored private key.</p>
+<h3>Parameters</h3>
+<p><a name="name"></a>
+<code>name</code> - provider name. This name will be prepend to the generated UUID in JWT sub.</p>
+<p><a name="privateKey"></a>
+<code>privateKey</code> - PEM encoded RSA private key.</p>
+<p><a name="publicKey"></a>
+<code>publicKey</code> - PEM encoded RSA public key. This is optional. If not provided then will be
+derived from the private key.</p>
+<p><a name="keyManager"></a>
+<code>keyManager</code> - <a href="#">KeyManagerInterface</a> instance to use for signing authentication info.</p>
+<p><a name="keyId"></a>
+<code>keyId</code> - key ID of the private key used to sign the authentication info.</p>
+<p><a name="username"></a>
+<code>username</code> - username be associated with the issued authentication info.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Authentication provider for generating authentication info using a locally stored private key.</p>
+<code><span class="identifier">LocalAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/name">name</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/privateKey">privateKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/publicKey">publicKey</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">?</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/keyId">keyId</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.LocalAuthenticationProvider$<init>(kotlin.String, kotlin.String, kotlin.String, com.sudoplatform.sudokeymanager.KeyManagerInterface, kotlin.String, kotlin.String)/username">username</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="get-authentication-info.html">getAuthenticationInfo</a></h4>
+</td>
+<td>
+<p>Generates and returns an authentication information.</p>
+<code><span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">getAuthenticationInfo</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-info/index.html"><span class="identifier">AuthenticationInfo</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="reset.html">reset</a></h4>
+</td>
+<td>
+<p>Resets internal state and releases any associated resources.</p>
+<code><span class="keyword">fun </span><span class="identifier">reset</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

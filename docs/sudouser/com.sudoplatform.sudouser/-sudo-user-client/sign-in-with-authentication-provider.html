@@ -1,0 +1,22 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SudoUserClient.signInWithAuthenticationProvider - sudouser</title>
+<link rel="stylesheet" href="../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">SudoUserClient</a>&nbsp;/&nbsp;<a href="./sign-in-with-authentication-provider.html">signInWithAuthenticationProvider</a><br/>
+<br/>
+<h1>signInWithAuthenticationProvider</h1>
+<a name="com.sudoplatform.sudouser.SudoUserClient$signInWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">signInWithAuthenticationProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient$signInWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/authenticationProvider">authenticationProvider</span><span class="symbol">:</span>&nbsp;<a href="../-authentication-provider/index.html"><span class="identifier">AuthenticationProvider</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient$signInWithAuthenticationProvider(com.sudoplatform.sudouser.AuthenticationProvider, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>Sign into the backend  with an external authentication provider. Caller must implement <code>AuthenticationProvider</code>
+protocol to return the appropriate authentication token associated with the external identity registered with
+<a href="register-with-authentication-provider.html">registerWithAuthenticationProvider</a>.</p>
+<h3>Parameters</h3>
+<p><a name="authenticationProvider"></a>
+<code>authenticationProvider</code> - authentication provider that provides the authentication token.</p>
+<p><a name="callback"></a>
+<code>callback</code> - callback for returning sign in result containing ID, access and refresh token or error.</p>
+</BODY>
+</HTML>
