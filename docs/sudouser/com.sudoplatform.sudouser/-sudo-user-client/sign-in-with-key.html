@@ -8,8 +8,16 @@
 <a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">SudoUserClient</a>&nbsp;/&nbsp;<a href="./sign-in-with-key.html">signInWithKey</a><br/>
 <br/>
 <h1>signInWithKey</h1>
+<a name="com.sudoplatform.sudouser.SudoUserClient$signInWithKey()"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">signInWithKey</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-tokens/index.html"><span class="identifier">AuthenticationTokens</span></a></code>
+<p>Sign into the backend using a private key. The client must have created a private/public key pair via
+one of the <em>register</em> methods.</p>
+<p><strong>Return</strong><br/>
+Successful authentication result <a href="../-authentication-tokens/index.html">AuthenticationTokens</a></p>
 <a name="com.sudoplatform.sudouser.SudoUserClient$signInWithKey(kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))"></a>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">signInWithKey</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient$signInWithKey(kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<code><span class="keyword">abstract</span> <span class="keyword">fun </span><s><span class="identifier">signInWithKey</span></s><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient$signInWithKey(kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code><br/>
+<strong>Deprecated:</strong> This is deprecated and will be removed in the future.<br/>
+<br/>
 <p>Sign into the backend using a private key. The client must have created a private/public key pair via
 one of the <em>register</em> methods.</p>
 <h3>Parameters</h3>

@@ -1,4 +1,7 @@
 $dokka.format:html
 $dokka.linkExtension:html
-
+$dokka.location:com.sudoplatform.sudouser.extensions$toDeregisterException(com.apollographql.apollo.api.Error)com.sudoplatform.sudouser.extensions/com.apollographql.apollo.api.-error/to-deregister-exception.html
+$dokka.location:com.sudoplatform.sudouser.extensions$toRegistrationException(com.apollographql.apollo.api.Error)com.sudoplatform.sudouser.extensions/com.apollographql.apollo.api.-error/to-registration-exception.html
 com.sudoplatform.sudouser
+com.sudoplatform.sudouser.exceptions
+com.sudoplatform.sudouser.extensions

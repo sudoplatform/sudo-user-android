@@ -1,0 +1,118 @@
+<HTML>
+<HEAD>
+<meta charset="UTF-8">
+<title>SudoUserClient.Builder - sudouser</title>
+<link rel="stylesheet" href="../../../../style.css">
+</HEAD>
+<BODY>
+<a href="../../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="../index.html">SudoUserClient</a>&nbsp;/&nbsp;<a href="./index.html">Builder</a><br/>
+<br/>
+<h1>Builder</h1>
+<code><span class="keyword">class </span><span class="identifier">Builder</span></code>
+<p>Builder used to construct <a href="../index.html">SudoUserClient</a>.</p>
+<h3>Constructors</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="-init-.html">&lt;init&gt;</a></h4>
+</td>
+<td>
+<p>Builder used to construct <a href="../index.html">SudoUserClient</a>.</p>
+<code><span class="identifier">Builder</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$<init>(android.content.Context)/context">context</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/android/content/Context.html"><span class="identifier">Context</span></a><span class="symbol">)</span></code></td>
+</tr>
+</tbody>
+</table>
+<h3>Functions</h3>
+<table>
+<tbody>
+<tr>
+<td>
+<h4><a href="build.html">build</a></h4>
+</td>
+<td>
+<p>Constructs and returns an <a href="../index.html">SudoUserClient</a>.</p>
+<code><span class="keyword">fun </span><span class="identifier">build</span><span class="symbol">(</span><span class="symbol">)</span><span class="symbol">: </span><a href="../index.html"><span class="identifier">SudoUserClient</span></a></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-api-client.html">setApiClient</a></h4>
+</td>
+<td>
+<p>Provide an <a href="#">AWSAppSyncClient</a> for the <a href="../index.html">SudoUserClient</a>. If this is not supplied,
+a default <a href="#">AWSAppSyncClient</a> will be used. This is mainly used for unit testing.</p>
+<code><span class="keyword">fun </span><span class="identifier">setApiClient</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setApiClient(com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient)/apiClient">apiClient</span><span class="symbol">:</span>&nbsp;<span class="identifier">AWSAppSyncClient</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-auth-u-i.html">setAuthUI</a></h4>
+</td>
+<td>
+<p>Provide a custom auth UI. This is mainly used for unit testing (optional).</p>
+<code><span class="keyword">fun </span><span class="identifier">setAuthUI</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setAuthUI(com.sudoplatform.sudouser.AuthUI)/authUI">authUI</span><span class="symbol">:</span>&nbsp;<a href="../../-auth-u-i/index.html"><span class="identifier">AuthUI</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-config.html">setConfig</a></h4>
+</td>
+<td>
+<p>Provide the configuration parameters.</p>
+<code><span class="keyword">fun </span><span class="identifier">setConfig</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setConfig(org.json.JSONObject)/config">config</span><span class="symbol">:</span>&nbsp;<a href="https://developer.android.com/reference/org/json/JSONObject.html"><span class="identifier">JSONObject</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-credentials-provider.html">setCredentialsProvider</a></h4>
+</td>
+<td>
+<p>Provide a custom credentials provider. This is mainly used for unit testing (optional).
+If a value is not provided, a default implementation will be used.</p>
+<code><span class="keyword">fun </span><span class="identifier">setCredentialsProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setCredentialsProvider(com.amazonaws.auth.CognitoCredentialsProvider)/credentialsProvider">credentialsProvider</span><span class="symbol">:</span>&nbsp;<span class="identifier">CognitoCredentialsProvider</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-identity-provider.html">setIdentityProvider</a></h4>
+</td>
+<td>
+<p>Provide a custom identity provider. This is mainly used for unit testing (optional).</p>
+<code><span class="keyword">fun </span><span class="identifier">setIdentityProvider</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setIdentityProvider(com.sudoplatform.sudouser.IdentityProvider)/identityProvider">identityProvider</span><span class="symbol">:</span>&nbsp;<a href="../../-identity-provider/index.html"><span class="identifier">IdentityProvider</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-id-generator.html">setIdGenerator</a></h4>
+</td>
+<td>
+<p>Provide a custom ID generator. This is mainly used for unit testing.
+If a value is not provided, a default implementation will be used.</p>
+<code><span class="keyword">fun </span><span class="identifier">setIdGenerator</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setIdGenerator(com.sudoplatform.sudouser.IdGenerator)/idGenerator">idGenerator</span><span class="symbol">:</span>&nbsp;<a href="../../-id-generator/index.html"><span class="identifier">IdGenerator</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-key-manager.html">setKeyManager</a></h4>
+</td>
+<td>
+<p>Provide custom <a href="#">KeyManagerInterface</a> implementation. This is mainly used for unit testing (optional).</p>
+<code><span class="keyword">fun </span><span class="identifier">setKeyManager</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setKeyManager(com.sudoplatform.sudokeymanager.KeyManagerInterface)/keyManager">keyManager</span><span class="symbol">:</span>&nbsp;<span class="identifier">KeyManagerInterface</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-logger.html">setLogger</a></h4>
+</td>
+<td>
+<p>Provide the implementation of the <a href="#">Logger</a> used for logging. If a value is not supplied
+a default implementation will be used.</p>
+<code><span class="keyword">fun </span><span class="identifier">setLogger</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setLogger(com.sudoplatform.sudologging.Logger)/logger">logger</span><span class="symbol">:</span>&nbsp;<span class="identifier">Logger</span><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+<tr>
+<td>
+<h4><a href="set-namespace.html">setNamespace</a></h4>
+</td>
+<td>
+<p>Provide the namespace to use for internal data and cryptographic keys. This should be unique
+per client per app to avoid name conflicts between multiple clients. If a value is not supplied
+a default value will be used.</p>
+<code><span class="keyword">fun </span><span class="identifier">setNamespace</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.SudoUserClient.Builder$setNamespace(kotlin.String)/namespace">namespace</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><span class="identifier">Builder</span></code></td>
+</tr>
+</tbody>
+</table>
+</BODY>
+</HTML>

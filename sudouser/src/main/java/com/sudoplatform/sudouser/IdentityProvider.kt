@@ -9,19 +9,16 @@ package com.sudoplatform.sudouser
 import android.content.Context
 import com.amazonaws.ClientConfiguration
 import com.amazonaws.auth.AnonymousAWSCredentials
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient
 import com.amazonaws.services.cognitoidentityprovider.model.*
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.sudoplatform.sudouser.exceptions.*
+import com.sudoplatform.sudouser.extensions.signUp
 import org.json.JSONObject
 import java.util.Date
 
@@ -89,6 +86,20 @@ sealed class SignInResult {
     data class Failure(val error: Throwable) : SignInResult()
 }
 
+/**
+ * Encapsulates the authentication tokens obtained from a successful authentication.
+ *
+ * @param idToken ID token containing the user's identity attributes.
+ * @param accessToken access token required for authorizing API access.
+ * @param refreshToken refresh token used for refreshing ID and access tokens.
+ * @param lifetime lifetime of ID and access tokens in seconds.
+ */
+data class AuthenticationTokens(
+    val idToken: String,
+    val accessToken: String,
+    val refreshToken: String,
+    val lifetime: Int
+)
 
 /**
  * Encapsulates interface requirements for an external identity provider to register and authenticate an identity
@@ -101,53 +112,52 @@ interface IdentityProvider {
      *
      * @param uid user ID.
      * @param parameters registration parameters.
-     * @param callback callback for returning registration result containing the newly created user's ID or error.
-     * @Throws(ApiException::class)
+     * @return user ID
      */
-    fun register(
+    @Throws(RegisterException::class)
+    suspend fun register(
         uid: String,
-        parameters: Map<String, String>,
-        callback: (RegisterResult) -> Unit
-    )
+        parameters: Map<String, String>
+    ): String
 
     /**
-     * Deregisters a user.
+     * De-registers a user.
      *
      * @param uid user ID.
      * @param accessToken access token to authenticate and authorize the request.
-     * @param callback callback for returning success or error.
      */
-    fun deregister(uid: String, accessToken: String, callback: (ApiResult) -> Unit)
+    @Throws(RegisterException::class)
+    suspend fun deregister(uid: String, accessToken: String)
 
     /**
      * Sign into the identity provider.
      *
      * @param uid user ID.
      * @param parameters sign-in parameters.
-     * @param parameters callback for returning sign in result containing ID, access and refresh token or error.
-     * @Throws(ApiException::class)
+     * @returns Successful authentication result [AuthenticationTokens]
      */
-    fun signIn(
+    @Throws(AuthenticationException::class)
+    suspend fun signIn(
         uid: String,
-        parameters: Map<String, String>,
-        callback: (SignInResult) -> Unit
-    )
+        parameters: Map<String, String>
+    ): AuthenticationTokens
 
     /**
      * Refresh the access and ID tokens using the refresh token.
      *
-     * @param callback callback for returning refresh token result containing ID, access and refresh token or error.
+     * @param refreshToken refresh token used to refresh the access and ID tokens.
+     * @return Successful authentication result [AuthenticationTokens] containing refreshed tokens
      */
-    fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit)
+    @Throws(AuthenticationException::class)
+    suspend fun refreshTokens(refreshToken: String): AuthenticationTokens
 
     /**
      * Signs out the user from all devices.
      *
      * @param accessToken access token used to authorize the request.
-     * @param callback callback for returning successful result or error.
      */
-    fun globalSignOut(accessToken: String, callback: (ApiResult) -> Unit)
-
+    @Throws(SignOutException::class)
+    suspend fun globalSignOut(accessToken: String)
 }
 
 /**
@@ -235,392 +245,178 @@ internal class CognitoUserPoolIdentityProvider(
         this.idpClient.setRegion(Region.getRegion(region))
     }
 
-    override fun register(
-        uid: String,
-        parameters: Map<String, String>,
-        callback: (RegisterResult) -> Unit
-    ) {
+    override suspend fun register(uid: String, parameters: Map<String, String>): String {
         this.logger.debug("uid: $uid, parameters: $parameters")
 
-        GlobalScope.launch(Dispatchers.IO) {
-            // Generate a random password. Currently, Cognito requires a password although we won't
-            // be using password based authentication.
-            val password =
-                this@CognitoUserPoolIdentityProvider.passwordGenerator.generatePassword(
-                    length = 50,
-                    upperCase = true,
-                    lowerCase = true,
-                    special = true,
-                    number = true
-                )
-            val cognitoAttributes = CognitoUserAttributes()
-            this@CognitoUserPoolIdentityProvider.userPool.signUp(
-                uid,
-                password,
-                cognitoAttributes,
-                parameters,
-                object : SignUpHandler {
-                    override fun onSuccess(
-                        user: CognitoUser?,
-                        signUpResult: SignUpResult
-                    ) {
-                        if (user?.userId != null) {
-                            if (signUpResult.isUserConfirmed) {
-                                callback(RegisterResult.Success(user.userId))
-                            } else {
-                                callback(
-                                    RegisterResult.Failure(
-                                        ApiException(
-                                            ApiErrorCode.IDENTITY_NOT_CONFIRMED,
-                                            "Identity was created but is not confirmed."
-                                        )
-                                    )
-                                )
-                            }
-                        } else {
-                            callback(
-                                RegisterResult.Failure(
-                                    IllegalStateException()
-                                )
-                            )
-                        }
-                    }
+        // Generate a random password. Currently, Cognito requires a password although we won't
+        // be using password based authentication.
+        val password =
+            this@CognitoUserPoolIdentityProvider.passwordGenerator.generatePassword(
+                length = 50,
+                upperCase = true,
+                lowerCase = true,
+                special = true,
+                number = true
+            )
 
-                    override fun onFailure(exception: Exception?) {
-                        if (exception != null) {
-                            val message = exception.message
-                            if (message != null) {
-                                if (message.contains(SERVICE_ERROR_SERVICE_ERROR)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.SERVER_ERROR,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(SERVICE_ERROR_MISSING_REQUIRED_INPUT)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.INVALID_INPUT,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(SERVICE_ERROR_DECODING_ERROR)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.INVALID_INPUT,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(SERVICE_ERROR_SAFETY_NET_CHECK_FAILED)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.NOT_AUTHORIZED,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(SERVICE_ERROR_VALIDATION_FAILED)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.NOT_AUTHORIZED,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(SERVICE_ERROR_TEST_REG_CHECK_FAILED)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.NOT_AUTHORIZED,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else if (message.contains(
-                                        SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
-                                    callback(
-                                        RegisterResult.Failure(
-                                            ApiException(
-                                                ApiErrorCode.NOT_AUTHORIZED,
-                                                message
-                                            )
-                                        )
-                                    )
-                                } else {
-                                    callback(RegisterResult.Failure(exception))
-                                }
-                            } else {
-                                callback(RegisterResult.Failure(exception))
-                            }
-                        } else {
-                            callback(
-                                RegisterResult.Failure(
-                                    ApiException(
-                                        ApiErrorCode.FATAL_ERROR,
-                                        "Expected failure detail not found."
-                                    )
-                                )
-                            )
-                        }
-                    }
-                })
-        }
+        val cognitoAttributes = CognitoUserAttributes()
+
+        return userPool.signUp(uid, password, cognitoAttributes, parameters)
     }
 
-    override fun signIn(
-        uid: String,
-        parameters: Map<String, String>,
-        callback: (SignInResult) -> Unit
-    ) {
+    override suspend fun signIn(uid: String, parameters: Map<String, String>): AuthenticationTokens {
         this.logger.debug("uid: $uid, parameters: $parameters")
 
-        GlobalScope.launch(Dispatchers.IO) {
+        val initiateAuthRequest = InitiateAuthRequest()
+        initiateAuthRequest.authFlow = "CUSTOM_AUTH"
+        initiateAuthRequest.clientId = this.userPool.clientId
+        initiateAuthRequest.authParameters = mapOf(AUTH_PARAM_NAME_USER_NAME to uid)
 
-                val initiateAuthRequest = InitiateAuthRequest()
-                initiateAuthRequest.authFlow = "CUSTOM_AUTH"
-                initiateAuthRequest.clientId =
-                    this@CognitoUserPoolIdentityProvider.userPool.clientId
-                initiateAuthRequest.authParameters = mapOf(AUTH_PARAM_NAME_USER_NAME to uid)
+        try {
+            val initiateAuthResult = this.idpClient.initiateAuth(initiateAuthRequest)
+            val challengeName = initiateAuthResult.challengeName
+            val session = initiateAuthResult.session
+            val nonce = initiateAuthResult.challengeParameters[CHALLENGE_PARAM_NAME_NONCE]
+            val audience =
+                initiateAuthResult.challengeParameters[CHALLENGE_PARAM_NAME_AUDIENCE]
 
-                try {
-                    val initiateAuthResult =
-                        this@CognitoUserPoolIdentityProvider.idpClient.initiateAuth(
-                            initiateAuthRequest
+            if (challengeName != null && session != null && nonce != null && audience != null) {
+                val respondToAuthChallengeRequest = RespondToAuthChallengeRequest()
+                respondToAuthChallengeRequest.clientId = this.userPool.clientId
+                respondToAuthChallengeRequest.challengeName = challengeName
+                respondToAuthChallengeRequest.session = session
+
+                var answer: String? = null
+                val challengeType = parameters[SIGN_IN_PARAM_NAME_CHALLENGE_TYPE]
+                if (challengeType == "FSSO") {
+                    answer = parameters[SIGN_IN_PARAM_NAME_ANSWER]
+                    respondToAuthChallengeRequest.clientMetadata =
+                        mapOf(SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to "FSSO")
+                } else {
+                    val userKeyId = parameters[SIGN_IN_PARAM_NAME_USER_KEY_ID]
+
+                    if (userKeyId != null) {
+                        val jwt = JWT(
+                            uid,
+                            audience,
+                            uid,
+                            nonce,
+                            SIGN_IN_JWT_ALGORITHM,
+                            null,
+                            Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000))
                         )
-                    val challengeName = initiateAuthResult.challengeName
-                    val session = initiateAuthResult.session
-                    val nonce = initiateAuthResult.challengeParameters[CHALLENGE_PARAM_NAME_NONCE]
-                    val audience =
-                        initiateAuthResult.challengeParameters[CHALLENGE_PARAM_NAME_AUDIENCE]
-
-                    if (challengeName != null && session != null && nonce != null && audience != null) {
-                        val respondToAuthChallengeRequest = RespondToAuthChallengeRequest()
-                        respondToAuthChallengeRequest.clientId =
-                            this@CognitoUserPoolIdentityProvider.userPool.clientId
-                        respondToAuthChallengeRequest.challengeName = challengeName
-                        respondToAuthChallengeRequest.session = session
-
-                        var answer: String? = null
-                        val challengeType = parameters[SIGN_IN_PARAM_NAME_CHALLENGE_TYPE]
-                        if (challengeType == "FSSO") {
-                            answer = parameters[SIGN_IN_PARAM_NAME_ANSWER]
-                            respondToAuthChallengeRequest.clientMetadata = mapOf(SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to "FSSO")
-                        } else {
-                            val userKeyId = parameters[SIGN_IN_PARAM_NAME_USER_KEY_ID]
-
-                            if (userKeyId != null) {
-                                val jwt = JWT(
-                                    uid,
-                                    audience,
-                                    uid,
-                                    nonce,
-                                    SIGN_IN_JWT_ALGORITHM,
-                                    null,
-                                    Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000))
-                                )
-                                answer = jwt.signAndEncode(
-                                    this@CognitoUserPoolIdentityProvider.keyManager,
-                                    userKeyId
-                                )
-                            }
-                        }
-
-                        if (answer != null) {
-                            respondToAuthChallengeRequest.challengeResponses = mapOf(
-                                AUTH_PARAM_NAME_USER_NAME to uid,
-                                AUTH_PARAM_NAME_ANSWER to answer
-                            )
-
-                            val respondToAuthChallengeResult =
-                                this@CognitoUserPoolIdentityProvider.idpClient.respondToAuthChallenge(
-                                    respondToAuthChallengeRequest
-                                )
-                            val idToken = respondToAuthChallengeResult.authenticationResult.idToken
-                            val accessToken =
-                                respondToAuthChallengeResult.authenticationResult.accessToken
-                            val refreshToken =
-                                respondToAuthChallengeResult.authenticationResult.refreshToken
-                            val lifetime =
-                                respondToAuthChallengeResult.authenticationResult.expiresIn
-
-                            if (idToken != null && accessToken != null && refreshToken != null) {
-                                callback(
-                                    SignInResult.Success(
-                                        idToken,
-                                        accessToken,
-                                        refreshToken,
-                                        lifetime
-                                    )
-                                )
-                            } else {
-                                callback(
-                                    SignInResult.Failure(
-                                        ApiException(
-                                            ApiErrorCode.FATAL_ERROR,
-                                            "Authentication tokens not found."
-                                        )
-                                    )
-                                )
-                            }
-                        } else {
-                            callback(
-                                SignInResult.Failure(
-                                    ApiException(
-                                        ApiErrorCode.FATAL_ERROR,
-                                        "Challenge answer not found."
-                                    )
-                                )
-                            )
-                        }
-                    } else {
-                        callback(
-                            SignInResult.Failure(
-                                ApiException(
-                                    ApiErrorCode.FATAL_ERROR,
-                                    "Invalid initiate auth result."
-                                )
-                            )
+                        answer = jwt.signAndEncode(
+                            this@CognitoUserPoolIdentityProvider.keyManager,
+                            userKeyId
                         )
                     }
-                } catch (e: NotAuthorizedException) {
-                    callback(
-                        SignInResult.Failure(
-                            ApiException(
-                                ApiErrorCode.NOT_AUTHORIZED,
-                                "cause: $e"
-                            )
-                        )
-                    )
-                } catch (e: Exception) {
-                    callback(
-                        SignInResult.Failure(
-                            ApiException(
-                                ApiErrorCode.FATAL_ERROR,
-                                "cause: $e"
-                            )
-                        )
-                    )
                 }
-        }
-    }
 
-    override fun deregister(uid: String, accessToken: String, callback: (ApiResult) -> Unit) {
-        this.logger.debug("uid: $uid, accessToken: $accessToken")
-        GlobalScope.launch(Dispatchers.IO) {
-            val deleteUserRequest = DeleteUserRequest()
-            deleteUserRequest.accessToken = accessToken
-            try {
-                this@CognitoUserPoolIdentityProvider.idpClient.deleteUser(deleteUserRequest)
-                callback(ApiResult.Success)
-            } catch (e: NotAuthorizedException) {
-                callback(
-                    ApiResult.Failure(
-                        ApiException(
-                            ApiErrorCode.NOT_AUTHORIZED,
-                            "cause: $e"
-                        )
+                if (answer != null) {
+                    respondToAuthChallengeRequest.challengeResponses = mapOf(
+                        AUTH_PARAM_NAME_USER_NAME to uid,
+                        AUTH_PARAM_NAME_ANSWER to answer
                     )
-                )
-            } catch (e: Exception) {
-                callback(ApiResult.Failure(e))
-            }
-        }
-    }
 
-    override fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit) {
-        this.logger.debug("refreshToken: $refreshToken")
+                    val respondToAuthChallengeResult =
+                        this.idpClient.respondToAuthChallenge(respondToAuthChallengeRequest)
+                    val idToken = respondToAuthChallengeResult.authenticationResult.idToken
+                    val accessToken =
+                        respondToAuthChallengeResult.authenticationResult.accessToken
+                    val refreshToken =
+                        respondToAuthChallengeResult.authenticationResult.refreshToken
+                    val lifetime = respondToAuthChallengeResult.authenticationResult.expiresIn
 
-        GlobalScope.launch(Dispatchers.IO) {
-            val initiateAuthRequest = InitiateAuthRequest()
-            initiateAuthRequest.authFlow = "REFRESH_TOKEN_AUTH"
-            initiateAuthRequest.clientId = this@CognitoUserPoolIdentityProvider.userPool.clientId
-            initiateAuthRequest.authParameters = mapOf(AUTH_PARAM_NAME_REFRESH to refreshToken)
-
-            try {
-                val initiateAuthResult =
-                    this@CognitoUserPoolIdentityProvider.idpClient.initiateAuth(initiateAuthRequest)
-
-                val idToken = initiateAuthResult.authenticationResult.idToken
-                val accessToken = initiateAuthResult.authenticationResult.accessToken
-                val lifetime = initiateAuthResult.authenticationResult.expiresIn
-
-                if (idToken != null && accessToken != null) {
-                    callback(
-                        SignInResult.Success(
+                    if (idToken != null && accessToken != null && refreshToken != null) {
+                        return AuthenticationTokens(
                             idToken,
                             accessToken,
                             refreshToken,
                             lifetime
                         )
-                    )
+                    } else {
+                        throw AuthenticationException.FailedException("Authentication tokens not found.")
+                    }
                 } else {
-                    callback(
-                        SignInResult.Failure(
-                            ApiException(
-                                ApiErrorCode.FATAL_ERROR,
-                                "Authentication tokens not found."
-                            )
-                        )
-                    )
+                    throw AuthenticationException.FailedException("Challenge answer not found.")
                 }
-            } catch (e: NotAuthorizedException) {
-                callback(
-                    SignInResult.Failure(
-                        ApiException(
-                            ApiErrorCode.NOT_AUTHORIZED,
-                            "cause: $e"
-                        )
-                    )
+            } else {
+                throw AuthenticationException.FailedException("Invalid initiate auth result.")
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is AuthenticationException -> throw t
+                is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(
+                    cause = t
                 )
-            } catch (e: Exception) {
-                callback(
-                    SignInResult.Failure(
-                        ApiException(
-                            ApiErrorCode.FATAL_ERROR,
-                            "cause: $e"
-                        )
-                    )
-                )
+                else -> throw AuthenticationException.FailedException(cause = t)
             }
         }
     }
 
-    override fun globalSignOut(accessToken: String, callback: (ApiResult) -> Unit) {
-        GlobalScope.launch(Dispatchers.IO) {
-            val request = GlobalSignOutRequest()
-            request.accessToken = accessToken
+    override suspend fun deregister(uid: String, accessToken: String) {
+        this.logger.debug("uid: $uid, accessToken: $accessToken")
 
-            try {
-                this@CognitoUserPoolIdentityProvider.idpClient.globalSignOut(request)
-                callback(ApiResult.Success)
-            } catch (e: NotAuthorizedException) {
-                callback(
-                    ApiResult.Failure(
-                        ApiException(
-                            ApiErrorCode.NOT_AUTHORIZED,
-                            "cause: $e"
-                        )
-                    )
+        val deleteUserRequest = DeleteUserRequest()
+        deleteUserRequest.accessToken = accessToken
+        try {
+            this.idpClient.deleteUser(deleteUserRequest)
+        } catch (t: Throwable) {
+            when (t) {
+                is NotAuthorizedException -> throw DeregisterException.NotAuthorizedException(cause = t)
+                else -> throw DeregisterException.FailedException(cause = t)
+            }
+        }
+    }
+
+    override suspend fun refreshTokens(refreshToken: String): AuthenticationTokens {
+        this.logger.debug("refreshToken: $refreshToken")
+        val initiateAuthRequest = InitiateAuthRequest()
+        initiateAuthRequest.authFlow = "REFRESH_TOKEN_AUTH"
+        initiateAuthRequest.clientId = this.userPool.clientId
+        initiateAuthRequest.authParameters = mapOf(AUTH_PARAM_NAME_REFRESH to refreshToken)
+
+        try {
+            val initiateAuthResult= this.idpClient.initiateAuth(initiateAuthRequest)
+            val idToken = initiateAuthResult.authenticationResult.idToken
+            val accessToken = initiateAuthResult.authenticationResult.accessToken
+            val lifetime = initiateAuthResult.authenticationResult.expiresIn
+
+            if (idToken != null && accessToken != null) {
+                return AuthenticationTokens(
+                    idToken,
+                    accessToken,
+                    refreshToken,
+                    lifetime
                 )
-            } catch (e: Exception) {
-                callback(
-                    ApiResult.Failure(
-                        ApiException(
-                            ApiErrorCode.FATAL_ERROR,
-                            "cause: $e"
-                        )
-                    )
+            } else {
+                throw AuthenticationException.FailedException(
+                    "Authentication tokens not found."
                 )
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is AuthenticationException -> throw t
+                is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(cause = t)
+                else -> throw AuthenticationException.FailedException(cause = t)
+            }
+        }
+    }
+
+    override suspend fun globalSignOut(accessToken: String) {
+        val request = GlobalSignOutRequest()
+        request.accessToken = accessToken
+
+        try {
+            this.idpClient.globalSignOut(request)
+        } catch (t: Throwable) {
+            when (t) {
+                is NotAuthorizedException -> throw SignOutException.NotAuthorizedException(cause = t)
+                else -> throw SignOutException.FailedException(cause = t)
             }
         }
     }
 
 }
+
+

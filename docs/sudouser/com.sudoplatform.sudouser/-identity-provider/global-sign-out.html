@@ -8,13 +8,11 @@
 <a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">IdentityProvider</a>&nbsp;/&nbsp;<a href="./global-sign-out.html">globalSignOut</a><br/>
 <br/>
 <h1>globalSignOut</h1>
-<a name="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))"></a>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">globalSignOut</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<a name="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">globalSignOut</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$globalSignOut(kotlin.String)/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
 <p>Signs out the user from all devices.</p>
 <h3>Parameters</h3>
 <p><a name="accessToken"></a>
 <code>accessToken</code> - access token used to authorize the request.</p>
-<p><a name="callback"></a>
-<code>callback</code> - callback for returning successful result or error.</p>
 </BODY>
 </HTML>

@@ -8,11 +8,13 @@
 <a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">IdentityProvider</a>&nbsp;/&nbsp;<a href="./refresh-tokens.html">refreshTokens</a><br/>
 <br/>
 <h1>refreshTokens</h1>
-<a name="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))"></a>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">refreshTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/refreshToken">refreshToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.SignInResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-sign-in-result/index.html"><span class="identifier">SignInResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<a name="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">refreshTokens</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$refreshTokens(kotlin.String)/refreshToken">refreshToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="../-authentication-tokens/index.html"><span class="identifier">AuthenticationTokens</span></a></code>
 <p>Refresh the access and ID tokens using the refresh token.</p>
 <h3>Parameters</h3>
-<p><a name="callback"></a>
-<code>callback</code> - callback for returning refresh token result containing ID, access and refresh token or error.</p>
+<p><a name="refreshToken"></a>
+<code>refreshToken</code> - refresh token used to refresh the access and ID tokens.</p>
+<p><strong>Return</strong><br/>
+Successful authentication result <a href="../-authentication-tokens/index.html">AuthenticationTokens</a> containing refreshed tokens</p>
 </BODY>
 </HTML>

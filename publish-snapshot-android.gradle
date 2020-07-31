@@ -1,0 +1,59 @@
+task androidSourcesJar(type: Jar) {
+    classifier = 'sources'
+    from android.sourceSets.main.java.source
+}
+
+artifacts {
+    archives androidSourcesJar
+}
+
+apply plugin: 'maven-publish'
+
+afterEvaluate {
+    def projectGroup = "com.sudoplatform"
+    def projectArtifact = project.name
+    def projectVersion = project.android.defaultConfig.versionName
+    if (project.findProperty("tag")) {
+        projectVersion = "$tag"
+    }
+
+    projectVersion = projectVersion + "-${System.currentTimeSeconds()}-SNAPSHOT"
+
+    if (project.hasProperty('nexusUsername')) {
+        ext["nexusUsername"] = "$nexusUsername"
+        ext["nexusPassword"] = "$nexusPassword"
+    } else {
+        ext["nexusUsername"] = ""
+        ext["nexusPassword"] = ""
+    }
+
+    publishing {
+        repositories {
+            maven {
+                name = "android-snapshots"
+                url = "https://repo.tools.anonyome.com/repository/android-snapshots/"
+                credentials {
+                    username = nexusUsername
+                    password = nexusPassword
+                }
+            }
+        }
+        publications {
+            release(MavenPublication) {
+                groupId = projectGroup
+                artifactId = projectArtifact
+                version = projectVersion
+                artifact androidSourcesJar
+                from components.release
+            }
+        }
+    }
+
+    task announceSnapshot {
+        doLast {
+            println("Snapshot published $projectGroup:$projectArtifact:$projectVersion")
+        }
+    }
+    publish.finalizedBy announceSnapshot
+    publishToMavenLocal.finalizedBy announceSnapshot
+}

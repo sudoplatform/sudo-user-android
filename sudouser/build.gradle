@@ -13,7 +13,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "7.8.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -154,4 +154,9 @@ ext {
     }
 }
 
-apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
+if (project.hasProperty("tag")) {
+    apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
+} else {
+    //// Snapshot publishing
+    apply from: "${rootProject.projectDir}/publish-snapshot-android.gradle"
+}

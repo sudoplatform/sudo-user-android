@@ -8,15 +8,13 @@
 <a href="../../index.html">sudouser</a>&nbsp;/&nbsp;<a href="../index.html">com.sudoplatform.sudouser</a>&nbsp;/&nbsp;<a href="index.html">IdentityProvider</a>&nbsp;/&nbsp;<a href="./deregister.html">deregister</a><br/>
 <br/>
 <h1>deregister</h1>
-<a name="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))"></a>
-<code><span class="keyword">abstract</span> <span class="keyword">fun </span><span class="identifier">deregister</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/uid">uid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String, kotlin.Function1((com.sudoplatform.sudouser.ApiResult, kotlin.Unit)))/callback">callback</span><span class="symbol">:</span>&nbsp;<span class="symbol">(</span><a href="../-api-result/index.html"><span class="identifier">ApiResult</span></a><span class="symbol">)</span>&nbsp;<span class="symbol">-&gt;</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
-<p>Deregisters a user.</p>
+<a name="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String)"></a>
+<code><span class="keyword">abstract</span> <span class="keyword">suspend</span> <span class="keyword">fun </span><span class="identifier">deregister</span><span class="symbol">(</span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String)/uid">uid</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">, </span><span class="identifier" id="com.sudoplatform.sudouser.IdentityProvider$deregister(kotlin.String, kotlin.String)/accessToken">accessToken</span><span class="symbol">:</span>&nbsp;<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html"><span class="identifier">String</span></a><span class="symbol">)</span><span class="symbol">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html"><span class="identifier">Unit</span></a></code>
+<p>De-registers a user.</p>
 <h3>Parameters</h3>
 <p><a name="uid"></a>
 <code>uid</code> - user ID.</p>
 <p><a name="accessToken"></a>
 <code>accessToken</code> - access token to authenticate and authorize the request.</p>
-<p><a name="callback"></a>
-<code>callback</code> - callback for returning success or error.</p>
 </BODY>
 </HTML>

@@ -7,10 +7,11 @@
 package com.sudoplatform.sudouser
 
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
+import com.sudoplatform.sudouser.exceptions.ApiErrorCode
+import com.sudoplatform.sudouser.exceptions.ApiException
+import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import kotlinx.coroutines.runBlocking
 import java.util.*
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 /**
  * [SudoUserClient] based authentication provider implementation to be used by AWS AppSync client.
@@ -28,29 +29,13 @@ class GraphQLAuthProvider(private val client: SudoUserClient) : CognitoUserPools
             } else {
                 // Refresh the token if it has expired or will expire in 10 mins.
                 val result = runBlocking {
-                    this@GraphQLAuthProvider.refreshTokens(refreshToken)
+                    this@GraphQLAuthProvider.client.refreshTokens(refreshToken)
                 }
-
-                when(result) {
-                    is SignInResult.Success -> {
-                        return result.idToken
-                    }
-                    is SignInResult.Failure -> {
-                        throw result.error
-                    }
-                }
+                return result.idToken
             }
         } else {
             // If tokens are missing then it's likely due to the client not being signed in.
-            throw ApiException(
-                ApiErrorCode.NOT_SIGNED_IN,
-                "Client is not signed in."
-            )
+            throw AuthenticationException.NotSignedInException("Client is not signed in.")
         }
     }
-
-    private suspend fun refreshTokens(refreshToken: String): SignInResult = suspendCoroutine { cont ->
-        this.client.refreshTokens(refreshToken) { cont.resume(it) }
-    }
-
 }

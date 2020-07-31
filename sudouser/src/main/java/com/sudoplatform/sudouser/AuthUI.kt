@@ -11,6 +11,8 @@ import android.net.Uri
 import com.amazonaws.mobileconnectors.cognitoauth.Auth
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler
+import com.sudoplatform.sudouser.exceptions.ApiErrorCode
+import com.sudoplatform.sudouser.exceptions.ApiException
 import org.json.JSONObject
 import java.util.*
 
