@@ -154,9 +154,4 @@ ext {
     }
 }
 
-if (project.hasProperty("tag")) {
-    apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
-} else {
-    //// Snapshot publishing
-    apply from: "${rootProject.projectDir}/publish-snapshot-android.gradle"
-}
+apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
