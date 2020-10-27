@@ -1,19 +1,20 @@
 apply plugin: "com.android.library"
-apply plugin: "kotlin-android-extensions"
 apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
 apply plugin: "com.amazonaws.appsync"
 apply plugin: "org.jetbrains.dokka"
 apply plugin: "org.sonarqube"
 apply plugin: "jacoco"
+apply plugin: "org.owasp.dependencycheck"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
-        versionName "7.8.1"
+        versionName "8.0.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -66,10 +67,16 @@ android {
     }
 }
 
+ext {
+    coroutine_version = "1.3.7"
+    kotlintest_version = "3.4.2"
+}
+
 dependencies {
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutine_version}"
 
     // AWS SDKs.
     implementation "com.amazonaws:aws-android-sdk-cognitoidentityprovider:$aws_version"
@@ -85,21 +92,23 @@ dependencies {
 
     implementation "com.babylon.certificatetransparency:certificatetransparency-android:0.2.0"
 
+    // Testing
     testImplementation 'junit:junit:4.13'
     testImplementation 'org.mockito:mockito-core:3.3.3'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.7'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.7'
     testImplementation 'org.json:json:20200518'
-
     androidTestImplementation "androidx.test:runner:1.2.0"
     androidTestImplementation "androidx.test:rules:1.2.0"
     androidTestImplementation "androidx.test.ext:junit:1.1.1"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.2.0"
     androidTestImplementation "com.google.android.gms:play-services-safetynet:17.0.0"
     androidTestImplementation 'com.google.android.gms:play-services-base:17.3.0'
-    androidTestImplementation 'io.kotlintest:kotlintest-assertions:3.4.2'
+    androidTestImplementation "io.kotlintest:kotlintest-assertions:$kotlintest_version"
 }
+
+
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
     group = "Reporting"
@@ -123,7 +132,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 }
 
 task sourcesJar(type: Jar) {
-    classifier = "sources"
+    archiveClassifier = "sources"
     from android.sourceSets.main.java.srcDirs
 }
 
@@ -131,10 +140,83 @@ artifacts {
     archives sourcesJar
 }
 
-dokka {
-    outputFormat = "html"
-    outputDirectory = "$buildDir/javadoc"
+// Dokka documentation generation
+apply plugin: 'org.jetbrains.dokka'
+
+dokkaHtml {
+    outputDirectory.set(project.file("$buildDir/javadoc"))
+    dokkaSourceSets {
+        configureEach {
+            jdkVersion.set(8)
+            skipEmptyPackages.set(true)
+        }
+    }
 }
+
+// Returns a list of `configurations` which should not be scanned for vulnerabilities
+def getConfigurationsToSkip = { configs ->
+    configs.findAll {
+        it.name.startsWithAny("androidTest", "test", "lint") ||
+                it.name.contains("AndroidTest") ||
+                it.name.contains("UnitTest")
+    }.collect {
+        it.name
+    }
+}
+
+tasks.register("printConfigurationsToSkip") {
+    group = "OWASP dependency-check"
+    description = "Print the configurations which are skipped when scanning for vulnerable dependencies"
+    doLast {
+        println "Configurations to skip when scanning for vulnerable dependencies:"
+        println getConfigurationsToSkip(configurations).join("\n")
+    }
+}
+
+afterEvaluate {
+    // NOTE: this must be within `afterEvaluate` to ensure all the configurations have been created before filtering them
+    dependencyCheck {
+        suppressionFile file("../dependency-suppression.xml").toString()
+        failBuildOnCVSS 0
+        skipConfigurations = getConfigurationsToSkip(configurations)
+    }
+}
+
+// https://github.com/cookpad/license-tools-plugin
+apply plugin: "com.cookpad.android.licensetools"
+licenseTools {
+    licensesYaml = file("licenses.yml")
+    ignoredGroups = ["com.nhaarman:mockito-kotlin", "com.anonyome", "com.sudoplatform"]
+    ignoredProjects = ["org.mockito"]
+}
+
+@Grab('org.yaml:snakeyaml:1.17') // Yaml parser
+import org.yaml.snakeyaml.Yaml
+
+task checkLicenseHaveRequiredFields {
+    description = "Check every license entry has the mandatory fields"
+    group = "verification"
+    doLast {
+        def mandatoryFields = ["artifact", "name", "copyrightHolder", "url"]
+        Yaml parser = new Yaml()
+        def licenses = parser.load((file("licenses.yml") as File).text)
+        def errors = new StringBuilder()
+        licenses.each { artifact ->
+            mandatoryFields.each { field ->
+                if (artifact[field] == null) {
+                    errors.append("License entry '${artifact.artifact}' is missing required element `$field`\n")
+                }
+            }
+            if (artifact["license"] == null && artifact["licenseUrl" == null]) {
+                errors.append("License entry '${artifact.artifact}' must have one of [license,licenseUrl]\n")
+            }
+        }
+        if (errors.length() > 0) {
+            throw new GradleException("Missing license elements:\n$errors")
+        }
+    }
+}
+checkLicenses.finalizedBy checkLicenseHaveRequiredFields
 
 apply plugin: "maven"
 
@@ -142,16 +224,22 @@ def props = new Properties()
 file("../secret.properties").withInputStream { props.load(it) }
 
 ext {
-    PUBLISH_GROUP_ID = "com.sudoplatform"
-    PUBLISH_ARTIFACT_ID = "sudouser"
-    PUBLISH_DESCRIPTION = "User SDK for the Sudo Platform by Anonyome Labs."
-    PUBLISH_PROJECT_URL = "https://github.com/sudoplatform/sudo-user-android"
-    PUBLISH_PROJECT_SCM = "scm:git:github.com/sudoplatform/sudo-user-android.git"
-    if (project.hasProperty("tag")) {
-        PUBLISH_VERSION = "$tag"
+    projectGroup = 'com.sudoplatform'
+    projectArtifact = project.name
+    projectDescription = 'User SDK for the Sudo Platform by Anonyome Labs.'
+    projectUrl = 'https://github.com/sudoplatform/sudo-user-android'
+    projectSCM = 'scm:git:github.com/sudoplatform/sudo-user-android.git'
+    if (project.findProperty("tag")) {
+        projectVersion = "$tag"
     } else {
-        PUBLISH_VERSION = "0.0.0"
+        projectVersion = project.android.defaultConfig.versionName
     }
 }
 
-apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
+if(project.findProperty("tag") &&
+        project.file("${rootProject.projectDir}/util/publish-mavencentral.gradle").exists()) {
+    apply from: "${rootProject.projectDir}/util/publish-mavencentral.gradle"
+}
+else if (project.file("${rootProject.projectDir}/util/publish-internal-android.gradle").exists()) {
+    apply from: "${rootProject.projectDir}/util/publish-internal-android.gradle"
+}
