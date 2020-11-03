@@ -400,6 +400,13 @@ interface SudoUserClient {
      */
     fun getTokenExpiry(): Date?
 
+    /**
+     * Returns the refresh token expiry cached from the last sign-in.
+     *
+     * @return refresh token expiry.
+     */
+    fun getRefreshTokenExpiry(): Date?
+
     @Deprecated(
         message = "This is deprecated and will be removed in the future.",
         replaceWith = ReplaceWith("getUserName()"),
@@ -572,6 +579,7 @@ class DefaultSudoUserClient(
         private const val KEY_NAME_ACCESS_TOKEN = "accessToken"
         private const val KEY_NAME_REFRESH_TOKEN = "refreshToken"
         private const val KEY_NAME_TOKEN_EXPIRY = "tokenExpiry"
+        private const val KEY_NAME_REFRESH_TOKEN_EXPIRY = "refreshTokenExpiry"
 
         private const val CONFIG_NAMESPACE_IDENTITY_SERVICE = "identityService"
         private const val CONFIG_NAMESPACE_FEDERATED_SIGN_IN = "federatedSignIn"
@@ -581,6 +589,7 @@ class DefaultSudoUserClient(
         private const val CONFIG_IDENTITY_POOL_ID = "identityPoolId"
         private const val CONFIG_API_URL = "apiUrl"
         private const val CONFIG_REGISTRATION_METHODS = "registrationMethods"
+        private const val CONFIG_REFRESH_TOKEN_LIFETIME = "refreshTokenLifetime"
 
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
         private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
@@ -629,6 +638,11 @@ class DefaultSudoUserClient(
     private val identityPoolId: String
 
     /**
+     * Refresh token lifetime in days.
+     */
+    private val refreshTokenLifetime: Int
+
+    /**
      * Cognito credentials provider to use for authenticating to various AWS services.
      */
     private val credentialsProvider: CognitoCredentialsProvider
@@ -668,6 +682,7 @@ class DefaultSudoUserClient(
 
         val apiUrl = identityServiceConfig[CONFIG_API_URL] as String?
         val region = identityServiceConfig[CONFIG_REGION] as String?
+        var refreshTokenLifetime = identityServiceConfig.optInt(CONFIG_REFRESH_TOKEN_LIFETIME, 60)
 
         @Suppress("UNCHECKED_CAST")
         val registrationMethods =
@@ -706,7 +721,11 @@ class DefaultSudoUserClient(
                 federatedSignInConfig,
                 context
             )
+
+            refreshTokenLifetime = federatedSignInConfig.optInt(CONFIG_REFRESH_TOKEN_LIFETIME, 60)
         }
+
+        this.refreshTokenLifetime = refreshTokenLifetime
 
         if (region != null) {
             this.region = region
@@ -761,10 +780,11 @@ class DefaultSudoUserClient(
     override fun isSignedIn(): Boolean {
         val idToken = this.getIdToken()
         val accessToken = this.getAccessToken()
-        val expiry = this.getTokenExpiry()
+        val expiry = this.getRefreshTokenExpiry()
 
         return if (idToken != null && accessToken != null && expiry != null) {
-            expiry.time > Date().time
+            // Considered signed in up to 1 hour before the expiry of refresh token.
+            expiry.time > (Date().time + 60 * 60 * 1000)
         } else {
             false
         }
@@ -970,6 +990,8 @@ class DefaultSudoUserClient(
                     authenticationTokens.lifetime
                 )
 
+                this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
+
                 credentialsProvider.logins = getLogins()
 
                 return registerFederatedIdAndRefreshTokens(
@@ -1069,6 +1091,8 @@ class DefaultSudoUserClient(
                         result.refreshToken,
                         result.lifetime
                     )
+
+                    this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
 
                     // Generate the symmetric key if it has not been generated before.
                     val symmetricKeyId = this@DefaultSudoUserClient.getSymmetricKeyId()
@@ -1246,6 +1270,19 @@ class DefaultSudoUserClient(
         return expiry
     }
 
+    override fun getRefreshTokenExpiry(): Date? {
+        var expiry: Date? = null
+
+        val timeSinceEpoch =
+            this.keyManager.getPassword(namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY))?.toString(Charsets.UTF_8)
+                ?.toLong()
+        if (timeSinceEpoch != null) {
+            expiry = Date(timeSinceEpoch)
+        }
+
+        return expiry
+    }
+
     override fun getUserId(): String? {
         return this.getUserName()
     }
@@ -1397,6 +1434,14 @@ class DefaultSudoUserClient(
         this.keyManager.addPassword(
             "${lifetime * 1000 + Date().time}".toByteArray(),
             namespace(KEY_NAME_TOKEN_EXPIRY)
+        )
+    }
+
+    private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
+        this.keyManager.deletePassword(namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY))
+        this.keyManager.addPassword(
+            "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
+            namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         )
     }
 
