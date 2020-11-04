@@ -507,12 +507,6 @@
   license: Android Software Development Kit License
   licenseUrl: https://developer.android.com/studio/terms.html
   url: https://developers.google.com/android/guides/releases
-- artifact: androidx.concurrent:concurrent-futures:+
-  name: AndroidX Futures
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: androidx.arch.core:core-common:+
   name: Android Arch-Common
   copyrightHolder:  Google, Inc.
@@ -525,10 +519,4 @@
   license: Apache License, Version 2.0
   licenseUrl: http://aws.amazon.com/apache2.0
   url: http://aws.amazon.com/sdkforandroid
-- artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.19.1
-  name: AWS SDK for Android - Amazon Cognito Auth
-  copyrightHolder: Amazon
-  license: Amazon Software License
-  licenseUrl: http://aws.amazon.com/apache2.0
-  url: http://aws.amazon.com/sdkforandroid
-
+  

@@ -349,8 +349,9 @@ interface SudoUserClient {
      * are passed to the app via a redirect URL with custom scheme mapped to the app.
      *
      * @param data URL to intent data containing the tokens.
+     * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun processFederatedSignInTokens(data: Uri)
+    fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit)
 
     /**
      * Refresh the access and ID tokens using the refresh token.
@@ -1071,7 +1072,7 @@ class DefaultSudoUserClient(
         this.authUI?.presentFederatedSignOutUI(callback)
     }
 
-    override fun processFederatedSignInTokens(data: Uri) {
+    override fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit) {
         this.authUI?.processFederatedSignInTokens(data) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
@@ -1099,9 +1100,20 @@ class DefaultSudoUserClient(
                     if (symmetricKeyId == null) {
                         this@DefaultSudoUserClient.generateSymmetricKey()
                     }
+
+                    callback(
+                        FederatedSignInResult.Success(
+                            result.idToken,
+                            result.accessToken,
+                            result.refreshToken,
+                            result.lifetime,
+                            result.username
+                        )
+                    )
                 }
                 is FederatedSignInResult.Failure -> {
                     this.logger.error("Failed to process the federated sign in redirect: ${result.error}")
+                    callback(FederatedSignInResult.Failure(result.error))
                 }
             }
         }
