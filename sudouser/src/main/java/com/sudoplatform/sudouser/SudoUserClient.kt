@@ -926,6 +926,10 @@ class DefaultSudoUserClient(
     override suspend fun deregister() {
         this.logger.info("De-registering user.")
 
+        if(!this.isRegistered()) {
+            throw AuthenticationException.NotRegisteredException()
+        }
+
         val accessToken = this.getAccessToken()
 
         if (accessToken != null) {
