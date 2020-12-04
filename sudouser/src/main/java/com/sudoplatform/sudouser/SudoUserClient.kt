@@ -1105,6 +1105,8 @@ class DefaultSudoUserClient(
                         this@DefaultSudoUserClient.generateSymmetricKey()
                     }
 
+                    this.credentialsProvider.logins = this.getLogins()
+
                     callback(
                         FederatedSignInResult.Success(
                             result.idToken,
