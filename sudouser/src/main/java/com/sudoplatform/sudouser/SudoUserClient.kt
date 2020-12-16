@@ -997,7 +997,8 @@ class DefaultSudoUserClient(
 
                 this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
 
-                credentialsProvider.logins = getLogins()
+                this.credentialsProvider.logins = getLogins()
+                this.credentialsProvider.refresh()
 
                 return registerFederatedIdAndRefreshTokens(
                     authenticationTokens.idToken,
@@ -1056,6 +1057,7 @@ class DefaultSudoUserClient(
                     }
 
                     this.credentialsProvider.logins = this.getLogins()
+                    this.credentialsProvider.refresh()
 
                     this.registerFederatedIdAndRefreshTokens(
                         result.idToken,
@@ -1106,6 +1108,7 @@ class DefaultSudoUserClient(
                     }
 
                     this.credentialsProvider.logins = this.getLogins()
+                    this.credentialsProvider.refresh()
 
                     callback(
                         FederatedSignInResult.Success(
@@ -1150,6 +1153,7 @@ class DefaultSudoUserClient(
                 )
 
                 this.credentialsProvider.logins = this.getLogins()
+                this.credentialsProvider.refresh()
 
                 return this.registerFederatedIdAndRefreshTokens(
                     authenticationTokens.idToken,
@@ -1182,6 +1186,7 @@ class DefaultSudoUserClient(
             )
 
             this.credentialsProvider.logins = this.getLogins()
+            this.credentialsProvider.refresh()
 
             this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
             return AuthenticationTokens(
