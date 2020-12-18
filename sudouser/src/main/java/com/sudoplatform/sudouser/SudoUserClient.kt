@@ -1108,17 +1108,20 @@ class DefaultSudoUserClient(
                     }
 
                     this.credentialsProvider.logins = this.getLogins()
-                    this.credentialsProvider.refresh()
 
-                    callback(
-                        FederatedSignInResult.Success(
-                            result.idToken,
-                            result.accessToken,
-                            result.refreshToken,
-                            result.lifetime,
-                            result.username
+                    CoroutineScope(Dispatchers.IO).launch {
+                        this@DefaultSudoUserClient.credentialsProvider.refresh()
+
+                        callback(
+                            FederatedSignInResult.Success(
+                                result.idToken,
+                                result.accessToken,
+                                result.refreshToken,
+                                result.lifetime,
+                                result.username
+                            )
                         )
-                    )
+                    }
                 }
                 is FederatedSignInResult.Failure -> {
                     this.logger.error("Failed to process the federated sign in redirect: ${result.error}")
