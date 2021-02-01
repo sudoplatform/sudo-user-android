@@ -6,7 +6,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult
 import com.sudoplatform.sudouser.CognitoUserPoolIdentityProvider
-import com.sudoplatform.sudouser.exceptions.ApiErrorCode
 import com.sudoplatform.sudouser.exceptions.RegisterException
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -40,21 +39,20 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                 if (exception != null) {
                     val message = exception.message
                     if (message != null) {
-                        val errorCode = getErrorCode(message)
-                        if (errorCode != null) {
-                            when {
-                                errorCode === ApiErrorCode.NOT_AUTHORIZED -> {
-                                    cont.resumeWithException(RegisterException.NotAuthorizedException(message))
-                                }
-                                errorCode === ApiErrorCode.INVALID_INPUT -> {
-                                    cont.resumeWithException(RegisterException.InvalidInputException(message))
-                                }
-                                errorCode === ApiErrorCode.SERVER_ERROR -> {
-                                    cont.resumeWithException(RegisterException.ServerException(message))
-                                }
-                            }
+                        if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SERVICE_ERROR)) {
+                            cont.resumeWithException(RegisterException.ServerException(message))
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_MISSING_REQUIRED_INPUT)
+                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_DECODING_ERROR)) {
+                            cont.resumeWithException(RegisterException.InvalidInputException(message))
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SAFETY_NET_CHECK_FAILED)
+                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED)
+                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_TEST_REG_CHECK_FAILED)
+                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
+                            cont.resumeWithException(RegisterException.NotAuthorizedException(message))
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_ALREADY_REGISTERED)) {
+                            cont.resumeWithException(RegisterException.AlreadyRegisteredException(message))
                         } else {
-                            cont.resumeWithException(RegisterException.FailedException(cause = exception))
+                            cont.resumeWithException(RegisterException.FailedException(message))
                         }
                     } else {
                         cont.resumeWithException(RegisterException.FailedException(cause = exception))
@@ -64,20 +62,6 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                 }
             }
 
-            private fun getErrorCode(message: String): ApiErrorCode? {
-                if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SERVICE_ERROR)) {
-                    return ApiErrorCode.SERVER_ERROR
-                } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_MISSING_REQUIRED_INPUT)
-                    || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_DECODING_ERROR)) {
-                    return ApiErrorCode.INVALID_INPUT
-                } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SAFETY_NET_CHECK_FAILED)
-                    || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED)
-                    || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_TEST_REG_CHECK_FAILED)
-                    || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
-                    return ApiErrorCode.NOT_AUTHORIZED
-                }
-                return null
-            }
         }
     )
 }

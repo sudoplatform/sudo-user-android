@@ -208,6 +208,7 @@ internal class CognitoUserPoolIdentityProvider(
         const val SERVICE_ERROR_TEST_REG_CHECK_FAILED = "sudoplatform.identity.TestRegCheckFailed"
         const val SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED =
             "sudoplatform.identity.ChallengeTypeNotSupported"
+        const val SERVICE_ERROR_ALREADY_REGISTERED = "sudoplatform.identity.AlreadyRegistered"
     }
 
     /**

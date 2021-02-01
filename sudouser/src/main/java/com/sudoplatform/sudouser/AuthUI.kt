@@ -11,8 +11,7 @@ import android.net.Uri
 import com.amazonaws.mobileconnectors.cognitoauth.Auth
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler
-import com.sudoplatform.sudouser.exceptions.ApiErrorCode
-import com.sudoplatform.sudouser.exceptions.ApiException
+import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import org.json.JSONObject
 import java.util.*
 
@@ -150,8 +149,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
-                            ApiException(
-                                ApiErrorCode.FATAL_ERROR,
+                            AuthenticationException.FailedException(
                                 "Authentication tokens missing."
                             )
                         )
@@ -225,8 +223,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
-                            ApiException(
-                                ApiErrorCode.FATAL_ERROR,
+                            AuthenticationException.FailedException(
                                 "Authentication tokens missing."
                             )
                         )

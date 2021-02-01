@@ -9,7 +9,7 @@ package com.sudoplatform.sudouser
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import org.json.JSONObject
-import java.util.Date
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 /**
@@ -137,8 +137,9 @@ data class JWT(
             )
         )
 
-        val payload= mutableMapOf(
-            JTI to this.id,
+        val id = this.id ?: UUID.randomUUID().toString()
+        val payload: MutableMap<String, Any> = mutableMapOf<String, Any>(
+            JTI to id,
             ISS to this.issuer,
             AUD to this.audience,
             SUB to this.subject,
@@ -150,13 +151,15 @@ data class JWT(
             payload[NBF] = TimeUnit.MILLISECONDS.toSeconds(this.notValidBefore.time)
         }
 
+        this.payload.keys().forEach { payload[it] = this.payload[it] }
+
         val encodedHeader = Base64.encodeToString(
             headers.toString().toByteArray(),
             Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
         )
 
         val encodedPayload = Base64.encodeToString(
-            JSONObject(payload).toString().toByteArray(),
+            JSONObject(payload as Map<*, *>).toString().toByteArray(),
             Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
         )
 

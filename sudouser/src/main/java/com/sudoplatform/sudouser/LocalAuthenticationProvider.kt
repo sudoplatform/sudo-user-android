@@ -8,6 +8,7 @@ package com.sudoplatform.sudouser
 
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
+import org.json.JSONObject
 import org.spongycastle.asn1.x509.SubjectPublicKeyInfo
 import java.security.KeyFactory
 import java.security.interfaces.RSAPrivateCrtKey
@@ -46,6 +47,7 @@ class LocalAuthenticationInfo(private val jwt: String, private val username: Str
  * @param keyManager [KeyManagerInterface] instance to use for signing authentication info.
  * @param keyId key ID of the private key used to sign the authentication info.
  * @param username username be associated with the issued authentication info.
+ * @param customAttributes custom attributes to add to the issued authentication info.
  */
 class LocalAuthenticationProvider(
     private val name: String,
@@ -53,7 +55,8 @@ class LocalAuthenticationProvider(
     publicKey: String?,
     private val keyManager: KeyManagerInterface,
     private val keyId: String,
-    private val username: String
+    private val username: String,
+    private val customAttributes: Map<String, Any>? = null
 ) :
     AuthenticationProvider {
 
@@ -98,7 +101,7 @@ class LocalAuthenticationProvider(
     }
 
     override suspend fun getAuthenticationInfo(): AuthenticationInfo {
-        val jwt = JWT(this.name, AUDIENCE, this.username, UUID.randomUUID().toString())
+        val jwt = JWT(this.name, AUDIENCE, this.username, UUID.randomUUID().toString(), payload = if (this.customAttributes != null) JSONObject(this.customAttributes) else JSONObject())
         return LocalAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId), this.username)
     }
 

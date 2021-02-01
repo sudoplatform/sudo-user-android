@@ -25,12 +25,10 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.json.JSONArray
 import org.json.JSONObject
-import java.security.PrivateKey
 import java.util.*
 import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
 import com.sudoplatform.sudouser.extensions.toRegistrationException
-import com.sudoplatform.sudouser.extensions.toApiException
 
 /**
  * Supported symmetric key algorithms.
@@ -167,12 +165,12 @@ interface SudoUserClient {
                 this.context,
                 this.namespace ?: "ids",
                 this.logger ?: DefaultLogger.instance,
-                this.config ?: null,
-                this.keyManager ?: null,
-                this.identityProvider ?: null,
-                this.apiClient ?: null,
-                this.credentialsProvider ?: null,
-                this.authUI ?: null,
+                this.config,
+                this.keyManager,
+                this.identityProvider,
+                this.apiClient,
+                this.credentialsProvider,
+                this.authUI,
                 this.idGenerator ?: IdGenerateImpl()
             )
         }
@@ -222,28 +220,6 @@ interface SudoUserClient {
         registrationId: String?
     ): String
 
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("registerWithSafetyNetAttestation(attestationResult, nonce, registrationId)"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * Registers this client against the backend with a SafetyNet attestation result.
-     *
-     * @param attestationResult SafetyNet attestation result.
-     * @param nonce nonce used to generate SafetyNet attestation result. This should be unique for each device so
-     *  use UUID or Android ID.
-     * @param registrationId registration ID to uniquely identify this registration request.
-     * @param callback callback for returning registration result containing the newly created user's ID or error.
-     * @Throws(ApiException::class)
-     */
-    fun registerWithSafetyNetAttestation(
-        attestationResult: String,
-        nonce: String,
-        registrationId: String?,
-        callback: (RegisterResult) -> Unit
-    )
-
     /**
      * Registers this client against the backend with an external authentication provider. Caller must
      * implement [AuthenticationProvider] protocol to return appropriate authentication token required
@@ -259,43 +235,11 @@ interface SudoUserClient {
         registrationId: String?
     ): String
 
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("registerWithAuthenticationProvider(authenticationProvider, registrationId)"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * Registers this client against the backend with an external authentication provider. Caller must
-     * implement [AuthenticationProvider] protocol to return appropriate authentication token required
-     * to authorize the registration request.
-     *
-     * @param authenticationProvider authentication provider that provides the authentication token.
-     * @param registrationId registration ID to uniquely identify this registration request.
-     * @param callback callback for returning registration result containing the newly created user's ID or error.
-     */
-    fun registerWithAuthenticationProvider(
-        authenticationProvider: AuthenticationProvider,
-        registrationId: String?,
-        callback: (RegisterResult) -> Unit
-    )
-
     /**
      * De-registers a user.
      */
     @Throws(DeregisterException::class)
     suspend fun deregister()
-
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("deregister()"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * De-registers a user.
-     *
-     * @param callback callback for returning success or error.
-     */
-    fun deregister(callback: (ApiResult) -> Unit)
 
     /**
      * Sign into the backend using a private key. The client must have created a private/public key pair via
@@ -305,20 +249,6 @@ interface SudoUserClient {
      */
     @Throws(AuthenticationException::class)
     suspend fun signInWithKey(): AuthenticationTokens
-
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("signInWithKey()"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * Sign into the backend using a private key. The client must have created a private/public key pair via
-     * one of the *register* methods.
-     *
-     * @param callback callback for returning sign in result containing ID, access and refresh token or error.
-     * @Throws(ApiException::class)
-     */
-    fun signInWithKey(callback: (SignInResult) -> Unit)
 
     /**
      * Presents the sign in UI for federated sign in using an external identity provider.
@@ -361,18 +291,6 @@ interface SudoUserClient {
     @Throws(AuthenticationException::class)
     suspend fun refreshTokens(refreshToken: String): AuthenticationTokens
 
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("refreshTokens(refreshToken)"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * Refresh the access and ID tokens using the refresh token.
-     *
-     * @param callback callback for returning refresh token result containing ID, access and refresh token or error.
-     */
-    fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit)
-
     /**
      * Returns the ID token cached from the last sign-in.
      *
@@ -407,13 +325,6 @@ interface SudoUserClient {
      * @return refresh token expiry.
      */
     fun getRefreshTokenExpiry(): Date?
-
-    @Deprecated(
-        message = "This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("getUserName()"),
-        level = DeprecationLevel.WARNING
-    )
-    fun getUserId(): String?
 
     /**
      * Returns the user name associated with this client. The username maybe needed to contact
@@ -477,18 +388,6 @@ interface SudoUserClient {
      */
     @Throws(SignOutException::class)
     suspend fun globalSignOut()
-
-    @Deprecated(
-        message ="This is deprecated and will be removed in the future.",
-        replaceWith = ReplaceWith("globalSignOut()"),
-        level = DeprecationLevel.WARNING
-    )
-    /**
-     * Signs out the user from all devices.
-     *
-     * @param callback callback for returning successful result or error.
-     */
-    fun globalSignOut(callback: (ApiResult) -> Unit)
 
     /**
      * Returns the logins to use for accessing other Sudo Platform services. You must be signed in to get
@@ -757,25 +656,7 @@ class DefaultSudoUserClient(
 
     override fun isRegistered(): Boolean {
         val uid = this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))
-
-        val userKeyId =
-            this.keyManager.getPassword(namespace(KEY_NAME_USER_KEY_ID))?.toString(Charsets.UTF_8)
-        var privateKey: PrivateKey? = null
-        var publicKey: java.security.PublicKey? = null
-        if (userKeyId != null) {
-            privateKey = this.keyManager.getPrivateKey(userKeyId)
-            publicKey = this.keyManager.getPublicKey(userKeyId)
-        }
-
-        val symmetricKeyId =
-            this.keyManager.getPassword(namespace(KEY_NAME_SYMMETRIC_KEY_ID))
-                ?.toString(Charsets.UTF_8)
-        var symmetricKey: ByteArray? = null
-        if (symmetricKeyId != null) {
-            symmetricKey = this.keyManager.getSymmetricKeyData(symmetricKeyId)
-        }
-
-        return uid != null && privateKey != null && publicKey != null && symmetricKey != null
+        return uid != null
     }
 
     override fun isSignedIn(): Boolean {
@@ -852,23 +733,6 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun registerWithSafetyNetAttestation(
-        attestationResult: String,
-        nonce: String,
-        registrationId: String?,
-        callback: (RegisterResult) -> Unit
-    ) {
-        this.logger.info("Registering using registration challenge.")
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val userId = registerWithSafetyNetAttestation(attestationResult, nonce, registrationId)
-                callback(RegisterResult.Success(userId))
-            } catch (e: RegisterException) {
-                toApiException(e)?.let { callback(RegisterResult.Failure(it)) }?: callback(RegisterResult.Failure(e))
-            }
-        }
-    }
-
     override suspend fun registerWithAuthenticationProvider(
         authenticationProvider: AuthenticationProvider,
         registrationId: String?
@@ -907,22 +771,6 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun registerWithAuthenticationProvider(
-        authenticationProvider: AuthenticationProvider,
-        registrationId: String?,
-        callback: (RegisterResult) -> Unit
-    ) {
-        this.logger.info("Registering using external authentication provider.")
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val userId = registerWithAuthenticationProvider(authenticationProvider, registrationId)
-                callback(RegisterResult.Success(userId))
-            } catch (e: RegisterException) {
-                toApiException(e)?.let { callback(RegisterResult.Failure(it)) }?: callback(RegisterResult.Failure(e))
-            }
-        }
-    }
-
     override suspend fun deregister() {
         this.logger.info("De-registering user.")
 
@@ -954,19 +802,6 @@ class DefaultSudoUserClient(
                     is DeregisterException -> throw t
                     else -> throw DeregisterException.FailedException(cause = t)
                 }
-            }
-        }
-    }
-
-    override fun deregister(callback: (ApiResult) -> Unit) {
-        this.logger.info("De-registering user.")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                deregister()
-                callback(ApiResult.Success)
-            } catch (e: DeregisterException) {
-                toApiException(e)?.let { callback(ApiResult.Failure(it)) }?: callback(ApiResult.Failure(e))
             }
         }
     }
@@ -1014,18 +849,6 @@ class DefaultSudoUserClient(
         } else {
             this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
             throw AuthenticationException.NotRegisteredException("Not registered.")
-        }
-    }
-
-    override fun signInWithKey(callback: (SignInResult) -> Unit) {
-        this.logger.info("Signing in using private key.")
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val authenticationResult = signInWithKey()
-                callback(toSuccessfulSignInResult(authenticationResult))
-            } catch (e: AuthenticationException) {
-                toApiException(e)?.let { callback(SignInResult.Failure(it)) }?: callback(SignInResult.Failure(e))
-            }
         }
     }
 
@@ -1137,40 +960,35 @@ class DefaultSudoUserClient(
         val authInfo = authenticationProvider.getAuthenticationInfo()
         val uid = authInfo.getUsername()
 
-        if (uid != null) {
-            val parameters = mapOf(
-                SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
-                SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode()
+        val parameters = mapOf(
+            SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
+            SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode()
+        )
+
+        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+
+        try {
+            val authenticationTokens = this.identityProvider.signIn(uid, parameters)
+
+            this.storeTokens(
+                authenticationTokens.idToken,
+                authenticationTokens.accessToken,
+                authenticationTokens.refreshToken,
+                authenticationTokens.lifetime
             )
 
-            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+            this.credentialsProvider.logins = this.getLogins()
+            this.credentialsProvider.refresh()
 
-            try {
-                val authenticationTokens = this.identityProvider.signIn(uid, parameters)
-
-                this.storeTokens(
-                    authenticationTokens.idToken,
-                    authenticationTokens.accessToken,
-                    authenticationTokens.refreshToken,
-                    authenticationTokens.lifetime
-                )
-
-                this.credentialsProvider.logins = this.getLogins()
-                this.credentialsProvider.refresh()
-
-                return this.registerFederatedIdAndRefreshTokens(
-                    authenticationTokens.idToken,
-                    authenticationTokens.accessToken,
-                    authenticationTokens.refreshToken,
-                    authenticationTokens.lifetime
-                )
-            } catch (e: AuthenticationException) {
-                signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
-                throw e
-            }
-        } else {
-            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
-            throw AuthenticationException.NotRegisteredException("Not registered.")
+            return this.registerFederatedIdAndRefreshTokens(
+                authenticationTokens.idToken,
+                authenticationTokens.accessToken,
+                authenticationTokens.refreshToken,
+                authenticationTokens.lifetime
+            )
+        } catch (e: AuthenticationException) {
+            signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+            throw e
         }
     }
 
@@ -1201,19 +1019,6 @@ class DefaultSudoUserClient(
         } catch (e: AuthenticationException) {
             this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
             throw e
-        }
-    }
-
-    override fun refreshTokens(refreshToken: String, callback: (SignInResult) -> Unit) {
-        this.logger.info("Refreshing authentication tokens.")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val refreshTokenResult = refreshTokens(refreshToken)
-                callback(toSuccessfulSignInResult(refreshTokenResult))
-            } catch (e: AuthenticationException) {
-                toApiException(e)?.let { callback(SignInResult.Failure(it)) }?: callback(SignInResult.Failure(e))
-            }
         }
     }
 
@@ -1309,10 +1114,6 @@ class DefaultSudoUserClient(
         return expiry
     }
 
-    override fun getUserId(): String? {
-        return this.getUserName()
-    }
-
     override fun getUserName(): String? {
         return this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))?.toString(Charsets.UTF_8)
     }
@@ -1384,17 +1185,6 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun globalSignOut(callback: (ApiResult) -> Unit) {
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                globalSignOut()
-                callback(ApiResult.Success)
-            } catch (e: SignOutException) {
-                toApiException(e)?.let { callback(ApiResult.Failure(it)) }?: callback(ApiResult.Failure(e))
-            }
-        }
-    }
-
     override fun getCredentialsProvider(): CognitoCredentialsProvider {
         return this.credentialsProvider
     }
@@ -1425,14 +1215,6 @@ class DefaultSudoUserClient(
         this.signInStatusObservers.remove(id)
     }
 
-    /**
-     * Stores authentication tokens in the key store.fx
-     *
-     * @param idToken ID token.
-     * @param accessToken access token.
-     * @param refreshToken refresh token.
-     * @param lifetime token lifetime in seconds.
-     */
     /**
      * Stores authentication tokens in the key store.
      *

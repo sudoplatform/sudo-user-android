@@ -7,8 +7,6 @@
 package com.sudoplatform.sudouser
 
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
-import com.sudoplatform.sudouser.exceptions.ApiErrorCode
-import com.sudoplatform.sudouser.exceptions.ApiException
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import kotlinx.coroutines.runBlocking
 import java.util.*
