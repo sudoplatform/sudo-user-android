@@ -335,6 +335,13 @@ interface SudoUserClient {
     fun getUserName(): String?
 
     /**
+     * Sets the user name associated with this client.
+     *
+     * @param name user name to set.
+     */
+    fun setUserName(name: String)
+
+    /**
      * Returns the subject of the user associated with this client.
      * Note: This is an internal method used by other Sudo platform SDKs.
      *
@@ -726,7 +733,7 @@ class DefaultSudoUserClient(
                 JSONObject(answerMetadata).toString()
 
             val userId = identityProvider.register(uid, parameters)
-            setUserId(userId)
+            this.setUserName(userId)
             return userId
         } else {
             throw RegisterException.AlreadyRegisteredException("Client is already registered.")
@@ -764,7 +771,7 @@ class DefaultSudoUserClient(
             this.generateSymmetricKey()
 
             val userId = identityProvider.register(uid, parameters)
-            setUserId(userId)
+            this.setUserName(userId)
             return userId
         } else {
             throw RegisterException.AlreadyRegisteredException("Client is already registered.")
@@ -977,6 +984,8 @@ class DefaultSudoUserClient(
                 authenticationTokens.lifetime
             )
 
+            this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
+
             this.credentialsProvider.logins = this.getLogins()
             this.credentialsProvider.refresh()
 
@@ -1118,6 +1127,11 @@ class DefaultSudoUserClient(
         return this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))?.toString(Charsets.UTF_8)
     }
 
+    override fun setUserName(name: String) {
+        this.keyManager.deletePassword(namespace(KEY_NAME_USER_ID))
+        this.keyManager.addPassword(name.toByteArray(), namespace(KEY_NAME_USER_ID))
+    }
+
     override fun getSubject(): String? {
         return this.getUserClaim("sub") as? String
     }
@@ -1251,11 +1265,6 @@ class DefaultSudoUserClient(
             "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
             namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         )
-    }
-
-    private fun setUserId(id: String) {
-        this.keyManager.deletePassword(namespace(KEY_NAME_USER_ID))
-        this.keyManager.addPassword(id.toByteArray(), namespace(KEY_NAME_USER_ID))
     }
 
     private suspend fun registerFederatedIdAndRefreshTokens(
