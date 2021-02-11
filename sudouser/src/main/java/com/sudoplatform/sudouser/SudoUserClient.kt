@@ -887,15 +887,23 @@ class DefaultSudoUserClient(
                     }
 
                     this.credentialsProvider.logins = this.getLogins()
-                    this.credentialsProvider.refresh()
+                    CoroutineScope(Dispatchers.IO).launch {
+                        this@DefaultSudoUserClient.credentialsProvider.refresh()
 
-                    this.registerFederatedIdAndRefreshTokens(
-                        result.idToken,
-                        result.accessToken,
-                        result.refreshToken,
-                        result.lifetime,
-                        callback
-                    )
+                        val authenticationTokens = this@DefaultSudoUserClient.registerFederatedIdAndRefreshTokens(
+                            result.idToken,
+                            result.accessToken,
+                            result.refreshToken,
+                            result.lifetime,
+                        )
+
+                        callback(SignInResult.Success(
+                            authenticationTokens.idToken,
+                            authenticationTokens.accessToken,
+                            authenticationTokens.refreshToken,
+                            authenticationTokens.lifetime,
+                        ))
+                    }
                 }
                 is FederatedSignInResult.Failure -> {
                     callback(SignInResult.Failure(result.error))
@@ -1308,34 +1316,6 @@ class DefaultSudoUserClient(
                 else -> throw RegisterException.FailedException(cause = t)
             }
         }
-    }
-
-    private fun registerFederatedIdAndRefreshTokens(
-        idToken: String,
-        accessToken: String,
-        refreshToken: String,
-        lifetime: Int,
-        callback: (SignInResult) -> Unit
-    ) {
-        this.logger.info("Registering federated ID.")
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val authenticationResult = registerFederatedIdAndRefreshTokens(idToken, accessToken, refreshToken, lifetime)
-                callback(toSuccessfulSignInResult(authenticationResult))
-            } catch (e: Exception) {
-                callback(SignInResult.Failure(e))
-            }
-        }
-    }
-
-    private fun toSuccessfulSignInResult(authenticationTokens: AuthenticationTokens): SignInResult.Success {
-        return SignInResult.Success(
-            authenticationTokens.idToken,
-            authenticationTokens.accessToken,
-            authenticationTokens.refreshToken,
-            authenticationTokens.lifetime
-        )
     }
 
     /**
