@@ -8,6 +8,7 @@ package com.sudoplatform.sudouser
 
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
+import org.json.JSONObject
 import org.spongycastle.asn1.x509.SubjectPublicKeyInfo
 import java.security.KeyFactory
 import java.security.interfaces.RSAPrivateCrtKey
@@ -45,13 +46,15 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
  * derived from the private key.
  * @param keyManager [KeyManagerInterface] instance to use for signing authentication info.
  * @param keyId key ID of the TEST registration key which is obtained from the admin console.
+ * @param customAttributes custom attributes to add to the issued authentication info.
  */
 class TESTAuthenticationProvider(
     private val name: String,
     privateKey: String,
     publicKey: String?,
     private val keyManager: KeyManagerInterface,
-    private val keyId: String = REGISTER_KEY_NAME
+    private val keyId: String = REGISTER_KEY_NAME,
+    private val customAttributes: Map<String, Any>? = null
     ) :
     AuthenticationProvider {
 
@@ -98,7 +101,7 @@ class TESTAuthenticationProvider(
     }
 
     override suspend fun getAuthenticationInfo(): AuthenticationInfo {
-        val jwt = JWT(TEST_REGISTRATION_ISSUER, TEST_REGISTRATION_AUDIENCE, "${this.name}-${UUID.randomUUID().toString()}", UUID.randomUUID().toString())
+        val jwt = JWT(TEST_REGISTRATION_ISSUER, TEST_REGISTRATION_AUDIENCE, "${this.name}-${UUID.randomUUID().toString()}", UUID.randomUUID().toString(), payload = if (this.customAttributes != null) JSONObject(this.customAttributes) else JSONObject())
         return TESTAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId))
     }
 
