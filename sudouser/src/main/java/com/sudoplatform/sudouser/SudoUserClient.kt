@@ -79,7 +79,7 @@ interface SudoUserClient {
      */
     class Builder(private val context: Context) {
         private var apiClient: AWSAppSyncClient? = null
-        private var namespace :String? = "ids"
+        private var namespace: String? = "ids"
         private var logger: Logger? = null
         private var config: JSONObject? = null
         private var keyManager: KeyManagerInterface? = null
@@ -578,7 +578,8 @@ class DefaultSudoUserClient(
 
         require(identityServiceConfig != null) { "Client configuration not found." }
 
-        this.keyManager = keyManager ?: KeyManagerFactory(context).createAndroidKeyManager()
+        this.keyManager =
+            keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(this.namespace)
         this.identityProvider = identityProvider ?: CognitoUserPoolIdentityProvider(
             identityServiceConfig,
             context,
@@ -662,7 +663,7 @@ class DefaultSudoUserClient(
     }
 
     override fun isRegistered(): Boolean {
-        val uid = this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))
+        val uid = this.keyManager.getPassword(KEY_NAME_USER_ID)
         return uid != null
     }
 
@@ -781,7 +782,7 @@ class DefaultSudoUserClient(
     override suspend fun deregister() {
         this.logger.info("De-registering user.")
 
-        if(!this.isRegistered()) {
+        if (!this.isRegistered()) {
             throw AuthenticationException.NotRegisteredException()
         }
 
@@ -793,7 +794,7 @@ class DefaultSudoUserClient(
 
                 val response = this.apiClient.mutate(mutation).enqueue()
 
-                if(response.hasErrors()) {
+                if (response.hasErrors()) {
                     throw response.errors().first().toDeregisterException()
                 }
 
@@ -817,7 +818,7 @@ class DefaultSudoUserClient(
         this.logger.info("Signing in using private key.")
 
         val uid = this.getUserName()
-        val userKeyId = this.keyManager.getPassword(namespace(KEY_NAME_USER_KEY_ID))
+        val userKeyId = this.keyManager.getPassword(KEY_NAME_USER_KEY_ID)
             ?.toString(Charsets.UTF_8)
 
         if (uid != null && userKeyId != null) {
@@ -864,13 +865,13 @@ class DefaultSudoUserClient(
             when (result) {
                 is FederatedSignInResult.Success -> {
                     this@DefaultSudoUserClient.keyManager.deletePassword(
-                        namespace(
-                            KEY_NAME_USER_ID
-                        )
+
+                        KEY_NAME_USER_ID
+
                     )
                     this@DefaultSudoUserClient.keyManager.addPassword(
                         result.username.toByteArray(),
-                        namespace(KEY_NAME_USER_ID)
+                        KEY_NAME_USER_ID
                     )
 
                     this@DefaultSudoUserClient.storeTokens(
@@ -890,19 +891,22 @@ class DefaultSudoUserClient(
                     CoroutineScope(Dispatchers.IO).launch {
                         this@DefaultSudoUserClient.credentialsProvider.refresh()
 
-                        val authenticationTokens = this@DefaultSudoUserClient.registerFederatedIdAndRefreshTokens(
-                            result.idToken,
-                            result.accessToken,
-                            result.refreshToken,
-                            result.lifetime,
-                        )
+                        val authenticationTokens =
+                            this@DefaultSudoUserClient.registerFederatedIdAndRefreshTokens(
+                                result.idToken,
+                                result.accessToken,
+                                result.refreshToken,
+                                result.lifetime,
+                            )
 
-                        callback(SignInResult.Success(
-                            authenticationTokens.idToken,
-                            authenticationTokens.accessToken,
-                            authenticationTokens.refreshToken,
-                            authenticationTokens.lifetime,
-                        ))
+                        callback(
+                            SignInResult.Success(
+                                authenticationTokens.idToken,
+                                authenticationTokens.accessToken,
+                                authenticationTokens.refreshToken,
+                                authenticationTokens.lifetime,
+                            )
+                        )
                     }
                 }
                 is FederatedSignInResult.Failure -> {
@@ -916,18 +920,21 @@ class DefaultSudoUserClient(
         this.authUI?.presentFederatedSignOutUI(callback)
     }
 
-    override fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit) {
+    override fun processFederatedSignInTokens(
+        data: Uri,
+        callback: (FederatedSignInResult) -> Unit
+    ) {
         this.authUI?.processFederatedSignInTokens(data) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
                     this@DefaultSudoUserClient.keyManager.deletePassword(
-                        namespace(
-                            KEY_NAME_USER_ID
-                        )
+
+                        KEY_NAME_USER_ID
+
                     )
                     this@DefaultSudoUserClient.keyManager.addPassword(
                         result.username.toByteArray(),
-                        namespace(KEY_NAME_USER_ID)
+                        KEY_NAME_USER_ID
                     )
 
                     this@DefaultSudoUserClient.storeTokens(
@@ -1026,27 +1033,25 @@ class DefaultSudoUserClient(
             this.credentialsProvider.logins = this.getLogins()
             this.credentialsProvider.refresh()
 
-            this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
-            return AuthenticationTokens(
-                    refreshTokenResult.idToken,
-                    refreshTokenResult.accessToken,
-                    refreshTokenResult.refreshToken,
-                    refreshTokenResult.lifetime
+            this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                it.signInStatusChanged(
+                    SignInStatus.SIGNED_IN
                 )
+            }
+            return AuthenticationTokens(
+                refreshTokenResult.idToken,
+                refreshTokenResult.accessToken,
+                refreshTokenResult.refreshToken,
+                refreshTokenResult.lifetime
+            )
         } catch (e: AuthenticationException) {
-            this@DefaultSudoUserClient.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+            this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
+                it.signInStatusChanged(
+                    SignInStatus.NOT_SIGNED_IN
+                )
+            }
             throw e
         }
-    }
-
-    /**
-     * Namespace the name (key name, parameter name etc).
-     *
-     * @param name name to convert.
-     * @return name prefixed with namespace.
-     */
-    private fun namespace(name: String): String {
-        return this.namespace + "." + name
     }
 
     /**
@@ -1056,15 +1061,15 @@ class DefaultSudoUserClient(
      */
     private fun generateRegistrationData(): PublicKey {
         // Delete existing key.
-        val userKeyId = this.keyManager.getPassword(namespace(KEY_NAME_USER_KEY_ID))?.toString(Charsets.UTF_8)
+        val userKeyId = this.keyManager.getPassword(KEY_NAME_USER_KEY_ID)?.toString(Charsets.UTF_8)
         if (userKeyId != null) {
             this.keyManager.deleteKeyPair(userKeyId)
-            this.keyManager.deletePassword(namespace(KEY_NAME_USER_KEY_ID))
+            this.keyManager.deletePassword(KEY_NAME_USER_KEY_ID)
         }
 
         // Generate and store user's key ID.
         val keyId = this.idGenerator.generateId().toUpperCase(Locale.US)
-        this.keyManager.addPassword(keyId.toByteArray(), namespace(KEY_NAME_USER_KEY_ID))
+        this.keyManager.addPassword(keyId.toByteArray(), KEY_NAME_USER_KEY_ID)
 
         // Generate a new key pair for authentication and encryption.
         this.keyManager.generateKeyPair(keyId)
@@ -1080,28 +1085,28 @@ class DefaultSudoUserClient(
         val symmetricKeyId = this.getSymmetricKeyId()
         if (symmetricKeyId != null) {
             this.keyManager.deleteSymmetricKey(symmetricKeyId)
-            this.keyManager.deletePassword(namespace(KEY_NAME_SYMMETRIC_KEY_ID))
+            this.keyManager.deletePassword(KEY_NAME_SYMMETRIC_KEY_ID)
         }
 
         // Generate and store symmetric key ID.
         val keyId = this.idGenerator.generateId().toUpperCase(Locale.US)
-        this.keyManager.addPassword(keyId.toByteArray(), namespace(KEY_NAME_SYMMETRIC_KEY_ID))
+        this.keyManager.addPassword(keyId.toByteArray(), KEY_NAME_SYMMETRIC_KEY_ID)
 
         // Generate symmetric key for encrypting secrets.
         this.keyManager.generateSymmetricKey(keyId)
     }
 
     override fun getIdToken(): String? {
-        return this.keyManager.getPassword(namespace(KEY_NAME_ID_TOKEN))?.toString(Charsets.UTF_8)
+        return this.keyManager.getPassword(KEY_NAME_ID_TOKEN)?.toString(Charsets.UTF_8)
     }
 
     override fun getAccessToken(): String? {
-        return this.keyManager.getPassword(namespace(KEY_NAME_ACCESS_TOKEN))
+        return this.keyManager.getPassword(KEY_NAME_ACCESS_TOKEN)
             ?.toString(Charsets.UTF_8)
     }
 
     override fun getRefreshToken(): String? {
-        return this.keyManager.getPassword(namespace(KEY_NAME_REFRESH_TOKEN))
+        return this.keyManager.getPassword(KEY_NAME_REFRESH_TOKEN)
             ?.toString(Charsets.UTF_8)
     }
 
@@ -1109,7 +1114,7 @@ class DefaultSudoUserClient(
         var expiry: Date? = null
 
         val timeSinceEpoch =
-            this.keyManager.getPassword(namespace(KEY_NAME_TOKEN_EXPIRY))?.toString(Charsets.UTF_8)
+            this.keyManager.getPassword(KEY_NAME_TOKEN_EXPIRY)?.toString(Charsets.UTF_8)
                 ?.toLong()
         if (timeSinceEpoch != null) {
             expiry = Date(timeSinceEpoch)
@@ -1122,7 +1127,7 @@ class DefaultSudoUserClient(
         var expiry: Date? = null
 
         val timeSinceEpoch =
-            this.keyManager.getPassword(namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY))?.toString(Charsets.UTF_8)
+            this.keyManager.getPassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)?.toString(Charsets.UTF_8)
                 ?.toLong()
         if (timeSinceEpoch != null) {
             expiry = Date(timeSinceEpoch)
@@ -1132,12 +1137,12 @@ class DefaultSudoUserClient(
     }
 
     override fun getUserName(): String? {
-        return this.keyManager.getPassword(namespace(KEY_NAME_USER_ID))?.toString(Charsets.UTF_8)
+        return this.keyManager.getPassword(KEY_NAME_USER_ID)?.toString(Charsets.UTF_8)
     }
 
     override fun setUserName(name: String) {
-        this.keyManager.deletePassword(namespace(KEY_NAME_USER_ID))
-        this.keyManager.addPassword(name.toByteArray(), namespace(KEY_NAME_USER_ID))
+        this.keyManager.deletePassword(KEY_NAME_USER_ID)
+        this.keyManager.addPassword(name.toByteArray(), KEY_NAME_USER_ID)
     }
 
     override fun getSubject(): String? {
@@ -1145,7 +1150,7 @@ class DefaultSudoUserClient(
     }
 
     override fun getSymmetricKeyId(): String? {
-        return this.keyManager.getPassword(namespace(KEY_NAME_SYMMETRIC_KEY_ID))
+        return this.keyManager.getPassword(KEY_NAME_SYMMETRIC_KEY_ID)
             ?.toString(Charsets.UTF_8)
     }
 
@@ -1182,10 +1187,10 @@ class DefaultSudoUserClient(
     }
 
     override fun clearAuthTokens() {
-        this.keyManager.deletePassword(namespace(KEY_NAME_ID_TOKEN))
-        this.keyManager.deletePassword(namespace(KEY_NAME_ACCESS_TOKEN))
-        this.keyManager.deletePassword(namespace(KEY_NAME_REFRESH_TOKEN))
-        this.keyManager.deletePassword(namespace(KEY_NAME_TOKEN_EXPIRY))
+        this.keyManager.deletePassword(KEY_NAME_ID_TOKEN)
+        this.keyManager.deletePassword(KEY_NAME_ACCESS_TOKEN)
+        this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN)
+        this.keyManager.deletePassword(KEY_NAME_TOKEN_EXPIRY)
 
         this.authUI?.reset()
     }
@@ -1251,27 +1256,27 @@ class DefaultSudoUserClient(
         refreshToken: String,
         lifetime: Int
     ) {
-        this.keyManager.deletePassword(namespace(KEY_NAME_ID_TOKEN))
-        this.keyManager.addPassword(idToken.toByteArray(), namespace(KEY_NAME_ID_TOKEN))
+        this.keyManager.deletePassword(KEY_NAME_ID_TOKEN)
+        this.keyManager.addPassword(idToken.toByteArray(), KEY_NAME_ID_TOKEN)
 
-        this.keyManager.deletePassword(namespace(KEY_NAME_ACCESS_TOKEN))
-        this.keyManager.addPassword(accessToken.toByteArray(), namespace(KEY_NAME_ACCESS_TOKEN))
+        this.keyManager.deletePassword(KEY_NAME_ACCESS_TOKEN)
+        this.keyManager.addPassword(accessToken.toByteArray(), KEY_NAME_ACCESS_TOKEN)
 
-        this.keyManager.deletePassword(namespace(KEY_NAME_REFRESH_TOKEN))
-        this.keyManager.addPassword(refreshToken.toByteArray(), namespace(KEY_NAME_REFRESH_TOKEN))
+        this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN)
+        this.keyManager.addPassword(refreshToken.toByteArray(), KEY_NAME_REFRESH_TOKEN)
 
-        this.keyManager.deletePassword(namespace(KEY_NAME_TOKEN_EXPIRY))
+        this.keyManager.deletePassword(KEY_NAME_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${lifetime * 1000 + Date().time}".toByteArray(),
-            namespace(KEY_NAME_TOKEN_EXPIRY)
+            KEY_NAME_TOKEN_EXPIRY
         )
     }
 
     private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
-        this.keyManager.deletePassword(namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY))
+        this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
-            namespace(KEY_NAME_REFRESH_TOKEN_EXPIRY)
+            KEY_NAME_REFRESH_TOKEN_EXPIRY
         )
     }
 
