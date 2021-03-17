@@ -6,15 +6,30 @@
             ]]></notes>
         <cve>CVE-2018-20200</cve>
     </suppress>
-    <suppress until="2020-10-12">
+    <suppress until="2021-05-15">
         <notes><![CDATA[
             Kotlin script is not used in the Sudo Platform User SDK. Set suppression to expire in
-            2 months. We can re-evaluate and possible move to Kotlin 1.4.0 if it's out of RC by then.
+            2 months.
             ]]></notes>
         <cve>CVE-2020-15824</cve>
     </suppress>
-    <suppress until="2020-10-12">
-        <notes>Kotlin analysis is only used during documentation generation</notes>
-        <cve>CVE-2015-5237</cve>
+    <suppress until="2021-05-15">
+        <notes>
+            <![CDATA[
+            vulnerability is A comparison error in OpenBSDBCrypt.checkPassword(). checkPassword is not used.
+            ]]>
+        </notes>
+        <cve>CVE-2020-28052</cve>
+    </suppress>
+    <suppress until="2021-05-15">
+        <notes>
+            <![CDATA[
+            vulnerability is in a Java API used for temporary file and folder creation.
+            sudouser does not create temporary files or folders.
+            This may be a false positive given the CVE documentation says it was fixed in
+            kotlin V1.4.21 and we are using kotlin V1.4.30
+            ]]>
+        </notes>
+        <cve>CVE-2020-29582</cve>
     </suppress>
 </suppressions>
