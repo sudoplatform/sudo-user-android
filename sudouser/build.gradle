@@ -86,9 +86,9 @@ dependencies {
     implementation "com.amazonaws:aws-android-sdk-s3:$aws_version"
 
     // Sudo Platform SDKs.
-    implementation "com.sudoplatform:sudokeymanager:[3.7,)"
-    implementation "com.sudoplatform:sudologging:[1.0,)"
-    implementation "com.sudoplatform:sudoconfigmanager:[1.2.2,)"
+    implementation "com.sudoplatform:sudokeymanager:[3.7.0,4.0.0)"
+    implementation "com.sudoplatform:sudologging:[1.0.0,2.0.0)"
+    implementation "com.sudoplatform:sudoconfigmanager:[1.2.2,2.0.0)"
 
     implementation("com.appmattus.certificatetransparency:certificatetransparency-android:0.3.0")
 

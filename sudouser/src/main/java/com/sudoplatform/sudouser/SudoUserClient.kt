@@ -881,6 +881,8 @@ class DefaultSudoUserClient(
                         result.lifetime
                     )
 
+                    this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
+
                     // Generate the symmetric key if it has not been generated before.
                     val symmetricKeyId = this@DefaultSudoUserClient.getSymmetricKeyId()
                     if (symmetricKeyId == null) {
