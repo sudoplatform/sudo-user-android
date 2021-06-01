@@ -6,14 +6,14 @@
             ]]></notes>
         <cve>CVE-2018-20200</cve>
     </suppress>
-    <suppress until="2021-05-15">
+    <suppress until="2021-08-15">
         <notes><![CDATA[
             Kotlin script is not used in the Sudo Platform User SDK. Set suppression to expire in
             2 months.
             ]]></notes>
         <cve>CVE-2020-15824</cve>
     </suppress>
-    <suppress until="2021-05-15">
+    <suppress until="2021-08-15">
         <notes>
             <![CDATA[
             vulnerability is A comparison error in OpenBSDBCrypt.checkPassword(). checkPassword is not used.
@@ -21,7 +21,7 @@
         </notes>
         <cve>CVE-2020-28052</cve>
     </suppress>
-    <suppress until="2021-05-15">
+    <suppress until="2021-08-15">
         <notes>
             <![CDATA[
             vulnerability is in a Java API used for temporary file and folder creation.

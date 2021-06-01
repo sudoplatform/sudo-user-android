@@ -15,6 +15,15 @@ fun Error.toDeregisterException() : DeregisterException  {
     }
 }
 
+fun Error.toGlobalSignOutException() : GlobalSignOutException  {
+    return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVER_ERROR) {
+        GlobalSignOutException.ServerException("$this")
+    }
+    else {
+        GlobalSignOutException.GraphQLException("$this")
+    }
+}
+
 fun Error.toRegistrationException() : RegisterException  {
     return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVER_ERROR) {
         RegisterException.ServerException("$this")

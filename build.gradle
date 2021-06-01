@@ -1,10 +1,6 @@
-ext {
-    targetCompatibility = JavaVersion.VERSION_1_8
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext.kotlin_version = '1.4.30'
-    ext.appsync_version = "3.1.0"
+    ext.kotlin_version = '1.4.32'
+    ext.appsync_version = "3.1.1"
     ext.aws_version = "2.16.12"
     ext.dokka_version = '1.4.10'
 
@@ -14,47 +10,77 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.2'
+        classpath 'com.android.tools.build:gradle:4.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath "org.owasp:dependency-check-gradle:6.0.1"
+        classpath "org.owasp:dependency-check-gradle:6.1.1"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "com.amazonaws:aws-android-sdk-appsync-gradle-plugin:$appsync_version"
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
-        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.21.2"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"
         classpath "com.cookpad.android.licensetools:license-tools-plugin:1.7.0"
     }
 }
 
-apply plugin: 'io.codearte.nexus-staging'
+plugins {
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+}
+
+ext {
+    targetCompatibility = JavaVersion.VERSION_1_8
+    projectGroup = 'com.sudoplatform'
+}
+
+if(project.file("${rootProject.projectDir}/util/internal-repo.gradle").exists()) {
+    apply from: "${rootProject.projectDir}/util/internal-repo.gradle"
+}
+else {
+    ext["internalRepoUsername"] = ""
+    ext["internalRepoPassword"] = ""
+    ext["internalSnapshotRepoUrl"] = ""
+    ext["internalSnapshotRepoName"] = ""
+    ext["internalReleaseRepoUrl"] = ""
+    ext["internalReleaseRepoName"] = ""
+    ext["sonatypeStagingProfileId"] = ""
+}
+
+if (project.findProperty("tag") && sonatypeStagingProfileId) {
+    nexusPublishing {
+        repositories {
+            sonatype {
+                stagingProfileId = sonatypeStagingProfileId
+
+                username = nexusUsername
+                password = nexusPassword
+            }
+        }
+    }
+}
 
 allprojects {
     repositories {
         mavenLocal()
         google()
         mavenCentral()
-        if (project.hasProperty('nexusUsername')) {
+        jcenter() // Needed for Dokka dependencies
+        if (internalRepoUsername?.trim()) {
             maven {
-                name = "android-snapshots"
-                url = "https://repo.tools.anonyome.com/repository/android-snapshots/"
+                name = internalSnapshotRepoName
+                url = internalSnapshotRepoUrl
                 credentials {
-                    username = nexusUsername
-                    password = nexusPassword
+                    username = internalRepoUsername
+                    password = internalRepoPassword
                 }
             }
             maven {
-                name = "android-releases"
-                url = "https://repo.tools.anonyome.com/repository/android-releases/"
+                name = internalReleaseRepoName
+                url = internalReleaseRepoUrl
                 credentials {
-                    username = nexusUsername
-                    password = nexusPassword
+                    username = internalRepoUsername
+                    password = internalRepoPassword
                 }
             }
         }
-        //  the following line is required to access the dependency
-        //  org.jetbrains.trove4j:trove4j:20160824.
-        maven { url 'https://plugins.gradle.org/m2/' }
     }
     gradle.projectsEvaluated {
         tasks.withType(Test) {

@@ -14,7 +14,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
-        versionName "8.0.6"
+        versionName "9.3.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -78,23 +78,27 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${coroutine_version}"
 
-    // AWS SDKs.
-    implementation "com.amazonaws:aws-android-sdk-cognitoidentityprovider:$aws_version"
-    implementation "com.amazonaws:aws-android-sdk-cognitoauth:$aws_version"
-    implementation "com.amazonaws:aws-android-sdk-core:$aws_version"
-    implementation "com.amazonaws:aws-android-sdk-appsync:$appsync_version"
-    implementation "com.amazonaws:aws-android-sdk-s3:$aws_version"
+    // AWS SDKs
+    //
+    // AWS SDKs do not follow semantic versioning rules so we need to strictly specify AWS SDK versions.
+    // Follow the process at https://anonyome.atlassian.net/wiki/spaces/PLA/pages/840073287/AWS+Android+SDK+versions+to+use+for+platform+SDKs
+    // for updating AWS SDK versions.
+    implementation "com.amazonaws:aws-android-sdk-core:$aws_version!!"
+    implementation "com.amazonaws:aws-android-sdk-cognitoidentityprovider:$aws_version!!"
+    implementation "com.amazonaws:aws-android-sdk-cognitoauth:$aws_version!!"
+    implementation "com.amazonaws:aws-android-sdk-s3:$aws_version!!"
+    implementation "com.amazonaws:aws-android-sdk-appsync:$appsync_version!!"
 
     // Sudo Platform SDKs.
-    implementation "com.sudoplatform:sudokeymanager:[3.7.0,4.0.0)"
-    implementation "com.sudoplatform:sudologging:[1.0.0,2.0.0)"
-    implementation "com.sudoplatform:sudoconfigmanager:[1.2.2,2.0.0)"
+    implementation "com.sudoplatform:sudokeymanager:3.7.3"
+    implementation "com.sudoplatform:sudologging:1.0.25"
+    implementation "com.sudoplatform:sudoconfigmanager:1.2.3"
 
     implementation("com.appmattus.certificatetransparency:certificatetransparency-android:0.3.0")
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito:mockito-core:3.8.0'
+    testImplementation 'org.mockito:mockito-core:3.10.0'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0'
     testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
     testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
@@ -224,7 +228,6 @@ def props = new Properties()
 file("../secret.properties").withInputStream { props.load(it) }
 
 ext {
-    projectGroup = 'com.sudoplatform'
     projectArtifact = project.name
     projectDescription = 'User SDK for the Sudo Platform by Anonyome Labs.'
     projectUrl = 'https://github.com/sudoplatform/sudo-user-android'

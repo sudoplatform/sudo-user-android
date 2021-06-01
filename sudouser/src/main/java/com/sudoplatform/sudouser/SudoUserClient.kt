@@ -28,6 +28,7 @@ import org.json.JSONObject
 import java.util.*
 import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
+import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
 import com.sudoplatform.sudouser.extensions.toRegistrationException
 
 /**
@@ -1207,10 +1208,33 @@ class DefaultSudoUserClient(
     }
 
     override suspend fun globalSignOut() {
-        val accessToken = this.getAccessToken()
-        if (accessToken != null) {
-            this.identityProvider.globalSignOut(accessToken)
-            this.clearAuthTokens()
+        this.logger.info("Globally signing out user.")
+
+        if (!this.isSignedIn()) {
+            throw AuthenticationException.NotSignedInException()
+        }
+
+        try {
+            val mutation = GlobalSignOutMutation.builder().build()
+
+            val response = this.apiClient.mutate(mutation).enqueue()
+
+            if (response.hasErrors()) {
+                throw response.errors().first().toGlobalSignOutException()
+            }
+
+            val result = response.data()?.globalSignOut()
+            if (result != null) {
+                this.clearAuthTokens()
+                return
+            } else {
+                throw GlobalSignOutException.FailedException("Mutation succeeded but output was null.")
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is GlobalSignOutException -> throw t
+                else -> throw GlobalSignOutException.FailedException(cause = t)
+            }
         }
     }
 
