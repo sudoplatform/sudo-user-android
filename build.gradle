@@ -1,8 +1,8 @@
 buildscript {
-    ext.kotlin_version = '1.4.32'
+    ext.kotlin_version = '1.5.30'
     ext.appsync_version = "3.1.1"
     ext.aws_version = "2.16.12"
-    ext.dokka_version = '1.4.10'
+    ext.dokka_version = '1.5.0'
 
     repositories {
         maven { url "https://plugins.gradle.org/m2/" }
@@ -10,11 +10,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath "org.owasp:dependency-check-gradle:6.1.1"
+        classpath "org.owasp:dependency-check-gradle:6.3.1"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "com.amazonaws:aws-android-sdk-appsync-gradle-plugin:$appsync_version"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.1.1"

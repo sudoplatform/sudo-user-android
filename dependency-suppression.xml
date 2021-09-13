@@ -6,30 +6,46 @@
             ]]></notes>
         <cve>CVE-2018-20200</cve>
     </suppress>
-    <suppress until="2021-08-15">
+    <suppress until="2021-12-13">
         <notes><![CDATA[
-            Kotlin script is not used in the Sudo Platform User SDK. Set suppression to expire in
-            2 months.
-            ]]></notes>
-        <cve>CVE-2020-15824</cve>
+        file name: kotlin-analysis-intellij-1.5.0.jar (shaded: log4j:log4j:1.2.17)
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/log4j/log4j@.*$</packageUrl>
+        <cve>CVE-2020-9488</cve>
     </suppress>
-    <suppress until="2021-08-15">
-        <notes>
-            <![CDATA[
-            vulnerability is A comparison error in OpenBSDBCrypt.checkPassword(). checkPassword is not used.
-            ]]>
-        </notes>
+    <suppress until="2021-12-13"> 
+        <notes><![CDATA[
+        file name: kotlin-analysis-intellij-1.5.0.jar (shaded: log4j:log4j:1.2.17)
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/log4j/log4j@.*$</packageUrl>
+        <cve>CVE-2019-17571</cve>
+    </suppress>
+    <suppress until="2021-12-13">
+        <notes><![CDATA[
+        file name: kotlin-analysis-intellij-1.5.0.jar (shaded: com.google.guava:guava:29.0-jre)
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.google\.guava/guava@.*$</packageUrl>
+        <cve>CVE-2020-8908</cve>    
+    </suppress>
+    <suppress until="2021-12-13">
+        <notes><![CDATA[
+        file name: jsoup-1.13.1.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jsoup/jsoup@.*$</packageUrl>
+        <cve>CVE-2021-37714</cve>
+    </suppress>
+    <suppress until="2021-12-13">
+        <notes><![CDATA[
+        file name: bcprov-jdk15to18-1.66.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.bouncycastle/bcprov\-jdk15to18@.*$</packageUrl>
         <cve>CVE-2020-28052</cve>
     </suppress>
-    <suppress until="2021-08-15">
-        <notes>
-            <![CDATA[
-            vulnerability is in a Java API used for temporary file and folder creation.
-            sudouser does not create temporary files or folders.
-            This may be a false positive given the CVE documentation says it was fixed in
-            kotlin V1.4.21 and we are using kotlin V1.4.30
-            ]]>
-        </notes>
-        <cve>CVE-2020-29582</cve>
+    <suppress>
+        <notes><![CDATA[
+        file name: junit-4.12.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/junit/junit@.*$</packageUrl>
+        <cve>CVE-2020-15250</cve>
     </suppress>
 </suppressions>
