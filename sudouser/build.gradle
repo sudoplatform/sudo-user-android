@@ -77,6 +77,12 @@ ext {
 }
 
 dependencies {
+    configurations.all {
+        resolutionStrategy {
+            force 'junit:junit:4.13.2'
+        }
+    }
+
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
@@ -164,9 +170,7 @@ dokkaHtml {
 // Returns a list of `configurations` which should not be scanned for vulnerabilities
 def getConfigurationsToSkip = { configs ->
     configs.findAll {
-        it.name.startsWithAny("androidTest", "test", "lint") ||
-                it.name.contains("AndroidTest") ||
-                it.name.contains("UnitTest")
+        it.name.startsWithAny("lint")
     }.collect {
         it.name
     }
