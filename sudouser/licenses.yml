@@ -571,3 +571,21 @@
   license: Eclipse Public License 1.0
   licenseUrl: http://www.eclipse.org/legal/epl-v10.html
   url: http://junit.org
+- artifact: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:+
+  name: kotlinx-serialization-core
+  copyrightHolder: Jetbrains, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/Kotlin/kotlinx.serialization
+- artifact: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:+
+  name: kotlinx-serialization-json
+  copyrightHolder: Jetbrains, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/Kotlin/kotlinx.serialization
+- artifact: org.bouncycastle:bcutil-jdk15to18:+
+  name: Bouncy Castle ASN.1 Extension and Utility APIs
+  copyrightHolder: The JSR-330 Expert Group
+  license: Bouncy Castle Licence
+  licenseUrl: http://www.bouncycastle.org/licence.html
+  url: http://www.bouncycastle.org/java.html

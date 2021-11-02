@@ -14,7 +14,7 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.regions.Regions
 import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
-import com.babylon.certificatetransparency.certificateTransparencyInterceptor
+import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.exceptions.*
@@ -1353,15 +1353,7 @@ class DefaultSudoUserClient(
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
     private fun buildOkHttpClient(): OkHttpClient {
-        val interceptor = certificateTransparencyInterceptor {
-            // Enable for AWS hosts. The document says I can use *.* for all hosts
-            // but that enhancement hasn't been released yet (v0.2.0)
-            +"*.amazonaws.com"
-            +"*.amazon.com"
-
-            // Enabled for testing
-            +"*.badssl.com"
-        }
+        val interceptor = certificateTransparencyInterceptor {}
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
             // exponential backoff retrying of [AWSAppSyncClient]
