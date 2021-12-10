@@ -115,7 +115,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
 
         this.authBuilder = Auth.Builder().setApplicationContext(context)
             .setAppClientId(appClientId)
-            .setScopes(arrayOf("openid", "aws.cognito.signin.user.admin").toSet())
+            .setScopes(arrayOf("openid").toSet())
             .setAppCognitoWebDomain(webDomain)
             .setSignInRedirect(signInRedirectUri)
             .setSignOutRedirect(signOutRedirectUri)
