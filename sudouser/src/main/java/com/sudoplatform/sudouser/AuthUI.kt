@@ -6,6 +6,7 @@
 
 package com.sudoplatform.sudouser
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import com.amazonaws.mobileconnectors.cognitoauth.Auth
@@ -52,9 +53,10 @@ interface AuthUI {
     /**
      * Presents the sign in UI for federated sign in using an external identity provider.
      *
+     * @param activity activity to launch custom tabs from and to listen for the intent completions.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun presentFederatedSignInUI(callback: (FederatedSignInResult) -> Unit)
+    fun presentFederatedSignInUI(activity: Activity, callback: (FederatedSignInResult) -> Unit)
 
     /**
      * Presents the sign out UI for federated sign in using an external identity provider.
@@ -121,7 +123,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             .setSignOutRedirect(signOutRedirectUri)
     }
 
-    override fun presentFederatedSignInUI(callback: (FederatedSignInResult) -> Unit) {
+    override fun presentFederatedSignInUI(activity: Activity, callback: (FederatedSignInResult) -> Unit) {
         val auth = authBuilder.setAuthHandler(object : AuthHandler {
             override fun onSuccess(session: AuthUserSession) {
                 val idToken = session.idToken.jwtToken
@@ -170,7 +172,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             }
         }).build()
 
-        auth.getSession()
+        auth.getSession(activity)
     }
 
     override fun presentFederatedSignOutUI(callback: (ApiResult) -> Unit) {

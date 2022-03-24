@@ -6,6 +6,7 @@
 
 package com.sudoplatform.sudouser
 
+import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
@@ -30,34 +31,6 @@ import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
 import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
 import com.sudoplatform.sudouser.extensions.toRegistrationException
-
-/**
- * Supported symmetric key algorithms.
- */
-enum class SymmetricKeyEncryptionAlgorithm(private val stringValue: String) {
-    AES_CBC_PKCS7PADDING("AES/CBC/PKCS7Padding");
-
-    companion object {
-
-        fun fromString(stringValue: String): SymmetricKeyEncryptionAlgorithm? {
-            var value: SymmetricKeyEncryptionAlgorithm? = null
-            if (stringValue == "AES/CBC/PKCS7Padding") {
-                value =
-                    AES_CBC_PKCS7PADDING
-            }
-
-            return value
-        }
-
-    }
-
-    override fun toString(): String {
-        when (this) {
-            AES_CBC_PKCS7PADDING -> return this.stringValue
-        }
-    }
-
-}
 
 /**
  * Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
@@ -254,9 +227,10 @@ interface SudoUserClient {
     /**
      * Presents the sign in UI for federated sign in using an external identity provider.
      *
+     * @param activity activity to launch custom tabs from and to listen for the intent completions.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun presentFederatedSignInUI(callback: (SignInResult) -> Unit)
+    fun presentFederatedSignInUI(activity: Activity, callback: (SignInResult) -> Unit)
 
     /**
      * Sign into the backend  with an external authentication provider. Caller must implement `AuthenticationProvider`
@@ -349,42 +323,6 @@ interface SudoUserClient {
      * @return user subject.
      */
     fun getSubject(): String?
-
-    /**
-     * Get the Symmetric Key ID associated with this client. The Symmetric Key ID is generated during a register
-     * request and saved within the keychain for the current device.
-     *
-     * @return symmetric Key ID associated with the device.
-     */
-    fun getSymmetricKeyId(): String?
-
-    /**
-     * Encrypts the given data using the specified key and encryption algorithm.
-     *
-     * @param keyId ID of the encryption key to use.
-     * @param algorithm encryption algorithm to use.
-     * @param data data to encrypt.
-     * @return encrypted data.
-     */
-    fun encrypt(
-        keyId: String,
-        algorithm: SymmetricKeyEncryptionAlgorithm,
-        data: ByteArray
-    ): ByteArray
-
-    /**
-     * Encrypts the given data using the specified key and encryption algorithm.
-     *
-     * @param keyId ID of the encryption key to use.
-     * @param algorithm encryption algorithm to use.
-     * @param data data to decrypt.
-     * @return: decrypted data.
-     */
-    fun decrypt(
-        keyId: String,
-        algorithm: SymmetricKeyEncryptionAlgorithm,
-        data: ByteArray
-    ): ByteArray
 
     /**
      * Clears cached authentication tokens.
@@ -480,7 +418,6 @@ class DefaultSudoUserClient(
 ) : SudoUserClient {
 
     companion object {
-        private const val KEY_NAME_SYMMETRIC_KEY_ID = "symmetricKeyId"
         private const val KEY_NAME_USER_ID = "userId"
         private const val KEY_NAME_USER_KEY_ID = "userKeyId"
         private const val KEY_NAME_ID_TOKEN = "idToken"
@@ -571,11 +508,16 @@ class DefaultSudoUserClient(
     private val signInStatusObservers: MutableMap<String, SignInStatusObserver> = mutableMapOf()
 
     init {
-        val configManager = DefaultSudoConfigManager(context)
-
-        @Suppress("UNCHECKED_CAST")
-        val identityServiceConfig = config?.opt(CONFIG_NAMESPACE_IDENTITY_SERVICE) as JSONObject?
-            ?: configManager.getConfigSet(CONFIG_NAMESPACE_IDENTITY_SERVICE)
+        val identityServiceConfig: JSONObject?
+        val federatedSignInConfig: JSONObject?
+        if(config != null) {
+            identityServiceConfig = config.opt(CONFIG_NAMESPACE_IDENTITY_SERVICE) as JSONObject?
+            federatedSignInConfig = config.opt(CONFIG_NAMESPACE_FEDERATED_SIGN_IN) as JSONObject?
+        } else {
+            val configManager = DefaultSudoConfigManager(context)
+            identityServiceConfig = configManager.getConfigSet(CONFIG_NAMESPACE_IDENTITY_SERVICE)
+            federatedSignInConfig = configManager.getConfigSet(CONFIG_NAMESPACE_FEDERATED_SIGN_IN)
+        }
 
         require(identityServiceConfig != null) { "Client configuration not found." }
 
@@ -619,11 +561,6 @@ class DefaultSudoUserClient(
             .build()
 
         this.idGenerator = idGenerator
-
-        @Suppress("UNCHECKED_CAST")
-        val federatedSignInConfig =
-            config?.opt(CONFIG_NAMESPACE_FEDERATED_SIGN_IN) as JSONObject?
-                ?: configManager.getConfigSet(CONFIG_NAMESPACE_FEDERATED_SIGN_IN)
 
         if (federatedSignInConfig != null) {
             this.authUI = authUI ?: CognitoAuthUI(
@@ -703,12 +640,9 @@ class DefaultSudoUserClient(
             this.reset()
 
             // Generate user ID.
-            val uid = this.idGenerator.generateId().toUpperCase(Locale.US)
+            val uid = this.idGenerator.generateId().uppercase(Locale.US)
 
             val publicKey = this.generateRegistrationData()
-
-            // Generate the shared encryption key.
-            this.generateSymmetricKey()
 
             val parameters: MutableMap<String, String> = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to RegistrationChallengeType.SAFETY_NET.name,
@@ -753,7 +687,7 @@ class DefaultSudoUserClient(
             val token = authInfo.encode()
             val jwt = JWT.decode(token)
 
-            val uid = jwt?.subject ?: this.idGenerator.generateId().toUpperCase(Locale.US)
+            val uid = jwt?.subject ?: this.idGenerator.generateId().uppercase(Locale.US)
 
             val parameters = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,
@@ -768,9 +702,6 @@ class DefaultSudoUserClient(
                 parameters[CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PUBLIC_KEY] =
                     publicKey.encode()
             }
-
-            // Generate the shared encryption key.
-            this.generateSymmetricKey()
 
             val userId = identityProvider.register(uid, parameters)
             this.setUserName(userId)
@@ -861,8 +792,8 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun presentFederatedSignInUI(callback: (SignInResult) -> Unit) {
-        this.authUI?.presentFederatedSignInUI { result ->
+    override fun presentFederatedSignInUI(activity: Activity, callback: (SignInResult) -> Unit) {
+        this.authUI?.presentFederatedSignInUI(activity) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
                     this@DefaultSudoUserClient.keyManager.deletePassword(
@@ -883,12 +814,6 @@ class DefaultSudoUserClient(
                     )
 
                     this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
-
-                    // Generate the symmetric key if it has not been generated before.
-                    val symmetricKeyId = this@DefaultSudoUserClient.getSymmetricKeyId()
-                    if (symmetricKeyId == null) {
-                        this@DefaultSudoUserClient.generateSymmetricKey()
-                    }
 
                     this.credentialsProvider.logins = this.getLogins()
                     CoroutineScope(Dispatchers.IO).launch {
@@ -948,12 +873,6 @@ class DefaultSudoUserClient(
                     )
 
                     this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
-
-                    // Generate the symmetric key if it has not been generated before.
-                    val symmetricKeyId = this@DefaultSudoUserClient.getSymmetricKeyId()
-                    if (symmetricKeyId == null) {
-                        this@DefaultSudoUserClient.generateSymmetricKey()
-                    }
 
                     this.credentialsProvider.logins = this.getLogins()
 
@@ -1071,7 +990,7 @@ class DefaultSudoUserClient(
         }
 
         // Generate and store user's key ID.
-        val keyId = this.idGenerator.generateId().toUpperCase(Locale.US)
+        val keyId = this.idGenerator.generateId().uppercase(Locale.US)
         this.keyManager.addPassword(keyId.toByteArray(), KEY_NAME_USER_KEY_ID)
 
         // Generate a new key pair for authentication and encryption.
@@ -1081,22 +1000,6 @@ class DefaultSudoUserClient(
         val keyData = this.keyManager.getPublicKeyData(keyId)
 
         return PublicKey(keyId, keyData)
-    }
-
-    private fun generateSymmetricKey() {
-        // Delete existing key.
-        val symmetricKeyId = this.getSymmetricKeyId()
-        if (symmetricKeyId != null) {
-            this.keyManager.deleteSymmetricKey(symmetricKeyId)
-            this.keyManager.deletePassword(KEY_NAME_SYMMETRIC_KEY_ID)
-        }
-
-        // Generate and store symmetric key ID.
-        val keyId = this.idGenerator.generateId().toUpperCase(Locale.US)
-        this.keyManager.addPassword(keyId.toByteArray(), KEY_NAME_SYMMETRIC_KEY_ID)
-
-        // Generate symmetric key for encrypting secrets.
-        this.keyManager.generateSymmetricKey(keyId)
     }
 
     override fun getIdToken(): String? {
@@ -1150,43 +1053,6 @@ class DefaultSudoUserClient(
 
     override fun getSubject(): String? {
         return this.getUserClaim("sub") as? String
-    }
-
-    override fun getSymmetricKeyId(): String? {
-        return this.keyManager.getPassword(KEY_NAME_SYMMETRIC_KEY_ID)
-            ?.toString(Charsets.UTF_8)
-    }
-
-    override fun encrypt(
-        keyId: String,
-        algorithm: SymmetricKeyEncryptionAlgorithm,
-        data: ByteArray
-    ): ByteArray {
-        val iv = this.keyManager.createRandomData(AES_BLOCK_SIZE)
-        val encryptedData = this.keyManager.encryptWithSymmetricKey(
-            keyId,
-            data,
-            iv,
-            KeyManagerInterface.SymmetricEncryptionAlgorithm.AES_CBC_PKCS7_256
-        )
-
-        return encryptedData + iv
-    }
-
-    override fun decrypt(
-        keyId: String,
-        algorithm: SymmetricKeyEncryptionAlgorithm,
-        data: ByteArray
-    ): ByteArray {
-        val encryptedData = data.copyOfRange(0, data.count() - AES_BLOCK_SIZE)
-        val iv = data.copyOfRange(data.count() - AES_BLOCK_SIZE, data.count())
-
-        return this.keyManager.decryptWithSymmetricKey(
-            keyId,
-            encryptedData,
-            iv,
-            KeyManagerInterface.SymmetricEncryptionAlgorithm.AES_CBC_PKCS7_256
-        )
     }
 
     override fun clearAuthTokens() {

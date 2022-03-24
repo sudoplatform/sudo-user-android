@@ -387,18 +387,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx
-- artifact: com.squareup.retrofit2:retrofit:+
-  name: Retrofit
-  copyrightHolder: Square, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: https://github.com/square/retrofit/blob/master/LICENSE.txt
-  url: https://github.com/square/retrofit
-- artifact: com.squareup.retrofit2:converter-gson:+
-  name: Converter Gson
-  copyrightHolder: Square, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: https://github.com/square/retrofit/blob/master/LICENSE.txt
-  url: https://mvnrepository.com/artifact/com.google.code.gson/gson
 - artifact: androidx.constraintlayout:constraintlayout:+
   name: Android ConstraintLayout
   copyrightHolder: Google, Inc.
@@ -441,12 +429,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.16.12
-  name: AWS SDK for Android - Amazon Cognito Auth
-  copyrightHolder: Amazon
-  license: Apache License, Version 2.0
-  licenseUrl: http://aws.amazon.com/apache2.0
-  url: http://aws.amazon.com/sdkforandroid
 - artifact: com.squareup.okio:okio:+
   name: Okio
   copyrightHolder: Square, Inc.
@@ -507,28 +489,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx
-- artifact: org.bouncycastle:bcpkix-jdk15on:+
-  name: Bouncy Castle PKIX, CMS, EAC, TSP, PKCS, OCSP, CMP, and CRMF APIs
-  copyrightHolder: The JSR-330 Expert Group
-  license: Bouncy Castle Licence
-  licenseUrl: http://www.bouncycastle.org/licence.html
-  url: http://www.bouncycastle.org/java.html
-- artifact: com.babylon.certificatetransparency:certificatetransparency:+
-  name: certificatetransparency
-  copyrightHolder: Babylon Health
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/babylonhealth/certificate-transparency-android
-- artifact: org.bouncycastle:bcprov-jdk15on:+
-  name: Bouncy Castle Provider
-  copyrightHolder: The JSR-330 Expert Group
-  license: Bouncy Castle Licence
-  licenseUrl: http://www.bouncycastle.org/licence.html
-  url: http://www.bouncycastle.org/java.html
-- artifact: com.babylon.certificatetransparency:certificatetransparency-android:+
-  name: certificatetransparency-android
-  copyrightHolder: Babylon Health
-  license: The Apache Software License, Version 2.0
-  url: https://github.com/babylonhealth/certificate-transparency-android
 - artifact: androidx.tracing:tracing:+
   name: Android Tracing
   copyrightHolder: Google, Inc.
@@ -589,3 +549,50 @@
   license: Bouncy Castle Licence
   licenseUrl: http://www.bouncycastle.org/licence.html
   url: http://www.bouncycastle.org/java.html
+- artifact: androidx.test.ext:junit-ktx:+
+  name: AndroidX Test Library
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/testing
+- artifact: androidx.concurrent:concurrent-futures:+
+  name: AndroidX Futures
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: androidx.test:monitor:+
+  name: AndroidX Test Library
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/testing
+- artifact: androidx.test.ext:junit:+
+  name: AndroidX Test Library
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/testing
+- artifact: com.google.guava:listenablefuture:+
+  name: Guava ListenableFuture only
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  url: https://https://github.com/google/guava
+- artifact: androidx.test:core:+
+  name: AndroidX Test Library
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/testing
+- artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.16.12
+  name: AWS SDK for Android - Amazon Cognito Auth
+  copyrightHolder: Amazon
+  license: Apache License, Version 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: http://aws.amazon.com/sdkforandroid
+- artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.42.0
+  name: AWS SDK for Android - Amazon Cognito Auth
+  copyrightHolder: Amazon
+  license: Amazon Software License
+  licenseUrl: https://aws.amazon.com/asl/
+  url: https://github.com/aws/aws-sdk-android
