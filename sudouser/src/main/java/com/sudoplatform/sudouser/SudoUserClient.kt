@@ -445,7 +445,7 @@ class DefaultSudoUserClient(
         private const val MAX_VALIDATION_DATA_SIZE = 2048
     }
 
-    override val version: String = "1.0.0"
+    override val version: String = "11.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.

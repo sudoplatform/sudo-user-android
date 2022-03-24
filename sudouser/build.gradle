@@ -106,7 +106,7 @@ dependencies {
     // Sudo Platform SDKs.
     implementation "com.sudoplatform:sudokeymanager:3.8.0"
     implementation "com.sudoplatform:sudologging:1.2.0"
-    implementation "com.sudoplatform:sudoconfigmanager:1.4.0"
+    implementation "com.sudoplatform:sudoconfigmanager:2.0.0"
 
     implementation("com.appmattus.certificatetransparency:certificatetransparency-android:1.1.0")
 

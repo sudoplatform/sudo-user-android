@@ -280,20 +280,8 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: http://developer.android.com/tools/extras/support-library.html
-- artifact: androidx.legacy:legacy-support-core-ui:+
-  name: Android Support Library core UI
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: http://developer.android.com/tools/extras/support-library.html
 - artifact: androidx.browser:browser:+
   name: Android Support Custom Tabs
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: http://developer.android.com/tools/extras/support-library.html
-- artifact: androidx.asynclayoutinflater:asynclayoutinflater:+
-  name: Android Support Library Async Layout Inflater
   copyrightHolder: Google, Inc.
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -315,18 +303,6 @@
   license: Bouncy Castle Licence
   licenseUrl: http://www.bouncycastle.org/licence.html
   url: http://rtyley.github.io/spongycastle/
-- artifact: androidx.slidingpanelayout:slidingpanelayout:+
-  name: Android Support Library Sliding Pane Layout
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: http://developer.android.com/tools/extras/support-library.html
-- artifact: androidx.swiperefreshlayout:swiperefreshlayout:+
-  name: Android Support Library Custom View
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: http://developer.android.com/tools/extras/support-library.html
 - artifact: androidx.core:core-ktx:+
   name: Core Kotlin Extensions
   copyrightHolder: Google, Inc.
@@ -501,24 +477,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx/releases/lifecycle#2.3.1
-- artifact: android.arch.lifecycle:common:+
-  name: Android Lifecycle-Common
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: android.arch.lifecycle:runtime:+
-  name: Android Lifecycle Runtime
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
-- artifact: android.arch.core:common:+
-  name: Android Arch-Common
-  copyrightHolder: Google, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/topic/libraries/architecture/index.html
 - artifact: org.hamcrest:hamcrest-core:+
   name: Hamcrest Core
   copyrightHolder: hamcrest.org
@@ -584,12 +542,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/testing
-- artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.16.12
-  name: AWS SDK for Android - Amazon Cognito Auth
-  copyrightHolder: Amazon
-  license: Apache License, Version 2.0
-  licenseUrl: http://aws.amazon.com/apache2.0
-  url: http://aws.amazon.com/sdkforandroid
 - artifact: com.amazonaws:aws-android-sdk-cognitoauth:2.42.0
   name: AWS SDK for Android - Amazon Cognito Auth
   copyrightHolder: Amazon
