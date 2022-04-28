@@ -330,6 +330,12 @@ interface SudoUserClient {
     fun clearAuthTokens()
 
     /**
+     * Signs out the user from this device only.
+     */
+    @Throws(SignOutException::class)
+    suspend fun signOut()
+
+    /**
      * Signs out the user from all devices.
      */
     @Throws(SignOutException::class)
@@ -1070,6 +1076,22 @@ class DefaultSudoUserClient(
             mapOf("cognito-idp.${this.region}.amazonaws.com/${this.poolId}" to idToken)
         } else {
             mapOf()
+        }
+    }
+
+    override suspend fun signOut() {
+        this.logger.info("Signing out user from this device.")
+
+        val refreshToken = this.getRefreshToken() ?: throw AuthenticationException.NotSignedInException()
+
+        try {
+            identityProvider.signOut(refreshToken)
+            this.clearAuthTokens()
+        } catch (t: Throwable) {
+            when (t) {
+                is SignOutException -> throw t
+                else -> throw SignOutException.FailedException(cause = t)
+            }
         }
     }
 

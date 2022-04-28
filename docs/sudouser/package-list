@@ -126,6 +126,7 @@ $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/reset/#/Pointing
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/setUserName/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/set-user-name.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/signInWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/sign-in-with-authentication-provider.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/signInWithKey/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/sign-in-with-key.html
+$dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/signOut/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/sign-out.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/version/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/version.html
 $dokka.location:com.sudoplatform.sudouser/FederatedSignInResult.Failure///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-federated-sign-in-result/-failure/index.html
 $dokka.location:com.sudoplatform.sudouser/FederatedSignInResult.Failure/Failure/#kotlin.Throwable/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-federated-sign-in-result/-failure/-failure.html
@@ -152,6 +153,7 @@ $dokka.location:com.sudoplatform.sudouser/IdentityProvider/globalSignOut/#kotlin
 $dokka.location:com.sudoplatform.sudouser/IdentityProvider/refreshTokens/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-identity-provider/refresh-tokens.html
 $dokka.location:com.sudoplatform.sudouser/IdentityProvider/register/#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-identity-provider/register.html
 $dokka.location:com.sudoplatform.sudouser/IdentityProvider/signIn/#kotlin.String#kotlin.collections.Map[kotlin.String,kotlin.String]/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-identity-provider/sign-in.html
+$dokka.location:com.sudoplatform.sudouser/IdentityProvider/signOut/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-identity-provider/sign-out.html
 $dokka.location:com.sudoplatform.sudouser/JWT.Companion///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-j-w-t/-companion/index.html
 $dokka.location:com.sudoplatform.sudouser/JWT.Companion/decode/#kotlin.String#com.sudoplatform.sudokeymanager.KeyManagerInterface?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-j-w-t/-companion/decode.html
 $dokka.location:com.sudoplatform.sudouser/JWT///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-j-w-t/index.html
@@ -269,6 +271,7 @@ $dokka.location:com.sudoplatform.sudouser/SudoUserClient/reset/#/PointingToDecla
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/setUserName/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/set-user-name.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/signInWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/sign-in-with-authentication-provider.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/signInWithKey/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/sign-in-with-key.html
+$dokka.location:com.sudoplatform.sudouser/SudoUserClient/signOut/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/sign-out.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/version/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/version.html
 $dokka.location:com.sudoplatform.sudouser/TESTAuthenticationInfo///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-t-e-s-t-authentication-info/index.html
 $dokka.location:com.sudoplatform.sudouser/TESTAuthenticationInfo/TESTAuthenticationInfo/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-t-e-s-t-authentication-info/-t-e-s-t-authentication-info.html

@@ -152,6 +152,14 @@ interface IdentityProvider {
     suspend fun refreshTokens(refreshToken: String): AuthenticationTokens
 
     /**
+     * Signs out the user from this device only.
+     *
+     * @param refreshToken refresh token tied to this device.
+     */
+    @Throws(AuthenticationException::class)
+    suspend fun signOut(refreshToken: String)
+
+    /**
      * Signs out the user from all devices.
      *
      * @param accessToken access token used to authorize the request.
@@ -400,6 +408,21 @@ internal class CognitoUserPoolIdentityProvider(
                 is AuthenticationException -> throw t
                 is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(cause = t)
                 else -> throw AuthenticationException.FailedException(cause = t)
+            }
+        }
+    }
+
+    override suspend fun signOut(refreshToken: String) {
+        val request = RevokeTokenRequest()
+        request.clientId = this.userPool.clientId
+        request.token = refreshToken
+
+        try {
+            this.idpClient.revokeToken(request)
+        } catch (t: Throwable) {
+            when (t) {
+                is NotAuthorizedException -> throw SignOutException.NotAuthorizedException(cause = t)
+                else -> throw SignOutException.FailedException(cause = t)
             }
         }
     }

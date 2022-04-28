@@ -52,6 +52,6 @@ node_modules/
 aws-exports.js
 awsconfiguration.json
 
-identity-system-test-config
+config
 
 sudouser/jacoco.exec

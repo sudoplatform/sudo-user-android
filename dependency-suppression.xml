@@ -34,4 +34,11 @@
    <packageUrl regex="true">^pkg:maven/org\.jetbrains\.intellij\.deps/log4j@.*$</packageUrl>
    <cve>CVE-2022-23307</cve>
 </suppress>
+<suppress>
+   <notes><![CDATA[
+   file name: kotlin-analysis-intellij-1.6.10.jar (shaded: org.jetbrains.intellij.deps:log4j:1.2.17.2)
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/org\.jetbrains\.intellij\.deps/log4j@.*$</packageUrl>
+   <cve>CVE-2020-9493</cve>
+</suppress>
 </suppressions>
