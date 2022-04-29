@@ -1061,7 +1061,7 @@ class DefaultSudoUserClient(
         return this.getUserClaim("sub") as? String
     }
 
-    override fun clearAuthTokens() {
+    @Synchronized override fun clearAuthTokens() {
         this.keyManager.deletePassword(KEY_NAME_ID_TOKEN)
         this.keyManager.deletePassword(KEY_NAME_ACCESS_TOKEN)
         this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN)
@@ -1164,7 +1164,7 @@ class DefaultSudoUserClient(
      * @param refreshToken refresh token.
      * @param lifetime token lifetime in seconds.
      */
-    private fun storeTokens(
+    @Synchronized private fun storeTokens(
         idToken: String,
         accessToken: String,
         refreshToken: String,
@@ -1186,7 +1186,7 @@ class DefaultSudoUserClient(
         )
     }
 
-    private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
+    @Synchronized private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
         this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
