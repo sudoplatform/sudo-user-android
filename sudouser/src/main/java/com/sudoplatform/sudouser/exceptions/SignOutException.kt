@@ -1,3 +1,9 @@
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.sudoplatform.sudouser.exceptions
 
 sealed class SignOutException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
@@ -7,7 +13,4 @@ sealed class SignOutException(message: String? = null, cause: Throwable? = null)
 
     class FailedException(message: String? = null, cause: Throwable? = null) :
         SignOutException(message = message, cause = cause)
-
 }
-
-

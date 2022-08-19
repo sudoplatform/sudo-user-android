@@ -1,6 +1,10 @@
-package com.sudoplatform.sudouser.exceptions
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-import java.lang.Exception
+package com.sudoplatform.sudouser.exceptions
 
 sealed class RegisterException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
 
@@ -27,7 +31,4 @@ sealed class RegisterException(message: String? = null, cause: Throwable? = null
 
     class FailedException(message: String? = null, cause: Throwable? = null) :
         RegisterException(message = message, cause = cause)
-
 }
-
-

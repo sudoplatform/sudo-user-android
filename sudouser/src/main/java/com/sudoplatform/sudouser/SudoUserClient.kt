@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,11 @@ import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudouser.exceptions.*
+import com.sudoplatform.sudouser.exceptions.AuthenticationException
+import com.sudoplatform.sudouser.exceptions.DeregisterException
+import com.sudoplatform.sudouser.exceptions.GlobalSignOutException
+import com.sudoplatform.sudouser.exceptions.RegisterException
+import com.sudoplatform.sudouser.exceptions.SignOutException
 import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +30,8 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.json.JSONArray
 import org.json.JSONObject
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
 import com.sudoplatform.sudouser.extensions.toGlobalSignOutException

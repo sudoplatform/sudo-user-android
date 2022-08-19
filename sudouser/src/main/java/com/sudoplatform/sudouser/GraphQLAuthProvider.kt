@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,7 @@ package com.sudoplatform.sudouser
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import kotlinx.coroutines.runBlocking
-import java.util.*
+import java.util.Date
 
 /**
  * [SudoUserClient] based authentication provider implementation to be used by AWS AppSync client.

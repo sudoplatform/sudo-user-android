@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,8 @@ package com.sudoplatform.sudouser
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import org.json.JSONObject
-import java.util.*
+import java.util.Date
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 
 /**
@@ -36,7 +37,6 @@ data class JWT(
     val notValidBefore: Date? = null,
     val payload: JSONObject = JSONObject()
 ) {
-
     companion object {
         private const val DEFAULT_ALGORITHM = "RS256"
         private const val DEFAULT_LIFETIME = 3600
@@ -172,5 +172,4 @@ data class JWT(
             Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
         )}"
     }
-
 }

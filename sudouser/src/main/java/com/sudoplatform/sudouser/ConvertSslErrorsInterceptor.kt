@@ -1,8 +1,9 @@
 /*
- * Copyright © 2020 - Anonyome Labs, Inc. - All rights reserved
- * 
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.sudoplatform.sudouser
 
 import okhttp3.Interceptor
@@ -12,12 +13,12 @@ import okhttp3.ResponseBody.Companion.toResponseBody
 import java.net.HttpURLConnection
 
 /**
- * Convert any SSL errors emitted by the ceritifcate transparency verification interceptor
+ * Convert any SSL errors emitted by the certificate transparency verification interceptor
  * into an HTTP response that is interpreted as fatal and should not be retried by the
  * AWSAppSyncClient.
  *
  */
-class ConvertSslErrorsInterceptor() : Interceptor {
+class ConvertSslErrorsInterceptor : Interceptor {
 
     private val errorResponseBuilder = okhttp3.Response.Builder()
         .code(HttpURLConnection.HTTP_FORBIDDEN)

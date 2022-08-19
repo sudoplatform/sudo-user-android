@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,10 @@ import java.security.KeyFactory
 import java.security.interfaces.RSAPrivateCrtKey
 import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.RSAPublicKeySpec
-import java.util.*
+import java.util.UUID
 
 /**
- * Authentication info consisting of a JWT signed using the locally stored private key..
+ * Authentication info consisting of a JWT signed using the locally stored private key.
  */
 class LocalAuthenticationInfo(private val jwt: String, private val username: String) : AuthenticationInfo {
 
@@ -106,5 +106,4 @@ class LocalAuthenticationProvider(
     }
 
     override fun reset() {}
-
 }

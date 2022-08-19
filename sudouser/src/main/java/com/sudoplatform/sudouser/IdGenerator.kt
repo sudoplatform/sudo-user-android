@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ interface IdGenerator {
      * @return UUID.
      */
     fun generateId(): String
-
 }
 
 /**
@@ -28,8 +27,6 @@ interface IdGenerator {
 class IdGenerateImpl: IdGenerator {
 
     override fun generateId(): String {
-        val id = UUID.randomUUID().toString()
-        return id
+        return UUID.randomUUID().toString()
     }
-
 }

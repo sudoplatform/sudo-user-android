@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,7 @@ import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import org.json.JSONObject
-import java.util.*
+import java.util.Date
 
 /**
  * Encapsulates a federated sign-in result.

@@ -1,5 +1,5 @@
-/**
- * Copyright © 2020 Anonyome Labs, Inc. All rights reserved.
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,18 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool
 import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient
-import com.amazonaws.services.cognitoidentityprovider.model.*
+import com.amazonaws.services.cognitoidentityprovider.model.DeleteUserRequest
+import com.amazonaws.services.cognitoidentityprovider.model.GlobalSignOutRequest
+import com.amazonaws.services.cognitoidentityprovider.model.InitiateAuthRequest
+import com.amazonaws.services.cognitoidentityprovider.model.NotAuthorizedException
+import com.amazonaws.services.cognitoidentityprovider.model.RespondToAuthChallengeRequest
+import com.amazonaws.services.cognitoidentityprovider.model.RevokeTokenRequest
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudouser.exceptions.*
+import com.sudoplatform.sudouser.exceptions.AuthenticationException
+import com.sudoplatform.sudouser.exceptions.DeregisterException
+import com.sudoplatform.sudouser.exceptions.RegisterException
+import com.sudoplatform.sudouser.exceptions.SignOutException
 import com.sudoplatform.sudouser.extensions.signUp
 import org.json.JSONObject
 import java.util.Date
@@ -440,7 +448,4 @@ internal class CognitoUserPoolIdentityProvider(
             }
         }
     }
-
 }
-
-

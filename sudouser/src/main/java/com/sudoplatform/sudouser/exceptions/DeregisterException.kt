@@ -1,6 +1,10 @@
-package com.sudoplatform.sudouser.exceptions
+/*
+ * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 
-import java.lang.Exception
+package com.sudoplatform.sudouser.exceptions
 
 sealed class DeregisterException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
 
@@ -15,7 +19,4 @@ sealed class DeregisterException(message: String? = null, cause: Throwable? = nu
 
     class FailedException(message: String? = null, cause: Throwable? = null) :
         DeregisterException(message = message, cause = cause)
-
 }
-
-
