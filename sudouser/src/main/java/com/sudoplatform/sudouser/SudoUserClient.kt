@@ -17,6 +17,7 @@ import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
+import com.sudoplatform.sudokeymanager.AndroidSQLiteStore
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import com.sudoplatform.sudouser.exceptions.DeregisterException
@@ -66,6 +67,7 @@ interface SudoUserClient {
         private var credentialsProvider: CognitoCredentialsProvider? = null
         private var authUI: AuthUI? = null
         private var idGenerator: IdGenerator? = IdGenerateImpl()
+        private var databaseName: String? = AndroidSQLiteStore.DEFAULT_DATABASE_NAME
 
         /**
          * Provide an [AWSAppSyncClient] for the [SudoUserClient]. If this is not supplied,
@@ -82,6 +84,13 @@ interface SudoUserClient {
          */
         fun setNamespace(namespace: String) = also {
             this.namespace = namespace
+        }
+
+        /**
+         * Provide the database name to use for exportable key store database.
+         */
+        fun setDatabaseName(databaseName: String) = also {
+            this.databaseName = databaseName
         }
 
         /**
@@ -407,6 +416,7 @@ interface SudoUserClient {
  * @param context Android app context.
  * @param namespace namespace to use for internal data and cryptographic keys. This should be unique
  *  per client per app to avoid name conflicts between multiple clients.
+ * @param databaseName database name to use for the exportable key store database.
  * @param logger logger to use for logging messages.
  * @param keyManager custom [KeyManagerInterface] implementation. Mainly used for unit testing (optional)
  * @param identityProvider custom identity provider. Mainly used for unit testing (optional).
@@ -425,8 +435,9 @@ class DefaultSudoUserClient(
     apiClient: AWSAppSyncClient? = null,
     credentialsProvider: CognitoCredentialsProvider? = null,
     authUI: AuthUI? = null,
-    idGenerator: IdGenerator = IdGenerateImpl()
-) : SudoUserClient {
+    idGenerator: IdGenerator = IdGenerateImpl(),
+    private val databaseName: String = AndroidSQLiteStore.DEFAULT_DATABASE_NAME,
+    ) : SudoUserClient {
 
     companion object {
         private const val KEY_NAME_USER_ID = "userId"
@@ -451,12 +462,10 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
         private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
 
-        private const val AES_BLOCK_SIZE = 16
-
         private const val MAX_VALIDATION_DATA_SIZE = 2048
     }
 
-    override val version: String = "11.0.0"
+    override val version: String = "12.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -533,7 +542,7 @@ class DefaultSudoUserClient(
         require(identityServiceConfig != null) { "Client configuration not found." }
 
         this.keyManager =
-            keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(this.namespace)
+            keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(this.namespace, this.databaseName)
         this.identityProvider = identityProvider ?: CognitoUserPoolIdentityProvider(
             identityServiceConfig,
             context,

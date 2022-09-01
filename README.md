@@ -8,7 +8,7 @@ Please see the [Sudo Platform Developer Docs](https://sudoplatform.com/docs) for
 ## Version Support
 | Technology             | Supported version |
 | ---------------------- | ----------------- |
-| Min. Deployment Target | 25                |
+| Min. Deployment Target | 24                |
 | Kotlin version         | 1.6+              |
 
 ## Integration Instructions
