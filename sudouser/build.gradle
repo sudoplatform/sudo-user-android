@@ -22,7 +22,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 1
-        versionName "12.0.0"
+        versionName "12.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -110,8 +110,8 @@ dependencies {
 
     // Sudo Platform SDKs.
     implementation 'com.sudoplatform:sudokeymanager:5.0.0'
-    implementation "com.sudoplatform:sudologging:2.0.0"
-    implementation "com.sudoplatform:sudoconfigmanager:3.0.0"
+    implementation "com.sudoplatform:sudologging:2.0.1"
+    implementation "com.sudoplatform:sudoconfigmanager:3.0.1"
 
     implementation('com.appmattus.certificatetransparency:certificatetransparency-android:1.1.1')
 
