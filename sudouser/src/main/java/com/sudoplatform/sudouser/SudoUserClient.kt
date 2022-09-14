@@ -159,7 +159,8 @@ interface SudoUserClient {
                 this.apiClient,
                 this.credentialsProvider,
                 this.authUI,
-                this.idGenerator ?: IdGenerateImpl()
+                this.idGenerator ?: IdGenerateImpl(),
+                this.databaseName ?: AndroidSQLiteStore.DEFAULT_DATABASE_NAME
             )
         }
     }
