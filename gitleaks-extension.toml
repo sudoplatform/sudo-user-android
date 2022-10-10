@@ -1,0 +1,16 @@
+# Extended rules for gitleaks tool
+
+[[rules]]
+id = "appsync-api-key"
+[rules.allowlist]
+paths = [
+'''sudouser/src/test/java/com/sudoplatform/sudouser/SudoUserClientUnitTest.kt''',
+]
+
+[[rules]]
+id = "RSA-PK"
+[rules.allowlist]
+paths = [
+'''sudouser/src/main/java/com/sudoplatform/sudouser/TESTAuthenticationProvider.kt''',
+'''sudouser/src/main/java/com/sudoplatform/sudouser/LocalAuthenticationProvider.kt'''
+]
