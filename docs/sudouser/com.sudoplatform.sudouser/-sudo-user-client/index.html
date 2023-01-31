@@ -1,541 +1,573 @@
+<!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>SudoUserClient</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
-<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
-  <body>
-    <div class="navigation-wrapper" id="navigation-wrapper">
-      <div id="leftToggler"><span class="icon-toggler"></span></div>
-      <div class="library-name"><a href="../../../index.html">sudouser</a></div>
-      <div></div>
-      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
-      </div>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/jetbrains-mono.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+<div class="navigation-wrapper" id="navigation-wrapper">
+    <div id="leftToggler"><span class="icon-toggler"></span></div>
+    <div class="library-name">
+            <a href="../../../index.html">
+                    <span>sudouser</span>
+            </a>
     </div>
-    <div id="container">
-      <div id="leftColumn">
+    <div>
+    </div>
+    <div class="pull-right d-flex">
+        <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+    </div>
+</div>
+<div id="container">
+    <div id="leftColumn">
         <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div class="main-content" id="content" pageIds="sudouser::com.sudoplatform.sudouser/SudoUserClient///PointingToDeclaration//-815581206">
-          <div class="breadcrumbs"><a href="../../../index.html">sudouser</a>/<a href="../index.html">com.sudoplatform.sudouser</a>/<a href="index.html">SudoUserClient</a></div>
-          <div class="cover ">
-            <h1 class="cover"><span>Sudo</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Client</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">SudoUserClient</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing cryptographic operations.</p></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
-            <div class="tabs-section-body">
-              <h2 class="">Types</h2>
-              <div class="table" data-togglable="Types"><a data-name="-1517506805%2FClasslikes%2F-815581206" anchor-label="Builder" id="-1517506805%2FClasslikes%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
+    </div>
+    <div id="main">
+<div class="main-content" id="content" pageIds="sudouser::com.sudoplatform.sudouser/SudoUserClient///PointingToDeclaration//-815581206">
+  <div class="breadcrumbs"><a href="../../../index.html">sudouser</a><span class="delimiter">/</span><a href="../index.html">com.sudoplatform.sudouser</a><span class="delimiter">/</span><span class="current">SudoUserClient</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Sudo</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Client</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">SudoUserClient</a></div><p class="paragraph">Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing cryptographic operations.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Types">Types</button><button class="section-tab" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Inheritors">Inheritors</button></div>
+    <div class="tabs-section-body">
+      <h2 class="">Types</h2>
+      <div class="table" data-togglable="Types"><a data-name="-1517506805%2FClasslikes%2F-815581206" anchor-label="Builder" id="-1517506805%2FClasslikes%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-builder/index.html"><span><span>Builder</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1517506805%2FClasslikes%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a><span class="token punctuation">(</span>context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Builder used to construct <a href="index.html">SudoUserClient</a>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1530455174%2FClasslikes%2F-815581206" anchor-label="Companion" id="-1530455174%2FClasslikes%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1530455174%2FClasslikes%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="237117700%2FFunctions%2F-815581206" anchor-label="clearAuthTokens" id="237117700%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="clear-auth-tokens.html"><span>clear</span><wbr></wbr><span>Auth</span><wbr></wbr><span><span>Tokens</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="237117700%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="clear-auth-tokens.html"><span class="token function">clearAuthTokens</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Clears cached authentication tokens.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-757034397%2FFunctions%2F-815581206" anchor-label="deregister" id="-757034397%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="deregister.html"><span><span>deregister</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-757034397%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="deregister.html"><span class="token function">deregister</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">De-registers a user.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="173927531%2FFunctions%2F-815581206" anchor-label="deregisterSignInStatusObserver" id="173927531%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="deregister-sign-in-status-observer.html"><span>deregister</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span>Status</span><wbr></wbr><span><span>Observer</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="173927531%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="deregister-sign-in-status-observer.html"><span class="token function">deregisterSignInStatusObserver</span></a><span class="token punctuation">(</span>id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Deregisters an existing sign in status observer.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-250895832%2FFunctions%2F-815581206" anchor-label="getAccessToken" id="-250895832%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-access-token.html"><span>get</span><wbr></wbr><span>Access</span><wbr></wbr><span><span>Token</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-250895832%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-access-token.html"><span class="token function">getAccessToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the access token cached from the last sign-in.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1425248496%2FFunctions%2F-815581206" anchor-label="getCredentialsProvider" id="-1425248496%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-credentials-provider.html"><span>get</span><wbr></wbr><span>Credentials</span><wbr></wbr><span><span>Provider</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1425248496%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-credentials-provider.html"><span class="token function">getCredentialsProvider</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amazonaws.auth/CognitoCredentialsProvider///PointingToDeclaration/">CognitoCredentialsProvider</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns a credentials provider that can be used for authenticating into various services provided by Sudo Platform.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1393508449%2FFunctions%2F-815581206" anchor-label="getIdToken" id="-1393508449%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-id-token.html"><span>get</span><wbr></wbr><span>Id</span><wbr></wbr><span><span>Token</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1393508449%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-id-token.html"><span class="token function">getIdToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the ID token cached from the last sign-in.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1784458515%2FFunctions%2F-815581206" anchor-label="getLogins" id="1784458515%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-logins.html"><span>get</span><wbr></wbr><span><span>Logins</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1784458515%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-logins.html"><span class="token function">getLogins</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the logins to use for accessing other Sudo Platform services. You must be signed in to get logins.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-20363809%2FFunctions%2F-815581206" anchor-label="getRefreshToken" id="-20363809%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-refresh-token.html"><span>get</span><wbr></wbr><span>Refresh</span><wbr></wbr><span><span>Token</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-20363809%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-refresh-token.html"><span class="token function">getRefreshToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the refresh token cached from the last sign-in.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1337209236%2FFunctions%2F-815581206" anchor-label="getRefreshTokenExpiry" id="-1337209236%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-refresh-token-expiry.html"><span>get</span><wbr></wbr><span>Refresh</span><wbr></wbr><span>Token</span><wbr></wbr><span><span>Expiry</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1337209236%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-refresh-token-expiry.html"><span class="token function">getRefreshTokenExpiry</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/Date.html">Date</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the refresh token expiry cached from the last sign-in.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1866851375%2FFunctions%2F-815581206" anchor-label="getSubject" id="-1866851375%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-subject.html"><span>get</span><wbr></wbr><span><span>Subject</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1866851375%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-subject.html"><span class="token function">getSubject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the subject of the user associated with this client. Note: This is an internal method used by other Sudo platform SDKs.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="198683591%2FFunctions%2F-815581206" anchor-label="getSupportedRegistrationChallengeType" id="198683591%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-supported-registration-challenge-type.html"><span>get</span><wbr></wbr><span>Supported</span><wbr></wbr><span>Registration</span><wbr></wbr><span>Challenge</span><wbr></wbr><span><span>Type</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="198683591%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-supported-registration-challenge-type.html"><span class="token function">getSupportedRegistrationChallengeType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-registration-challenge-type/index.html">RegistrationChallengeType</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the list of supported registration challenge types supported by the configured backend.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1065949297%2FFunctions%2F-815581206" anchor-label="getTokenExpiry" id="1065949297%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-token-expiry.html"><span>get</span><wbr></wbr><span>Token</span><wbr></wbr><span><span>Expiry</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1065949297%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-token-expiry.html"><span class="token function">getTokenExpiry</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/Date.html">Date</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the ID and access token expiry cached from the last sign-in.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="587059992%2FFunctions%2F-815581206" anchor-label="getUserClaim" id="587059992%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-user-claim.html"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Claim</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="587059992%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-user-claim.html"><span class="token function">getUserClaim</span></a><span class="token punctuation">(</span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the specified claim associated with the user's identity.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-798385209%2FFunctions%2F-815581206" anchor-label="getUserName" id="-798385209%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="get-user-name.html"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-798385209%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-user-name.html"><span class="token function">getUserName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Returns the user name associated with this client. The username maybe needed to contact the support team when diagnosing an issue related to a specific user.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1349747653%2FFunctions%2F-815581206" anchor-label="globalSignOut" id="1349747653%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="global-sign-out.html"><span>global</span><wbr></wbr><span>Sign</span><wbr></wbr><span><span>Out</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1349747653%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="global-sign-out.html"><span class="token function">globalSignOut</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Signs out the user from all devices.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-320613445%2FFunctions%2F-815581206" anchor-label="isRegistered" id="-320613445%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="is-registered.html"><span>is</span><wbr></wbr><span><span>Registered</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-320613445%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-registered.html"><span class="token function">isRegistered</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Indicates whether or not this client is registered with Sudo Platform backend.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="2015857084%2FFunctions%2F-815581206" anchor-label="isSignedIn" id="2015857084%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="is-signed-in.html"><span>is</span><wbr></wbr><span>Signed</span><wbr></wbr><span><span>In</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2015857084%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-signed-in.html"><span class="token function">isSignedIn</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Indicates whether or not this client is signed in with Sudo Platform backend. The client is considered signed in if it cached valid ID and access tokens.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1082486397%2FFunctions%2F-815581206" anchor-label="presentFederatedSignInUI" id="1082486397%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="present-federated-sign-in-u-i.html"><span>present</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span><span>UI</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1082486397%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="present-federated-sign-in-u-i.html"><span class="token function">presentFederatedSignInUI</span></a><span class="token punctuation">(</span>activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span>callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-sign-in-result/index.html">SignInResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Presents the sign in UI for federated sign in using an external identity provider.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="804918854%2FFunctions%2F-815581206" anchor-label="presentFederatedSignOutUI" id="804918854%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="present-federated-sign-out-u-i.html"><span>present</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>Out</span><wbr></wbr><span><span>UI</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="804918854%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="present-federated-sign-out-u-i.html"><span class="token function">presentFederatedSignOutUI</span></a><span class="token punctuation">(</span>callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-api-result/index.html">ApiResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Presents the sign out UI for federated sign in using an external identity provider.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1213116038%2FFunctions%2F-815581206" anchor-label="processFederatedSignInTokens" id="-1213116038%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="process-federated-sign-in-tokens.html"><span>process</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Tokens</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1213116038%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="process-federated-sign-in-tokens.html"><span class="token function">processFederatedSignInTokens</span></a><span class="token punctuation">(</span>data<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">, </span>callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-federated-sign-in-result/index.html">FederatedSignInResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Processes tokens from federated sign in via Android intent data pointed to by the specified URL. The tokens are passed to the app via a redirect URL with custom scheme mapped to the app.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1403926202%2FFunctions%2F-815581206" anchor-label="refreshTokens" id="-1403926202%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="refresh-tokens.html"><span>refresh</span><wbr></wbr><span><span>Tokens</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1403926202%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="refresh-tokens.html"><span class="token function">refreshTokens</span></a><span class="token punctuation">(</span>refreshToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Refresh the access and ID tokens using the refresh token.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-474464426%2FFunctions%2F-815581206" anchor-label="registerSignInStatusObserver" id="-474464426%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="register-sign-in-status-observer.html"><span>register</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span>Status</span><wbr></wbr><span><span>Observer</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-474464426%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="register-sign-in-status-observer.html"><span class="token function">registerSignInStatusObserver</span></a><span class="token punctuation">(</span>id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>observer<span class="token operator">: </span><a href="../-sign-in-status-observer/index.html">SignInStatusObserver</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Registers an observer for sign in status changes.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1260809735%2FFunctions%2F-815581206" anchor-label="registerWithAuthenticationProvider" id="1260809735%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="register-with-authentication-provider.html"><span>register</span><wbr></wbr><span>With</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Provider</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1260809735%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="register-with-authentication-provider.html"><span class="token function">registerWithAuthenticationProvider</span></a><span class="token punctuation">(</span>authenticationProvider<span class="token operator">: </span><a href="../-authentication-provider/index.html">AuthenticationProvider</a><span class="token punctuation">, </span>registrationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Registers this client against the backend with an external authentication provider. Caller must implement <a href="../-authentication-provider/index.html">AuthenticationProvider</a> protocol to return appropriate authentication token required to authorize the registration request.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-736921202%2FFunctions%2F-815581206" anchor-label="registerWithSafetyNetAttestation" id="-736921202%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="register-with-safety-net-attestation.html"><span>register</span><wbr></wbr><span>With</span><wbr></wbr><span>Safety</span><wbr></wbr><span>Net</span><wbr></wbr><span><span>Attestation</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-736921202%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="register-with-safety-net-attestation.html"><span class="token function">registerWithSafetyNetAttestation</span></a><span class="token punctuation">(</span>attestationResult<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>nonce<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>registrationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Registers this client against the backend with a SafetyNet attestation result.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1121902908%2FFunctions%2F-815581206" anchor-label="reset" id="-1121902908%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="reset.html"><span><span>reset</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1121902908%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="reset.html"><span class="token function">reset</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Removes all keys associated with this client and invalidates any cached authentication credentials.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1346455721%2FFunctions%2F-815581206" anchor-label="setUserName" id="1346455721%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="set-user-name.html"><span>set</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Name</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1346455721%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="set-user-name.html"><span class="token function">setUserName</span></a><span class="token punctuation">(</span>name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sets the user name associated with this client.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-297723720%2FFunctions%2F-815581206" anchor-label="signInWithAuthenticationProvider" id="-297723720%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="sign-in-with-authentication-provider.html"><span>sign</span><wbr></wbr><span>In</span><wbr></wbr><span>With</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Provider</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-297723720%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-in-with-authentication-provider.html"><span class="token function">signInWithAuthenticationProvider</span></a><span class="token punctuation">(</span>authenticationProvider<span class="token operator">: </span><a href="../-authentication-provider/index.html">AuthenticationProvider</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sign into the backend  with an external authentication provider. Caller must implement <code class="lang-kotlin">AuthenticationProvider</code> protocol to return the appropriate authentication token associated with the external identity registered with <a href="register-with-authentication-provider.html">registerWithAuthenticationProvider</a>.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-120618628%2FFunctions%2F-815581206" anchor-label="signInWithKey" id="-120618628%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="sign-in-with-key.html"><span>sign</span><wbr></wbr><span>In</span><wbr></wbr><span>With</span><wbr></wbr><span><span>Key</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-120618628%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-in-with-key.html"><span class="token function">signInWithKey</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Sign into the backend using a private key. The client must have created a private/public key pair via one of the <i>register</i> methods.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1836509054%2FFunctions%2F-815581206" anchor-label="signOut" id="-1836509054%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="sign-out.html"><span>sign</span><wbr></wbr><span><span>Out</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1836509054%2FFunctions%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-out.html"><span class="token function">signOut</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Signs out the user from this device only.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="version.html">version</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1079118373%2FProperties%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="version.html">version</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a><p class="paragraph">Checksum's for each file are generated and are used to create a checksum that is used when publishing to maven central. In order to retry a failed publish without needing to change any functionality, we need a way to generate a different checksum for the source code.  We can change the value of this property which will generate a different checksum for publishing and allow us to retry.  The value of <code class="lang-kotlin">version</code> doesn't need to be kept up-to-date with the version of the code.</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <h2 class="">Inheritors</h2>
-              <div class="table" data-togglable="Inheritors"><a data-name="-1026601501%2FInheritors%2F-815581206" anchor-label="DefaultSudoUserClient" id="-1026601501%2FInheritors%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../-default-sudo-user-client/index.html">DefaultSudoUserClient</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1026601501%2FInheritors%2F-815581206"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div></div>
-                  </div>
-                </div>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-builder/index.html">Builder</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Builder used to construct <a href="index.html">SudoUserClient</a>.</p></div></div></div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2022 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+<a data-name="-1530455174%2FClasslikes%2F-815581206" anchor-label="Companion" id="-1530455174%2FClasslikes%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1530455174%2FClasslikes%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Functions</h2>
+      <div class="table" data-togglable="Functions"><a data-name="237117700%2FFunctions%2F-815581206" anchor-label="clearAuthTokens" id="237117700%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="clear-auth-tokens.html"><span>clear</span><wbr></wbr><span>Auth</span><wbr></wbr><span><span>Tokens</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="237117700%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="clear-auth-tokens.html"><span class="token function">clearAuthTokens</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clears cached authentication tokens.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-757034397%2FFunctions%2F-815581206" anchor-label="deregister" id="-757034397%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="deregister.html"><span><span>deregister</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-757034397%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="deregister.html"><span class="token function">deregister</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">De-registers a user.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="173927531%2FFunctions%2F-815581206" anchor-label="deregisterSignInStatusObserver" id="173927531%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="deregister-sign-in-status-observer.html"><span>deregister</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span>Status</span><wbr></wbr><span><span>Observer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="173927531%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="deregister-sign-in-status-observer.html"><span class="token function">deregisterSignInStatusObserver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Deregisters an existing sign in status observer.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-250895832%2FFunctions%2F-815581206" anchor-label="getAccessToken" id="-250895832%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-access-token.html"><span>get</span><wbr></wbr><span>Access</span><wbr></wbr><span><span>Token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-250895832%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-access-token.html"><span class="token function">getAccessToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the access token cached from the last sign-in.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1425248496%2FFunctions%2F-815581206" anchor-label="getCredentialsProvider" id="-1425248496%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-credentials-provider.html"><span>get</span><wbr></wbr><span>Credentials</span><wbr></wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1425248496%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-credentials-provider.html"><span class="token function">getCredentialsProvider</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.amazonaws.auth/CognitoCredentialsProvider///PointingToDeclaration/">CognitoCredentialsProvider</span></div><div class="brief "><p class="paragraph">Returns a credentials provider that can be used for authenticating into various services provided by Sudo Platform.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1393508449%2FFunctions%2F-815581206" anchor-label="getIdToken" id="-1393508449%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-id-token.html"><span>get</span><wbr></wbr><span>Id</span><wbr></wbr><span><span>Token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1393508449%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-id-token.html"><span class="token function">getIdToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the ID token cached from the last sign-in.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1784458515%2FFunctions%2F-815581206" anchor-label="getLogins" id="1784458515%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-logins.html"><span>get</span><wbr></wbr><span><span>Logins</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1784458515%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-logins.html"><span class="token function">getLogins</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the logins to use for accessing other Sudo Platform services. You must be signed in to get logins.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-20363809%2FFunctions%2F-815581206" anchor-label="getRefreshToken" id="-20363809%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-refresh-token.html"><span>get</span><wbr></wbr><span>Refresh</span><wbr></wbr><span><span>Token</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-20363809%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-refresh-token.html"><span class="token function">getRefreshToken</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the refresh token cached from the last sign-in.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1337209236%2FFunctions%2F-815581206" anchor-label="getRefreshTokenExpiry" id="-1337209236%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-refresh-token-expiry.html"><span>get</span><wbr></wbr><span>Refresh</span><wbr></wbr><span>Token</span><wbr></wbr><span><span>Expiry</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1337209236%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-refresh-token-expiry.html"><span class="token function">getRefreshTokenExpiry</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/Date.html">Date</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the refresh token expiry cached from the last sign-in.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1866851375%2FFunctions%2F-815581206" anchor-label="getSubject" id="-1866851375%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-subject.html"><span>get</span><wbr></wbr><span><span>Subject</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1866851375%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-subject.html"><span class="token function">getSubject</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the subject of the user associated with this client. Note: This is an internal method used by other Sudo platform SDKs.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="198683591%2FFunctions%2F-815581206" anchor-label="getSupportedRegistrationChallengeType" id="198683591%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-supported-registration-challenge-type.html"><span>get</span><wbr></wbr><span>Supported</span><wbr></wbr><span>Registration</span><wbr></wbr><span>Challenge</span><wbr></wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="198683591%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-supported-registration-challenge-type.html"><span class="token function">getSupportedRegistrationChallengeType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../-registration-challenge-type/index.html">RegistrationChallengeType</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns the list of supported registration challenge types supported by the configured backend.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1065949297%2FFunctions%2F-815581206" anchor-label="getTokenExpiry" id="1065949297%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-token-expiry.html"><span>get</span><wbr></wbr><span>Token</span><wbr></wbr><span><span>Expiry</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1065949297%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-token-expiry.html"><span class="token function">getTokenExpiry</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/util/Date.html">Date</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the ID and access token expiry cached from the last sign-in.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="587059992%2FFunctions%2F-815581206" anchor-label="getUserClaim" id="587059992%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-user-claim.html"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Claim</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="587059992%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-user-claim.html"><span class="token function">getUserClaim</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the specified claim associated with the user's identity.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-798385209%2FFunctions%2F-815581206" anchor-label="getUserName" id="-798385209%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="get-user-name.html"><span>get</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-798385209%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="get-user-name.html"><span class="token function">getUserName</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the user name associated with this client. The username maybe needed to contact the support team when diagnosing an issue related to a specific user.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1349747653%2FFunctions%2F-815581206" anchor-label="globalSignOut" id="1349747653%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="global-sign-out.html"><span>global</span><wbr></wbr><span>Sign</span><wbr></wbr><span><span>Out</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1349747653%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="global-sign-out.html"><span class="token function">globalSignOut</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Signs out the user from all devices.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-320613445%2FFunctions%2F-815581206" anchor-label="isRegistered" id="-320613445%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="is-registered.html"><span>is</span><wbr></wbr><span><span>Registered</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-320613445%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-registered.html"><span class="token function">isRegistered</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Indicates whether or not this client is registered with Sudo Platform backend.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="2015857084%2FFunctions%2F-815581206" anchor-label="isSignedIn" id="2015857084%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="is-signed-in.html"><span>is</span><wbr></wbr><span>Signed</span><wbr></wbr><span><span>In</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2015857084%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="is-signed-in.html"><span class="token function">isSignedIn</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Indicates whether or not this client is signed in with Sudo Platform backend. The client is considered signed in if it cached valid ID and access tokens.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1082486397%2FFunctions%2F-815581206" anchor-label="presentFederatedSignInUI" id="1082486397%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="present-federated-sign-in-u-i.html"><span>present</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span><span>UI</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1082486397%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="present-federated-sign-in-u-i.html"><span class="token function">presentFederatedSignInUI</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-sign-in-result/index.html">SignInResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Presents the sign in UI for federated sign in using an external identity provider.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="804918854%2FFunctions%2F-815581206" anchor-label="presentFederatedSignOutUI" id="804918854%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="present-federated-sign-out-u-i.html"><span>present</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>Out</span><wbr></wbr><span><span>UI</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="804918854%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="present-federated-sign-out-u-i.html"><span class="token function">presentFederatedSignOutUI</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-api-result/index.html">ApiResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Presents the sign out UI for federated sign in using an external identity provider.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1213116038%2FFunctions%2F-815581206" anchor-label="processFederatedSignInTokens" id="-1213116038%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="process-federated-sign-in-tokens.html"><span>process</span><wbr></wbr><span>Federated</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span><span>Tokens</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1213116038%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="process-federated-sign-in-tokens.html"><span class="token function">processFederatedSignInTokens</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">data<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/net/Uri.html">Uri</a><span class="token punctuation">, </span></span><span class="parameter ">callback<span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span><a href="../-federated-sign-in-result/index.html">FederatedSignInResult</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Processes tokens from federated sign in via Android intent data pointed to by the specified URL. The tokens are passed to the app via a redirect URL with custom scheme mapped to the app.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1403926202%2FFunctions%2F-815581206" anchor-label="refreshTokens" id="-1403926202%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="refresh-tokens.html"><span>refresh</span><wbr></wbr><span><span>Tokens</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1403926202%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="refresh-tokens.html"><span class="token function">refreshTokens</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">refreshToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a></div><div class="brief "><p class="paragraph">Refresh the access and ID tokens using the refresh token.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-474464426%2FFunctions%2F-815581206" anchor-label="registerSignInStatusObserver" id="-474464426%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="register-sign-in-status-observer.html"><span>register</span><wbr></wbr><span>Sign</span><wbr></wbr><span>In</span><wbr></wbr><span>Status</span><wbr></wbr><span><span>Observer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-474464426%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="register-sign-in-status-observer.html"><span class="token function">registerSignInStatusObserver</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">observer<span class="token operator">: </span><a href="../-sign-in-status-observer/index.html">SignInStatusObserver</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Registers an observer for sign in status changes.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1260809735%2FFunctions%2F-815581206" anchor-label="registerWithAuthenticationProvider" id="1260809735%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="register-with-authentication-provider.html"><span>register</span><wbr></wbr><span>With</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1260809735%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="register-with-authentication-provider.html"><span class="token function">registerWithAuthenticationProvider</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">authenticationProvider<span class="token operator">: </span><a href="../-authentication-provider/index.html">AuthenticationProvider</a><span class="token punctuation">, </span></span><span class="parameter ">registrationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Registers this client against the backend with an external authentication provider. Caller must implement <a href="../-authentication-provider/index.html">AuthenticationProvider</a> protocol to return appropriate authentication token required to authorize the registration request.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-736921202%2FFunctions%2F-815581206" anchor-label="registerWithSafetyNetAttestation" id="-736921202%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="register-with-safety-net-attestation.html"><span>register</span><wbr></wbr><span>With</span><wbr></wbr><span>Safety</span><wbr></wbr><span>Net</span><wbr></wbr><span><span>Attestation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-736921202%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="register-with-safety-net-attestation.html"><span class="token function">registerWithSafetyNetAttestation</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">attestationResult<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">nonce<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">registrationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Registers this client against the backend with a SafetyNet attestation result.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1121902908%2FFunctions%2F-815581206" anchor-label="reset" id="-1121902908%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="reset.html"><span><span>reset</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1121902908%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="reset.html"><span class="token function">reset</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Removes all keys associated with this client and invalidates any cached authentication credentials.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="1346455721%2FFunctions%2F-815581206" anchor-label="setUserName" id="1346455721%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="set-user-name.html"><span>set</span><wbr></wbr><span>User</span><wbr></wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1346455721%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">fun </span><a href="set-user-name.html"><span class="token function">setUserName</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the user name associated with this client.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-297723720%2FFunctions%2F-815581206" anchor-label="signInWithAuthenticationProvider" id="-297723720%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="sign-in-with-authentication-provider.html"><span>sign</span><wbr></wbr><span>In</span><wbr></wbr><span>With</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-297723720%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-in-with-authentication-provider.html"><span class="token function">signInWithAuthenticationProvider</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">authenticationProvider<span class="token operator">: </span><a href="../-authentication-provider/index.html">AuthenticationProvider</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a></div><div class="brief "><p class="paragraph">Sign into the backend  with an external authentication provider. Caller must implement <code class="lang-kotlin">AuthenticationProvider</code> protocol to return the appropriate authentication token associated with the external identity registered with <a href="register-with-authentication-provider.html">registerWithAuthenticationProvider</a>.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-120618628%2FFunctions%2F-815581206" anchor-label="signInWithKey" id="-120618628%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="sign-in-with-key.html"><span>sign</span><wbr></wbr><span>In</span><wbr></wbr><span>With</span><wbr></wbr><span><span>Key</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-120618628%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-in-with-key.html"><span class="token function">signInWithKey</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-authentication-tokens/index.html">AuthenticationTokens</a></div><div class="brief "><p class="paragraph">Sign into the backend using a private key. The client must have created a private/public key pair via one of the <i>register</i> methods.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+<a data-name="-1836509054%2FFunctions%2F-815581206" anchor-label="signOut" id="-1836509054%2FFunctions%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="sign-out.html"><span>sign</span><wbr></wbr><span><span>Out</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1836509054%2FFunctions%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="sign-out.html"><span class="token function">signOut</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Signs out the user from this device only.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Properties</h2>
+      <div class="table" data-togglable="Properties"><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="version.html"><span><span>version</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1079118373%2FProperties%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div>
+              <div class="title">
+                <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-dependent-content" data-active="" data-togglable=":sudouser:dokkaHtml/release"><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword"></span><span class="token keyword">val </span><a href="version.html">version</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><a data-name="-1079118373%2FProperties%2F-815581206" anchor-label="version" id="-1079118373%2FProperties%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a><p class="paragraph">Checksum's for each file are generated and are used to create a checksum that is used when publishing to maven central. In order to retry a failed publish without needing to change any functionality, we need a way to generate a different checksum for the source code.  We can change the value of this property which will generate a different checksum for publishing and allow us to retry.  The value of <code class="lang-kotlin">version</code> doesn't need to be kept up-to-date with the version of the code.</p></div></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="">Inheritors</h2>
+      <div class="table" data-togglable="Inheritors"><a data-name="-1026601501%2FInheritors%2F-815581206" anchor-label="DefaultSudoUserClient" id="-1026601501%2FInheritors%2F-815581206" data-filterable-set=":sudouser:dokkaHtml/release"></a>
+        <div class="table-row" data-filterable-current=":sudouser:dokkaHtml/release" data-filterable-set=":sudouser:dokkaHtml/release">
+          <div class="main-subrow keyValue ">
+            <div class=""><span class="inline-flex">
+                <div><a href="../-default-sudo-user-client/index.html">DefaultSudoUserClient</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1026601501%2FInheritors%2F-815581206"></span>
+                  <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                </span></span></div>
+            <div></div>
+          </div>
+        </div>
       </div>
     </div>
-  </body>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+    </div>
+</div>
+</body>
 </html>
-
