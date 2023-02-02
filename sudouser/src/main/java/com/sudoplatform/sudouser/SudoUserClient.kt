@@ -16,6 +16,7 @@ import com.amazonaws.regions.Regions
 import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
+import com.appmattus.certificatetransparency.loglist.LogListDataSourceFactory
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudokeymanager.AndroidSQLiteStore
 import com.sudoplatform.sudologging.Logger
@@ -1256,7 +1257,9 @@ class DefaultSudoUserClient(
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
     private fun buildOkHttpClient(): OkHttpClient {
-        val interceptor = certificateTransparencyInterceptor {}
+        val interceptor = certificateTransparencyInterceptor {
+            setLogListService(LogListDataSourceFactory.createLogListService("https://www.gstatic.com/ct/log_list/v3/"))
+        }
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
             // exponential backoff retrying of [AWSAppSyncClient]
