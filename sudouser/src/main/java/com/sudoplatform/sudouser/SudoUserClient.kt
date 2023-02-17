@@ -452,6 +452,7 @@ class DefaultSudoUserClient(
 
         private const val CONFIG_NAMESPACE_IDENTITY_SERVICE = "identityService"
         private const val CONFIG_NAMESPACE_FEDERATED_SIGN_IN = "federatedSignIn"
+        private const val CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE = "ctLogListService"
 
         private const val CONFIG_REGION = "region"
         private const val CONFIG_POOL_ID = "poolId"
@@ -459,6 +460,7 @@ class DefaultSudoUserClient(
         private const val CONFIG_API_URL = "apiUrl"
         private const val CONFIG_REGISTRATION_METHODS = "registrationMethods"
         private const val CONFIG_REFRESH_TOKEN_LIFETIME = "refreshTokenLifetime"
+        private const val CONFIG_LOG_LIST_URL = "logListUrl"
 
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
         private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
@@ -532,13 +534,16 @@ class DefaultSudoUserClient(
     init {
         val identityServiceConfig: JSONObject?
         val federatedSignInConfig: JSONObject?
+        val ctLogListServiceConfig: JSONObject?
         if(config != null) {
             identityServiceConfig = config.opt(CONFIG_NAMESPACE_IDENTITY_SERVICE) as JSONObject?
             federatedSignInConfig = config.opt(CONFIG_NAMESPACE_FEDERATED_SIGN_IN) as JSONObject?
+            ctLogListServiceConfig = config.opt(CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE) as JSONObject?
         } else {
             val configManager = DefaultSudoConfigManager(context)
             identityServiceConfig = configManager.getConfigSet(CONFIG_NAMESPACE_IDENTITY_SERVICE)
             federatedSignInConfig = configManager.getConfigSet(CONFIG_NAMESPACE_FEDERATED_SIGN_IN)
+            ctLogListServiceConfig = configManager.getConfigSet(CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE)
         }
 
         require(identityServiceConfig != null) { "Client configuration not found." }
@@ -573,13 +578,13 @@ class DefaultSudoUserClient(
         }
 
         val authProvider = GraphQLAuthProvider(this)
-
+        val logListUrl = ctLogListServiceConfig?.getString(CONFIG_LOG_LIST_URL)
         this.apiClient = apiClient ?: AWSAppSyncClient.builder()
             .serverUrl(apiUrl)
             .region(Regions.fromName(region))
             .cognitoUserPoolsAuthProvider(authProvider)
             .context(this.context)
-            .okHttpClient(buildOkHttpClient())
+            .okHttpClient(buildOkHttpClient(logListUrl))
             .build()
 
         this.idGenerator = idGenerator
@@ -1256,9 +1261,11 @@ class DefaultSudoUserClient(
     /**
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
-    private fun buildOkHttpClient(): OkHttpClient {
+    private fun buildOkHttpClient(ctLogListUrl: String?): OkHttpClient {
+        val url = ctLogListUrl ?: "https://www.gstatic.com/ct/log_list/v3/"
+        this.logger.info("Using CT log list URL: $url")
         val interceptor = certificateTransparencyInterceptor {
-            setLogListService(LogListDataSourceFactory.createLogListService("https://www.gstatic.com/ct/log_list/v3/"))
+            setLogListService(LogListDataSourceFactory.createLogListService(url))
         }
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
