@@ -712,9 +712,7 @@ class DefaultSudoUserClient(
         if (!this.isRegistered()) {
             val authInfo = authenticationProvider.getAuthenticationInfo()
             val token = authInfo.encode()
-            val jwt = JWT.decode(token)
-
-            val uid = jwt?.subject ?: this.idGenerator.generateId().uppercase(Locale.US)
+            val uid = authInfo.getUsername()
 
             val parameters = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,

@@ -8,6 +8,7 @@ package com.sudoplatform.sudouser
 
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
+import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import org.json.JSONObject
 import org.spongycastle.asn1.x509.SubjectPublicKeyInfo
 import java.security.KeyFactory
@@ -32,7 +33,13 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
     }
 
     override fun getUsername(): String {
-        return ""
+        val jwt = JWT.decode(this.jwt)
+        val username = jwt?.subject
+        if (username != null) {
+            return username
+        } else {
+            throw AuthenticationException.FailedException("TEST registration JWT does not have sub.")
+        }
     }
 
 }
