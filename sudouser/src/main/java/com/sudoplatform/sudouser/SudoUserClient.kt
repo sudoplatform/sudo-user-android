@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2023 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -193,22 +193,6 @@ interface SudoUserClient {
      * Removes all keys associated with this client and invalidates any cached authentication credentials.
      */
     fun reset()
-
-    /**
-     * Registers this client against the backend with a SafetyNet attestation result.
-     *
-     * @param attestationResult SafetyNet attestation result.
-     * @param nonce nonce used to generate SafetyNet attestation result. This should be unique for each device so
-     *  use UUID or Android ID.
-     * @param registrationId registration ID to uniquely identify this registration request.
-     * @return user ID
-     */
-    @Throws(RegisterException::class)
-    suspend fun registerWithSafetyNetAttestation(
-        attestationResult: String,
-        nonce: String,
-        registrationId: String?
-    ): String
 
     /**
      * Registers this client against the backend with an external authentication provider. Caller must
@@ -465,8 +449,6 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
         private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
         private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
-
-        private const val MAX_VALIDATION_DATA_SIZE = 2048
     }
 
     override val version: String = "13.0.0"
@@ -653,54 +635,6 @@ class DefaultSudoUserClient(
         this.credentialsProvider.clear()
         this.credentialsProvider.clearCredentials()
         this.clearAuthTokens()
-    }
-
-    override suspend fun registerWithSafetyNetAttestation(
-        attestationResult: String,
-        nonce: String,
-        registrationId: String?
-    ): String {
-        this.logger.info("Registering using registration challenge.")
-
-        if (!this.isRegistered()) {
-            // Clear out any partial registration data.
-            this.reset()
-
-            // Generate user ID.
-            val uid = this.idGenerator.generateId().uppercase(Locale.US)
-
-            val publicKey = this.generateRegistrationData()
-
-            val parameters: MutableMap<String, String> = mutableMapOf(
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to RegistrationChallengeType.SAFETY_NET.name,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to "dummy_answer", // Mainly needed for backward compatibility.
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_DEVICE_ID to nonce,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (registrationId
-                    ?: this.idGenerator.generateId()),
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PUBLIC_KEY to publicKey.encode()
-            )
-
-            // Split the SafetyNet attestation result into chunks to avoid hitting the Cognito's
-            // validation data limit.
-            val answerParts = attestationResult.chunked(MAX_VALIDATION_DATA_SIZE)
-            val answerPartNames: MutableList<String> = mutableListOf()
-            for ((index, element) in answerParts.iterator().withIndex()) {
-                val key = "${CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER}.${index}"
-                parameters[key] = element
-                answerPartNames.add(key)
-            }
-
-            val answerMetadata =
-                mapOf<String, Any>(CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER_PARTS to answerPartNames)
-            parameters[CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER_METADATA] =
-                JSONObject(answerMetadata).toString()
-
-            val userId = identityProvider.register(uid, parameters)
-            this.setUserName(userId)
-            return userId
-        } else {
-            throw RegisterException.AlreadyRegisteredException("Client is already registered.")
-        }
     }
 
     override suspend fun registerWithAuthenticationProvider(

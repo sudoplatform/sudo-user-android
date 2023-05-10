@@ -22,7 +22,7 @@ android {
         minSdkVersion 24
         targetSdkVersion 31
         versionCode 1
-        versionName "12.0.1"
+        versionName "15.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -126,8 +126,6 @@ dependencies {
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "com.google.android.gms:play-services-safetynet:17.0.1"
-    androidTestImplementation 'com.google.android.gms:play-services-base:17.6.0'
     androidTestImplementation "io.kotlintest:kotlintest-assertions:$kotlintest_version"
 }
 

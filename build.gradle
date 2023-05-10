@@ -14,7 +14,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath "org.owasp:dependency-check-gradle:6.5.3"
+        classpath "org.owasp:dependency-check-gradle:8.1.2"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "com.amazonaws:aws-android-sdk-appsync-gradle-plugin:$appsync_version"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.3"

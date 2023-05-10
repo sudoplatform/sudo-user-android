@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2023 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,8 +50,7 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                         } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_MISSING_REQUIRED_INPUT)
                             || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_DECODING_ERROR)) {
                             cont.resumeWithException(RegisterException.InvalidInputException(message))
-                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SAFETY_NET_CHECK_FAILED)
-                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED)
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED)
                             || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_TEST_REG_CHECK_FAILED)
                             || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
                             cont.resumeWithException(RegisterException.NotAuthorizedException(message))
