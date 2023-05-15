@@ -20,6 +20,7 @@ import com.amazonaws.services.cognitoidentityprovider.model.InitiateAuthRequest
 import com.amazonaws.services.cognitoidentityprovider.model.NotAuthorizedException
 import com.amazonaws.services.cognitoidentityprovider.model.RespondToAuthChallengeRequest
 import com.amazonaws.services.cognitoidentityprovider.model.RevokeTokenRequest
+import com.amazonaws.services.cognitoidentityprovider.model.UserNotFoundException
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
@@ -411,6 +412,7 @@ internal class CognitoUserPoolIdentityProvider(
             }
         } catch (t: Throwable) {
             when (t) {
+                is UserNotFoundException -> throw AuthenticationException.NotAuthorizedException(cause = t)
                 is AuthenticationException -> throw t
                 is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(cause = t)
                 else -> throw AuthenticationException.FailedException(cause = t)

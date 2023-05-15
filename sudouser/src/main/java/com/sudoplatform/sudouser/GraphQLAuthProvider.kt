@@ -26,10 +26,19 @@ class GraphQLAuthProvider(private val client: SudoUserClient) : CognitoUserPools
                 return idToken
             } else {
                 // Refresh the token if it has expired or will expire in 10 mins.
-                val result = runBlocking {
-                    this@GraphQLAuthProvider.client.refreshTokens(refreshToken)
+                return try {
+                    val result = runBlocking {
+                        this@GraphQLAuthProvider.client.refreshTokens(refreshToken)
+                    }
+                    result.idToken
+                } catch (e: AuthenticationException.NotAuthorizedException) {
+                    // Catch any NotAuthorizedException and return an invalid ID
+                    // token. This avoids AppSync going into a retry loop and
+                    // correctly return not authorized error to the caller.
+                    ""
+                } catch (t: Throwable) {
+                    throw t
                 }
-                return result.idToken
             }
         } else {
             // If tokens are missing then it's likely due to the client not being signed in.

@@ -13,6 +13,7 @@ import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.auth.CognitoCredentialsProvider
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.regions.Regions
+import com.apollographql.apollo.exception.ApolloHttpException
 import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
@@ -1074,6 +1075,13 @@ class DefaultSudoUserClient(
         } catch (t: Throwable) {
             when (t) {
                 is GlobalSignOutException -> throw t
+                is ApolloHttpException -> {
+                    if(t.code() == 401) {
+                        throw GlobalSignOutException.NotAuthorizedException(cause = t)
+                    } else {
+                        throw GlobalSignOutException.FailedException(cause = t)
+                    }
+                }
                 else -> throw GlobalSignOutException.FailedException(cause = t)
             }
         }
