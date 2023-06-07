@@ -500,3 +500,9 @@
   license: Amazon Software License
   licenseUrl: https://aws.amazon.com/asl/
   url: https://github.com/aws/aws-sdk-android
+- artifact: com.squareup.okio:okio-jvm:+
+  name: okio
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/square/okio/

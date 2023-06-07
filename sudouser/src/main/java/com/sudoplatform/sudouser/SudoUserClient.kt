@@ -424,7 +424,7 @@ class DefaultSudoUserClient(
     authUI: AuthUI? = null,
     idGenerator: IdGenerator = IdGenerateImpl(),
     private val databaseName: String = AndroidSQLiteStore.DEFAULT_DATABASE_NAME,
-    ) : SudoUserClient {
+) : SudoUserClient {
 
     companion object {
         private const val KEY_NAME_USER_ID = "userId"
@@ -452,7 +452,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
     }
 
-    override val version: String = "13.0.0"
+    override val version: String = "14.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -518,7 +518,7 @@ class DefaultSudoUserClient(
         val identityServiceConfig: JSONObject?
         val federatedSignInConfig: JSONObject?
         val ctLogListServiceConfig: JSONObject?
-        if(config != null) {
+        if (config != null) {
             identityServiceConfig = config.opt(CONFIG_NAMESPACE_IDENTITY_SERVICE) as JSONObject?
             federatedSignInConfig = config.opt(CONFIG_NAMESPACE_FEDERATED_SIGN_IN) as JSONObject?
             ctLogListServiceConfig = config.opt(CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE) as JSONObject?
@@ -526,13 +526,17 @@ class DefaultSudoUserClient(
             val configManager = DefaultSudoConfigManager(context)
             identityServiceConfig = configManager.getConfigSet(CONFIG_NAMESPACE_IDENTITY_SERVICE)
             federatedSignInConfig = configManager.getConfigSet(CONFIG_NAMESPACE_FEDERATED_SIGN_IN)
-            ctLogListServiceConfig = configManager.getConfigSet(CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE)
+            ctLogListServiceConfig =
+                configManager.getConfigSet(CONFIG_NAMESPACE_CT_LOG_LIST_SERVICE)
         }
 
         require(identityServiceConfig != null) { "Client configuration not found." }
 
         this.keyManager =
-            keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(this.namespace, this.databaseName)
+            keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(
+                this.namespace,
+                this.databaseName
+            )
         this.identityProvider = identityProvider ?: CognitoUserPoolIdentityProvider(
             identityServiceConfig,
             context,
@@ -545,7 +549,6 @@ class DefaultSudoUserClient(
         val region = identityServiceConfig[CONFIG_REGION] as String?
         var refreshTokenLifetime = identityServiceConfig.optInt(CONFIG_REFRESH_TOKEN_LIFETIME, 60)
 
-        @Suppress("UNCHECKED_CAST")
         val registrationMethods =
             identityServiceConfig.opt(CONFIG_REGISTRATION_METHODS) as JSONArray?
         if (registrationMethods != null) {
@@ -797,6 +800,7 @@ class DefaultSudoUserClient(
                         )
                     }
                 }
+
                 is FederatedSignInResult.Failure -> {
                     callback(SignInResult.Failure(result.error))
                 }
@@ -850,6 +854,7 @@ class DefaultSudoUserClient(
                         )
                     }
                 }
+
                 is FederatedSignInResult.Failure -> {
                     this.logger.error("Failed to process the federated sign in redirect: ${result.error}")
                     callback(FederatedSignInResult.Failure(result.error))
@@ -1015,7 +1020,8 @@ class DefaultSudoUserClient(
         return this.getUserClaim("sub") as? String
     }
 
-    @Synchronized override fun clearAuthTokens() {
+    @Synchronized
+    override fun clearAuthTokens() {
         this.keyManager.deletePassword(KEY_NAME_ID_TOKEN)
         this.keyManager.deletePassword(KEY_NAME_ACCESS_TOKEN)
         this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN)
@@ -1036,7 +1042,8 @@ class DefaultSudoUserClient(
     override suspend fun signOut() {
         this.logger.info("Signing out user from this device.")
 
-        val refreshToken = this.getRefreshToken() ?: throw AuthenticationException.NotSignedInException()
+        val refreshToken =
+            this.getRefreshToken() ?: throw AuthenticationException.NotSignedInException()
 
         try {
             identityProvider.signOut(refreshToken)
@@ -1076,12 +1083,13 @@ class DefaultSudoUserClient(
             when (t) {
                 is GlobalSignOutException -> throw t
                 is ApolloHttpException -> {
-                    if(t.code() == 401) {
+                    if (t.code() == 401) {
                         throw GlobalSignOutException.NotAuthorizedException(cause = t)
                     } else {
                         throw GlobalSignOutException.FailedException(cause = t)
                     }
                 }
+
                 else -> throw GlobalSignOutException.FailedException(cause = t)
             }
         }
@@ -1125,7 +1133,8 @@ class DefaultSudoUserClient(
      * @param refreshToken refresh token.
      * @param lifetime token lifetime in seconds.
      */
-    @Synchronized private fun storeTokens(
+    @Synchronized
+    private fun storeTokens(
         idToken: String,
         accessToken: String,
         refreshToken: String,
@@ -1147,7 +1156,8 @@ class DefaultSudoUserClient(
         )
     }
 
-    @Synchronized private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
+    @Synchronized
+    private fun storeRefreshTokenLifetime(refreshTokenLifetime: Int) {
         this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
