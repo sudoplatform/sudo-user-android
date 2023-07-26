@@ -1,7 +1,7 @@
 buildscript {
     ext.kotlin_version = '1.8.20'
     ext.appsync_version = '3.4.0'
-    ext.aws_version = '2.70.0'
+    ext.aws_version = '2.72.0'
     ext.dokka_version = '1.8.10'
 
     repositories {

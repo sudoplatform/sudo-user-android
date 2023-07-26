@@ -14,6 +14,7 @@ import com.amazonaws.auth.CognitoCredentialsProvider
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.regions.Regions
 import com.apollographql.apollo.exception.ApolloHttpException
+import com.appmattus.certificatetransparency.cache.AndroidDiskCache
 import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
@@ -39,6 +40,8 @@ import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
 import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
 import com.sudoplatform.sudouser.extensions.toRegistrationException
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 /**
  * Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
@@ -452,7 +455,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
     }
 
-    override val version: String = "14.0.0"
+    override val version: String = "17.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -570,7 +573,7 @@ class DefaultSudoUserClient(
             .region(Regions.fromName(region))
             .cognitoUserPoolsAuthProvider(authProvider)
             .context(this.context)
-            .okHttpClient(buildOkHttpClient(logListUrl))
+            .okHttpClient(buildOkHttpClient(context, logListUrl))
             .build()
 
         this.idGenerator = idGenerator
@@ -677,34 +680,30 @@ class DefaultSudoUserClient(
     override suspend fun deregister() {
         this.logger.info("De-registering user.")
 
-        if (!this.isRegistered()) {
-            throw AuthenticationException.NotRegisteredException()
+        if (!this.isSignedIn()) {
+            throw AuthenticationException.NotSignedInException()
         }
 
-        val accessToken = this.getAccessToken()
+        try {
+            val mutation = DeregisterMutation.builder().build()
 
-        if (accessToken != null) {
-            try {
-                val mutation = DeregisterMutation.builder().build()
+            val response = this.apiClient.mutate(mutation).enqueue()
 
-                val response = this.apiClient.mutate(mutation).enqueue()
+            if (response.hasErrors()) {
+                throw response.errors().first().toDeregisterException()
+            }
 
-                if (response.hasErrors()) {
-                    throw response.errors().first().toDeregisterException()
-                }
-
-                val result = response.data()?.deregister()
-                if (result != null) {
-                    this.reset()
-                    return
-                } else {
-                    throw DeregisterException.FailedException("Mutation succeeded but output was null.")
-                }
-            } catch (t: Throwable) {
-                when (t) {
-                    is DeregisterException -> throw t
-                    else -> throw DeregisterException.FailedException(cause = t)
-                }
+            val result = response.data()?.deregister()
+            if (result != null) {
+                this.reset()
+                return
+            } else {
+                throw DeregisterException.FailedException("Mutation succeeded but output was null.")
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is DeregisterException -> throw t
+                else -> throw DeregisterException.FailedException(cause = t)
             }
         }
     }
@@ -1211,11 +1210,22 @@ class DefaultSudoUserClient(
     /**
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
-    private fun buildOkHttpClient(ctLogListUrl: String?): OkHttpClient {
+    private fun buildOkHttpClient(context: Context, ctLogListUrl: String?): OkHttpClient {
         val url = ctLogListUrl ?: "https://www.gstatic.com/ct/log_list/v3/"
         this.logger.info("Using CT log list URL: $url")
         val interceptor = certificateTransparencyInterceptor {
-            setLogListService(LogListDataSourceFactory.createLogListService(url))
+            setLogListDataSource(LogListDataSourceFactory.createDataSource(
+                logListService = LogListDataSourceFactory.createLogListService(url),
+                diskCache = AndroidDiskCache(context),
+                now = {
+                    // Currently there's an issue where the new version of CT library invalidates the
+                    // cached log list if the log list timestamp is more than 24 hours old. This assumes
+                    // Google's log list and our mirror is updated every 24 hours which is not guaranteed.
+                    // We will override the definition of now to be 2 weeks in the past to be in
+                    // sync with our update interval. This override only impacts the calculation of cache
+                    // expiry in the CT library.
+                    Instant.now().minus(14, ChronoUnit.DAYS)
+                }))
         }
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
