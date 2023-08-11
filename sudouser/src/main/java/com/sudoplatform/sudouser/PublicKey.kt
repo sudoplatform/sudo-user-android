@@ -75,5 +75,4 @@ data class PublicKey(
         result = 31 * result + symmetricAlgorithm.hashCode()
         return result
     }
-
 }

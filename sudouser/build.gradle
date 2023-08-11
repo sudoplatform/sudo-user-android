@@ -23,7 +23,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 31
         versionCode 1
-        versionName "17.0.0"
+        versionName "17.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
@@ -111,6 +111,11 @@ dependencies {
     implementation "com.amazonaws:aws-android-sdk-cognitoauth:$aws_version!!"
     implementation "com.amazonaws:aws-android-sdk-s3:$aws_version!!"
     implementation "com.amazonaws:aws-android-sdk-appsync:$appsync_version!!"
+    constraints {
+        implementation("com.squareup.okio:okio:3.4.0") {
+            because "CVE-2023-3635"
+        }
+    }
 
     // Sudo Platform SDKs.
     implementation 'com.sudoplatform:sudokeymanager:6.0.0'
