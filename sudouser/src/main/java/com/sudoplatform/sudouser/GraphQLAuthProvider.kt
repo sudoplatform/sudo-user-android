@@ -6,6 +6,7 @@
 
 package com.sudoplatform.sudouser
 
+import com.amazonaws.AmazonClientException
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import kotlinx.coroutines.runBlocking
@@ -37,12 +38,33 @@ class GraphQLAuthProvider(private val client: SudoUserClient) : CognitoUserPools
                     // correctly return not authorized error to the caller.
                     ""
                 } catch (t: Throwable) {
-                    throw t
+                    // There's a bug in AWSAppSync SDK's subscription code path
+                    // where throwing any exception other than AmazonClientException
+                    // will cause the app to crash. However, throwing AmazonClientException
+                    // will always cause the subscription to be re-tried. Unfortunately,
+                    // there's currently no way to throw an exception to indicate that
+                    // there's a non-recoverable error. The best we can do is to return
+                    // an empty string to cause an authorization error to abort the retry.
+                    // This could be misleading in some cases because the consumer might
+                    // attempt to sign in again. This is a temporary measure until the
+                    // AWSAppSync SDK bug is fixed.
+                    val cause = t.cause
+                    if (cause != null && cause is AmazonClientException && cause.isRetryable) {
+                        // Throwing AmazonClientException will cause the subscription to be
+                        // retried so we use our best guess as to whether or not the underlying
+                        // error is recoverable.
+                        throw AmazonClientException("Failed to refresh tokens", t)
+                    }
+                    // We have not detected recoverable error so we return an empty string to cause
+                    // an authorization error. We actually don't have any other option.
+                    return ""
                 }
             }
         } else {
             // If tokens are missing then it's likely due to the client not being signed in.
-            throw AuthenticationException.NotSignedInException("Client is not signed in.")
+            // Return an empty string because of the subscription related AWSAppSync SDK bug
+            // mentioned previously.
+            return ""
         }
     }
 }
