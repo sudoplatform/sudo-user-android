@@ -85,7 +85,7 @@ android {
 }
 
 ext {
-    coroutine_version = '1.7.1'
+    coroutine_version = '1.7.3'
     kotlintest_version = "3.4.2"
 }
 
@@ -118,22 +118,23 @@ dependencies {
     }
 
     // Sudo Platform SDKs.
-    implementation 'com.sudoplatform:sudokeymanager:6.0.0'
+    implementation 'com.sudoplatform:sudokeymanager:6.2.0'
     implementation 'com.sudoplatform:sudologging:3.0.0'
     implementation 'com.sudoplatform:sudoconfigmanager:6.0.0'
 
-    implementation 'com.appmattus.certificatetransparency:certificatetransparency-android:2.4.7'
+    implementation 'com.appmattus.certificatetransparency:certificatetransparency-android:2.5.6'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
     testImplementation 'org.mockito:mockito-inline:4.6.1'
-    testImplementation 'org.json:json:20230227'
+    testImplementation 'org.json:json:20230618'
     androidTestImplementation 'androidx.test:runner:1.5.2'
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "io.kotlintest:kotlintest-assertions:$kotlintest_version"
+    androidTestImplementation 'com.google.android.play:integrity:1.2.0'
 }
 
 

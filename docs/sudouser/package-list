@@ -45,6 +45,15 @@ $dokka.location:com.sudoplatform.sudouser.exceptions/RegisterException.NotAuthor
 $dokka.location:com.sudoplatform.sudouser.exceptions/RegisterException.ServerException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-register-exception/-server-exception/index.html
 $dokka.location:com.sudoplatform.sudouser.exceptions/RegisterException.ServerException/ServerException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-register-exception/-server-exception/-server-exception.html
 $dokka.location:com.sudoplatform.sudouser.exceptions/RegisterException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-register-exception/index.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.FailedException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-failed-exception/index.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.FailedException/FailedException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-failed-exception/-failed-exception.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.GraphQLException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-graph-q-l-exception/index.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.GraphQLException/GraphQLException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-graph-q-l-exception/-graph-q-l-exception.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.NotAuthorizedException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-not-authorized-exception/index.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.NotAuthorizedException/NotAuthorizedException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-not-authorized-exception/-not-authorized-exception.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.ServerException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-server-exception/index.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException.ServerException/ServerException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/-server-exception/-server-exception.html
+$dokka.location:com.sudoplatform.sudouser.exceptions/ResetUserDataException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-reset-user-data-exception/index.html
 $dokka.location:com.sudoplatform.sudouser.exceptions/SignOutException.FailedException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-sign-out-exception/-failed-exception/index.html
 $dokka.location:com.sudoplatform.sudouser.exceptions/SignOutException.FailedException/FailedException/#kotlin.String?#kotlin.Throwable?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-sign-out-exception/-failed-exception/-failed-exception.html
 $dokka.location:com.sudoplatform.sudouser.exceptions/SignOutException.NotAuthorizedException///PointingToDeclaration/sudouser/com.sudoplatform.sudouser.exceptions/-sign-out-exception/-not-authorized-exception/index.html
@@ -54,6 +63,7 @@ $dokka.location:com.sudoplatform.sudouser.extensions////PointingToDeclaration/s
 $dokka.location:com.sudoplatform.sudouser.extensions//toDeregisterException/com.apollographql.apollo.api.Error#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.extensions/to-deregister-exception.html
 $dokka.location:com.sudoplatform.sudouser.extensions//toGlobalSignOutException/com.apollographql.apollo.api.Error#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.extensions/to-global-sign-out-exception.html
 $dokka.location:com.sudoplatform.sudouser.extensions//toRegistrationException/com.apollographql.apollo.api.Error#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.extensions/to-registration-exception.html
+$dokka.location:com.sudoplatform.sudouser.extensions//toResetUserDataException/com.apollographql.apollo.api.Error#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser.extensions/to-reset-user-data-exception.html
 $dokka.location:com.sudoplatform.sudouser////PointingToDeclaration/sudouser/com.sudoplatform.sudouser/index.html
 $dokka.location:com.sudoplatform.sudouser/ApiResult.Failure///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-api-result/-failure/index.html
 $dokka.location:com.sudoplatform.sudouser/ApiResult.Failure/Failure/#kotlin.Throwable/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-api-result/-failure/-failure.html
@@ -108,7 +118,6 @@ $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getLogins/#/Poin
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getRefreshToken/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-refresh-token.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getRefreshTokenExpiry/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-refresh-token-expiry.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getSubject/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-subject.html
-$dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getSupportedRegistrationChallengeType/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-supported-registration-challenge-type.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getTokenExpiry/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-token-expiry.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getUserClaim/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-user-claim.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getUserName/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-user-name.html
@@ -121,7 +130,9 @@ $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/processFederated
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/refreshTokens/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/refresh-tokens.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/registerSignInStatusObserver/#kotlin.String#com.sudoplatform.sudouser.SignInStatusObserver/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/register-sign-in-status-observer.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/registerWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider#kotlin.String?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/register-with-authentication-provider.html
+$dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/registerWithGooglePlayIntegrity/#kotlin.String#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/register-with-google-play-integrity.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/reset/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/reset.html
+$dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/resetUserData/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/reset-user-data.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/setUserName/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/set-user-name.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/signInWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/sign-in-with-authentication-provider.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/signInWithKey/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/sign-in-with-key.html
@@ -202,16 +213,6 @@ $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success///PointingToDec
 $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success/Success/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/-success/-success.html
 $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success/uid/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/-success/uid.html
 $dokka.location:com.sudoplatform.sudouser/RegisterResult///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/index.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallenge///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge/index.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallenge/RegistrationChallenge/#com.sudoplatform.sudouser.RegistrationChallengeType#kotlin.String?#kotlin.String?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge/-registration-challenge.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallenge/answer/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge/answer.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallenge/nonce/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge/nonce.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallenge/type/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge/type.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallengeType.FSSO///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}sudouser/com.sudoplatform.sudouser/-registration-challenge-type/-f-s-s-o/index.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallengeType.TEST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}sudouser/com.sudoplatform.sudouser/-registration-challenge-type/-t-e-s-t/index.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallengeType///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge-type/index.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallengeType/valueOf/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge-type/value-of.html
-$dokka.location:com.sudoplatform.sudouser/RegistrationChallengeType/values/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-registration-challenge-type/values.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/index.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure/Failure/#kotlin.Throwable/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/-failure.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure/error/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/error.html
@@ -256,7 +257,6 @@ $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getLogins/#/PointingToD
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getRefreshToken/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-refresh-token.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getRefreshTokenExpiry/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-refresh-token-expiry.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getSubject/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-subject.html
-$dokka.location:com.sudoplatform.sudouser/SudoUserClient/getSupportedRegistrationChallengeType/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-supported-registration-challenge-type.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getTokenExpiry/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-token-expiry.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getUserClaim/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-user-claim.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/getUserName/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/get-user-name.html
@@ -269,7 +269,9 @@ $dokka.location:com.sudoplatform.sudouser/SudoUserClient/processFederatedSignInT
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/refreshTokens/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/refresh-tokens.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/registerSignInStatusObserver/#kotlin.String#com.sudoplatform.sudouser.SignInStatusObserver/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/register-sign-in-status-observer.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/registerWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider#kotlin.String?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/register-with-authentication-provider.html
+$dokka.location:com.sudoplatform.sudouser/SudoUserClient/registerWithGooglePlayIntegrity/#kotlin.String#kotlin.String#kotlin.String#kotlin.String?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/register-with-google-play-integrity.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/reset/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/reset.html
+$dokka.location:com.sudoplatform.sudouser/SudoUserClient/resetUserData/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/reset-user-data.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/setUserName/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/set-user-name.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/signInWithAuthenticationProvider/#com.sudoplatform.sudouser.AuthenticationProvider/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/sign-in-with-authentication-provider.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient/signInWithKey/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/sign-in-with-key.html

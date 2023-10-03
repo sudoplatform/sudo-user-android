@@ -26,13 +26,13 @@ import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import com.sudoplatform.sudouser.exceptions.DeregisterException
 import com.sudoplatform.sudouser.exceptions.GlobalSignOutException
 import com.sudoplatform.sudouser.exceptions.RegisterException
+import com.sudoplatform.sudouser.exceptions.ResetUserDataException
 import com.sudoplatform.sudouser.exceptions.SignOutException
 import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
-import org.json.JSONArray
 import org.json.JSONObject
 import java.util.Date
 import java.util.Locale
@@ -40,6 +40,7 @@ import com.sudoplatform.sudouser.extensions.enqueue
 import com.sudoplatform.sudouser.extensions.toDeregisterException
 import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
 import com.sudoplatform.sudouser.extensions.toRegistrationException
+import com.sudoplatform.sudouser.extensions.toResetUserDataException
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 
@@ -214,6 +215,22 @@ interface SudoUserClient {
     ): String
 
     /**
+     * Registers this client against the backend with a Google Play Integrity token.
+     *
+     * @param packageName app package name.
+     * @param deviceId device ID (Android ID).
+     * @param token Google Play Integrity token.
+     * @param registrationId registration ID to uniquely identify this registration request.
+     * @return user ID of the newly created user
+     */
+    @Throws(RegisterException::class)
+    suspend fun registerWithGooglePlayIntegrity(
+        packageName: String,
+        deviceId: String,
+        token: String,
+        registrationId: String?
+    ): String
+    /**
      * De-registers a user.
      */
     @Throws(DeregisterException::class)
@@ -376,13 +393,6 @@ interface SudoUserClient {
     fun getUserClaim(name: String): Any?
 
     /**
-     * Returns the list of supported registration challenge types supported by the configured backend.
-     *
-     * @return: list of supported registration challenge types.
-     */
-    fun getSupportedRegistrationChallengeType(): List<RegistrationChallengeType>
-
-    /**
      * Registers an observer for sign in status changes.
      *
      * @param id unique ID to associate with the observer.
@@ -396,6 +406,12 @@ interface SudoUserClient {
      * @param id ID of the observer to deregister.
      */
     fun deregisterSignInStatusObserver(id: String)
+
+    /**
+     * Removes all data owned by the signed-in user from Sudo Platform Services without deregistering
+     * the user. Should only be used in tests.
+     */
+    suspend fun resetUserData()
 
 }
 
@@ -446,13 +462,14 @@ class DefaultSudoUserClient(
         private const val CONFIG_POOL_ID = "poolId"
         private const val CONFIG_IDENTITY_POOL_ID = "identityPoolId"
         private const val CONFIG_API_URL = "apiUrl"
-        private const val CONFIG_REGISTRATION_METHODS = "registrationMethods"
         private const val CONFIG_REFRESH_TOKEN_LIFETIME = "refreshTokenLifetime"
         private const val CONFIG_LOG_LIST_URL = "logListUrl"
 
         private const val SIGN_IN_PARAM_NAME_USER_KEY_ID = "userKeyId"
         private const val SIGN_IN_PARAM_NAME_CHALLENGE_TYPE = "challengeType"
         private const val SIGN_IN_PARAM_NAME_ANSWER = "answer"
+
+        private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
     override val version: String = "17.0.0"
@@ -508,11 +525,6 @@ class DefaultSudoUserClient(
     private val apiClient: AWSAppSyncClient
 
     /**
-     * List of supported registration challenge types.
-     */
-    private val challengeTypes: List<RegistrationChallengeType>
-
-    /**
      * List of sign in status observers.
      */
     private val signInStatusObservers: MutableMap<String, SignInStatusObserver> = mutableMapOf()
@@ -551,20 +563,6 @@ class DefaultSudoUserClient(
         val apiUrl = identityServiceConfig[CONFIG_API_URL] as String?
         val region = identityServiceConfig[CONFIG_REGION] as String?
         var refreshTokenLifetime = identityServiceConfig.optInt(CONFIG_REFRESH_TOKEN_LIFETIME, 60)
-
-        val registrationMethods =
-            identityServiceConfig.opt(CONFIG_REGISTRATION_METHODS) as JSONArray?
-        if (registrationMethods != null) {
-            this.challengeTypes = Array(registrationMethods.length()) {
-                try {
-                    RegistrationChallengeType.valueOf(registrationMethods.getString(it))
-                } catch (e: Exception) {
-                    // Ignore registration methods not relevant for Android SDK.
-                }
-            }.asList() as List<RegistrationChallengeType>
-        } else {
-            this.challengeTypes = listOf()
-        }
 
         val authProvider = GraphQLAuthProvider(this)
         val logListUrl = ctLogListServiceConfig?.getString(CONFIG_LOG_LIST_URL)
@@ -675,6 +673,38 @@ class DefaultSudoUserClient(
         } else {
             throw RegisterException.AlreadyRegisteredException("Client is already registered.")
         }
+    }
+
+    override suspend fun registerWithGooglePlayIntegrity(
+        packageName: String,
+        deviceId: String,
+        token: String,
+        registrationId: String?
+    ): String {
+        this.logger.info("Registering using Google Play Integrity.")
+
+        if (this.isRegistered()) {
+            throw RegisterException.AlreadyRegisteredException("Client is already registered.")
+        }
+
+        val parameters = mutableMapOf(
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY,
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_DEVICE_ID to deviceId,
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PACKAGE_NAME to packageName,
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (registrationId
+                ?: this.idGenerator.generateId())
+        )
+
+        // Generate a signing key.
+        val publicKey = this.generateRegistrationData()
+        parameters[CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PUBLIC_KEY] =
+            publicKey.encode()
+
+        val uid = this.idGenerator.generateId()
+        val userId = identityProvider.register(uid, parameters)
+        this.setUserName(userId)
+        return userId
     }
 
     override suspend fun deregister() {
@@ -1112,16 +1142,47 @@ class DefaultSudoUserClient(
         return value
     }
 
-    override fun getSupportedRegistrationChallengeType(): List<RegistrationChallengeType> {
-        return this.challengeTypes
-    }
-
     override fun registerSignInStatusObserver(id: String, observer: SignInStatusObserver) {
         this.signInStatusObservers[id] = observer
     }
 
     override fun deregisterSignInStatusObserver(id: String) {
         this.signInStatusObservers.remove(id)
+    }
+
+    override suspend fun resetUserData() {
+        this.logger.info("Resetting user data.")
+
+        if (!this.isSignedIn()) {
+            throw AuthenticationException.NotSignedInException()
+        }
+
+        try {
+            val mutation = ResetMutation.builder().build()
+
+            val response = this.apiClient.mutate(mutation).enqueue()
+
+            if (response.hasErrors()) {
+                throw response.errors().first().toResetUserDataException()
+            }
+
+            if (response.data()?.reset()?.success() != true) {
+                throw ResetUserDataException.FailedException("Mutation succeeded but success status was not true.")
+            }
+        } catch (t: Throwable) {
+            when (t) {
+                is ResetUserDataException -> throw t
+                is ApolloHttpException -> {
+                    if (t.code() == 401) {
+                        throw ResetUserDataException.NotAuthorizedException(cause = t)
+                    } else {
+                        throw ResetUserDataException.FailedException(cause = t)
+                    }
+                }
+
+                else -> throw ResetUserDataException.FailedException(cause = t)
+            }
+        }
     }
 
     /**

@@ -201,9 +201,8 @@ internal class CognitoUserPoolIdentityProvider(
         private const val CHALLENGE_PARAM_NAME_NONCE = "nonce"
 
         const val REGISTRATION_PARAM_ANSWER = "answer"
-        const val REGISTRATION_PARAM_ANSWER_PARTS = "parts"
-        const val REGISTRATION_PARAM_ANSWER_METADATA = "answerMetadata"
         const val REGISTRATION_PARAM_DEVICE_ID = "deviceId"
+        const val REGISTRATION_PARAM_PACKAGE_NAME = "packageName"
         const val REGISTRATION_PARAM_PUBLIC_KEY = "publicKey"
         const val REGISTRATION_PARAM_CHALLENGE_TYPE = "challengeType"
         const val REGISTRATION_PARAM_REGISTRATION_ID = "registrationId"
