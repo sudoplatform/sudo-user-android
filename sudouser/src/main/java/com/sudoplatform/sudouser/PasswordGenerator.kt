@@ -26,15 +26,14 @@ interface PasswordGenerator {
         upperCase: Boolean,
         lowerCase: Boolean,
         special: Boolean,
-        number: Boolean
+        number: Boolean,
     ): String
-
 }
 
 /**
  * Default password generator implementation.
  */
-class PasswordGeneratorImpl: PasswordGenerator {
+class PasswordGeneratorImpl : PasswordGenerator {
 
     companion object {
         private val ALL_CHARS =
@@ -50,7 +49,7 @@ class PasswordGeneratorImpl: PasswordGenerator {
         upperCase: Boolean,
         lowerCase: Boolean,
         special: Boolean,
-        number: Boolean
+        number: Boolean,
     ): String {
         val password = mutableListOf<Char>()
 

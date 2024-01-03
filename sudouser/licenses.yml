@@ -464,3 +464,27 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx/releases/annotation#1.6.0
+- artifact: com.google.android.play:integrity:+
+  name: integrity
+  copyrightHolder: Google, Inc.
+  license: Play Integrity API Terms of Service
+  licenseUrl: https://developer.android.com/google/play/integrity/overview#tos
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-tasks:+
+  name: play-services-tasks
+  copyrightHolder: Google, Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-basement:+
+  name: play-services-basement
+  copyrightHolder: Google, Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.play:core-common:+
+  name: core-common
+  copyrightHolder: Google, Inc.
+  license: Play Core Software Development Kit Terms of Service
+  licenseUrl: https://developer.android.com/guide/playcore/license
+  url: https://developer.android.com

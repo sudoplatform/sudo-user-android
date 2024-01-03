@@ -33,7 +33,7 @@ sealed class FederatedSignInResult {
         val accessToken: String,
         val refreshToken: String,
         val lifetime: Int,
-        val username: String
+        val username: String,
     ) :
         FederatedSignInResult()
 
@@ -107,10 +107,10 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
         val signInRedirectUri = config[CONFIG_SIGN_IN_REDIRECT_URI] as String?
         val signOutRedirectUri = config[CONFIG_SIGN_OUT_REDIRECT_URI] as String?
 
-        if (appClientId == null
-            || webDomain == null
-            || signInRedirectUri == null
-            || signOutRedirectUri == null
+        if (appClientId == null ||
+            webDomain == null ||
+            signInRedirectUri == null ||
+            signOutRedirectUri == null
         ) {
             throw IllegalArgumentException("appClientId, webDomain, signInRedirectUri or signOutRedirectUri was null.")
         }
@@ -131,11 +131,11 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 val accessToken = session.accessToken.jwtToken
                 val refreshToken = session.refreshToken.token
                 val expirationTime = session.idToken.expiration
-                if (idToken != null
-                    && accessToken != null
-                    && refreshToken != null
-                    && expirationTime != null
-                    && username != null
+                if (idToken != null &&
+                    accessToken != null &&
+                    refreshToken != null &&
+                    expirationTime != null &&
+                    username != null
                 ) {
                     val lifetime = (expirationTime.time - Date().time) / 1000
 
@@ -145,16 +145,16 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                             accessToken,
                             refreshToken,
                             lifetime.toInt(),
-                            username
-                        )
+                            username,
+                        ),
                     )
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
                             AuthenticationException.FailedException(
-                                "Authentication tokens missing."
-                            )
-                        )
+                                "Authentication tokens missing.",
+                            ),
+                        ),
                     )
                 }
             }
@@ -162,8 +162,8 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             override fun onSignout() {
                 callback(
                     FederatedSignInResult.Failure(
-                        IllegalStateException("Sign in caused sign out callback to be called.")
-                    )
+                        IllegalStateException("Sign in caused sign out callback to be called."),
+                    ),
                 )
             }
 
@@ -180,8 +180,8 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             override fun onSuccess(session: AuthUserSession) {
                 callback(
                     ApiResult.Failure(
-                        IllegalStateException("Sign out caused sign in callback to be called.")
-                    )
+                        IllegalStateException("Sign out caused sign in callback to be called."),
+                    ),
                 )
             }
 
@@ -205,11 +205,11 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 val accessToken = session.accessToken.jwtToken
                 val refreshToken = session.refreshToken.token
                 val expirationTime = session.idToken.expiration
-                if (idToken != null
-                    && accessToken != null
-                    && refreshToken != null
-                    && expirationTime != null
-                    && username != null
+                if (idToken != null &&
+                    accessToken != null &&
+                    refreshToken != null &&
+                    expirationTime != null &&
+                    username != null
                 ) {
                     val lifetime = (expirationTime.time - Date().time) / 1000
 
@@ -219,16 +219,16 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                             accessToken,
                             refreshToken,
                             lifetime.toInt(),
-                            username
-                        )
+                            username,
+                        ),
                     )
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
                             AuthenticationException.FailedException(
-                                "Authentication tokens missing."
-                            )
-                        )
+                                "Authentication tokens missing.",
+                            ),
+                        ),
                     )
                 }
             }
@@ -236,8 +236,8 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             override fun onSignout() {
                 callback(
                     FederatedSignInResult.Failure(
-                        IllegalStateException("Sign in caused sign out callback to be called.")
-                    )
+                        IllegalStateException("Sign in caused sign out callback to be called."),
+                    ),
                 )
             }
 

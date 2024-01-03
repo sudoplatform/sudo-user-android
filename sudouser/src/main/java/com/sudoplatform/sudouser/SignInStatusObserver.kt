@@ -12,7 +12,7 @@ package com.sudoplatform.sudouser
 enum class SignInStatus {
     SIGNING_IN,
     SIGNED_IN,
-    NOT_SIGNED_IN
+    NOT_SIGNED_IN,
 }
 
 /**

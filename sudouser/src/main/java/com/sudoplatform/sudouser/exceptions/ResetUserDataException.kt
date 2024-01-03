@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudouser.exceptions
 
-sealed class ResetUserDataException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
+sealed class ResetUserDataException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause) {
 
     /**
      * Internal server error has occurred. This could be due to an outage or an unexpected fatal
@@ -32,5 +32,4 @@ sealed class ResetUserDataException(message: String? = null, cause: Throwable? =
      */
     class FailedException(message: String? = null, cause: Throwable? = null) :
         ResetUserDataException(message = message, cause = cause)
-
 }

@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudouser.exceptions
 
-sealed class AuthenticationException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
+sealed class AuthenticationException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause) {
 
     class NotAuthorizedException(message: String? = null, cause: Throwable? = null) :
         AuthenticationException(message = message, cause = cause)

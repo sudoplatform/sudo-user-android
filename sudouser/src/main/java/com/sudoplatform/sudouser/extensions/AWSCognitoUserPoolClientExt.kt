@@ -19,12 +19,16 @@ import kotlin.coroutines.suspendCoroutine
 
 internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cognitoAttributes: CognitoUserAttributes, parameters: Map<String, String>) = suspendCoroutine<String> { cont ->
 
-    signUp(uid, password, cognitoAttributes, parameters,
+    signUp(
+        uid,
+        password,
+        cognitoAttributes,
+        parameters,
         object : SignUpHandler {
 
             override fun onSuccess(
                 user: CognitoUser?,
-                signUpResult: SignUpResult
+                signUpResult: SignUpResult,
             ) {
                 if (user?.userId != null) {
                     if (signUpResult.isUserConfirmed) {
@@ -32,8 +36,8 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                     } else {
                         cont.resumeWithException(
                             RegisterException.IdentityNotConfirmedException(
-                                "Identity was created but is not confirmed."
-                            )
+                                "Identity was created but is not confirmed.",
+                            ),
                         )
                     }
                 } else {
@@ -47,12 +51,14 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                     if (message != null) {
                         if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_SERVICE_ERROR)) {
                             cont.resumeWithException(RegisterException.ServerException(message))
-                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_MISSING_REQUIRED_INPUT)
-                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_DECODING_ERROR)) {
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_MISSING_REQUIRED_INPUT) ||
+                            message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_DECODING_ERROR)
+                        ) {
                             cont.resumeWithException(RegisterException.InvalidInputException(message))
-                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED)
-                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_TEST_REG_CHECK_FAILED)
-                            || message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)) {
+                        } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_VALIDATION_FAILED) ||
+                            message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_TEST_REG_CHECK_FAILED) ||
+                            message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_CHALLENGE_TYPE_NOT_SUPPORTED)
+                        ) {
                             cont.resumeWithException(RegisterException.NotAuthorizedException(message))
                         } else if (message.contains(CognitoUserPoolIdentityProvider.SERVICE_ERROR_ALREADY_REGISTERED)) {
                             cont.resumeWithException(RegisterException.AlreadyRegisteredException(message))
@@ -66,7 +72,6 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
                     cont.resumeWithException(RegisterException.FailedException("Expected failure detail not found."))
                 }
             }
-
-        }
+        },
     )
 }

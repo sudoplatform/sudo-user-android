@@ -83,7 +83,7 @@ sealed class SignInResult {
         val idToken: String,
         val accessToken: String,
         val refreshToken: String,
-        val lifetime: Int
+        val lifetime: Int,
     ) :
         SignInResult()
 
@@ -107,7 +107,7 @@ data class AuthenticationTokens(
     val idToken: String,
     val accessToken: String,
     val refreshToken: String,
-    val lifetime: Int
+    val lifetime: Int,
 )
 
 /**
@@ -126,7 +126,7 @@ interface IdentityProvider {
     @Throws(RegisterException::class)
     suspend fun register(
         uid: String,
-        parameters: Map<String, String>
+        parameters: Map<String, String>,
     ): String
 
     /**
@@ -148,7 +148,7 @@ interface IdentityProvider {
     @Throws(AuthenticationException::class)
     suspend fun signIn(
         uid: String,
-        parameters: Map<String, String>
+        parameters: Map<String, String>,
     ): AuthenticationTokens
 
     /**
@@ -185,7 +185,7 @@ internal class CognitoUserPoolIdentityProvider(
     context: Context,
     private val keyManager: KeyManagerInterface,
     private val passwordGenerator: PasswordGenerator,
-    private val logger: Logger = DefaultLogger.instance
+    private val logger: Logger = DefaultLogger.instance,
 ) : IdentityProvider {
 
     companion object {
@@ -240,9 +240,9 @@ internal class CognitoUserPoolIdentityProvider(
         val poolId = config[CONFIG_POOL_ID] as String?
         val clientId = config[CONFIG_CLIENT_ID] as String?
 
-        if (region == null
-            || poolId == null
-            || clientId == null
+        if (region == null ||
+            poolId == null ||
+            clientId == null
         ) {
             throw IllegalArgumentException("region, poolId or clientId was null.")
         }
@@ -252,7 +252,7 @@ internal class CognitoUserPoolIdentityProvider(
             poolId,
             clientId,
             null,
-            Regions.fromName(region)
+            Regions.fromName(region),
         )
 
         this.idpClient =
@@ -271,7 +271,7 @@ internal class CognitoUserPoolIdentityProvider(
                 upperCase = true,
                 lowerCase = true,
                 special = true,
-                number = true
+                number = true,
             )
 
         val cognitoAttributes = CognitoUserAttributes()
@@ -318,11 +318,11 @@ internal class CognitoUserPoolIdentityProvider(
                             nonce,
                             SIGN_IN_JWT_ALGORITHM,
                             null,
-                            Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000))
+                            Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000)),
                         )
                         answer = jwt.signAndEncode(
                             this@CognitoUserPoolIdentityProvider.keyManager,
-                            userKeyId
+                            userKeyId,
                         )
                     }
                 }
@@ -330,7 +330,7 @@ internal class CognitoUserPoolIdentityProvider(
                 if (answer != null) {
                     respondToAuthChallengeRequest.challengeResponses = mapOf(
                         AUTH_PARAM_NAME_USER_NAME to uid,
-                        AUTH_PARAM_NAME_ANSWER to answer
+                        AUTH_PARAM_NAME_ANSWER to answer,
                     )
 
                     val respondToAuthChallengeResult =
@@ -347,7 +347,7 @@ internal class CognitoUserPoolIdentityProvider(
                             idToken,
                             accessToken,
                             refreshToken,
-                            lifetime
+                            lifetime,
                         )
                     } else {
                         throw AuthenticationException.FailedException("Authentication tokens not found.")
@@ -362,7 +362,7 @@ internal class CognitoUserPoolIdentityProvider(
             when (t) {
                 is AuthenticationException -> throw t
                 is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(
-                    cause = t
+                    cause = t,
                 )
                 else -> throw AuthenticationException.FailedException(cause = t)
             }
@@ -392,7 +392,7 @@ internal class CognitoUserPoolIdentityProvider(
         initiateAuthRequest.authParameters = mapOf(AUTH_PARAM_NAME_REFRESH to refreshToken)
 
         try {
-            val initiateAuthResult= this.idpClient.initiateAuth(initiateAuthRequest)
+            val initiateAuthResult = this.idpClient.initiateAuth(initiateAuthRequest)
             val idToken = initiateAuthResult.authenticationResult.idToken
             val accessToken = initiateAuthResult.authenticationResult.accessToken
             val lifetime = initiateAuthResult.authenticationResult.expiresIn
@@ -402,11 +402,11 @@ internal class CognitoUserPoolIdentityProvider(
                     idToken,
                     accessToken,
                     refreshToken,
-                    lifetime
+                    lifetime,
                 )
             } else {
                 throw AuthenticationException.FailedException(
-                    "Authentication tokens not found."
+                    "Authentication tokens not found.",
                 )
             }
         } catch (t: Throwable) {

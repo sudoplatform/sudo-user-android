@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudouser.exceptions
 
-sealed class GlobalSignOutException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
+sealed class GlobalSignOutException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause) {
 
     class ServerException(message: String? = null, cause: Throwable? = null) :
         GlobalSignOutException(message = message, cause = cause)

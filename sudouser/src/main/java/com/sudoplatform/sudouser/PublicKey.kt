@@ -21,7 +21,7 @@ data class PublicKey(
     val keyId: String,
     val publicKey: ByteArray,
     val algorithm: String = RSA,
-    val symmetricAlgorithm: String = AES_256
+    val symmetricAlgorithm: String = AES_256,
 ) {
 
     companion object {
@@ -45,8 +45,8 @@ data class PublicKey(
                 ALGORITHM to this.algorithm,
                 SYMMETRIC_ALGORITHM to this.symmetricAlgorithm,
                 KEY_ID to this.keyId,
-                PUBLIC_KEY to Base64.encodeToString(this.publicKey, Base64.NO_WRAP)
-            )
+                PUBLIC_KEY to Base64.encodeToString(this.publicKey, Base64.NO_WRAP),
+            ),
         )
 
         return json.toString()

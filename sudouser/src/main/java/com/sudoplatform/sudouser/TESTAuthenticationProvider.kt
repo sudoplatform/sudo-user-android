@@ -41,7 +41,6 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
             throw AuthenticationException.FailedException("TEST registration JWT does not have sub.")
         }
     }
-
 }
 
 /**
@@ -61,8 +60,8 @@ class TESTAuthenticationProvider(
     publicKey: String?,
     private val keyManager: KeyManagerInterface,
     private val keyId: String = REGISTER_KEY_NAME,
-    private val customAttributes: Map<String, Any>? = null
-    ) :
+    private val customAttributes: Map<String, Any>? = null,
+) :
     AuthenticationProvider {
 
     companion object {
@@ -75,15 +74,17 @@ class TESTAuthenticationProvider(
         val privateKeyData = Base64.decode(
             privateKey.replace("\n", "")
                 .replace("-----BEGIN RSA PRIVATE KEY-----", "")
-                .replace("-----END RSA PRIVATE KEY-----", ""), Base64.DEFAULT
+                .replace("-----END RSA PRIVATE KEY-----", ""),
+            Base64.DEFAULT,
         )
 
         val publicKeyData: ByteArray
-        if(publicKey != null) {
+        if (publicKey != null) {
             publicKeyData = Base64.decode(
                 publicKey.replace("\n", "")
                     .replace("-----BEGIN RSA PUBLIC KEY-----", "")
-                    .replace("-----END RSA PUBLIC KEY-----", ""), Base64.DEFAULT
+                    .replace("-----END RSA PUBLIC KEY-----", ""),
+                Base64.DEFAULT,
             )
         } else {
             // Generated the public key from the private key bits.
@@ -96,9 +97,11 @@ class TESTAuthenticationProvider(
                 RSAPublicKeySpec(key.modulus, key.publicExponent)
 
             val publicKeyInfo =
-                SubjectPublicKeyInfo.getInstance(factory.generatePublic(
-                    publicKeySpec
-                ).encoded)
+                SubjectPublicKeyInfo.getInstance(
+                    factory.generatePublic(
+                        publicKeySpec,
+                    ).encoded,
+                )
             val publicKeyPKCS1ASN1 = publicKeyInfo.parsePublicKey()
             publicKeyData = publicKeyPKCS1ASN1.encoded
         }

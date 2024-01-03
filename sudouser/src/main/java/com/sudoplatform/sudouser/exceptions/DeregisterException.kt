@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudouser.exceptions
 
-sealed class DeregisterException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
+sealed class DeregisterException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause) {
 
     class ServerException(message: String? = null, cause: Throwable? = null) :
         DeregisterException(message = message, cause = cause)

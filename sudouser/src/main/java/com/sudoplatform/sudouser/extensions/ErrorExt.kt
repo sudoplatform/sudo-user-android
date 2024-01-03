@@ -15,38 +15,34 @@ import com.sudoplatform.sudouser.exceptions.ResetUserDataException
 private const val GRAPHQL_ERROR_TYPE = "errorType"
 private const val GRAPHQL_ERROR_SERVICE_ERROR = "sudoplatform.serviceError"
 
-fun Error.toDeregisterException() : DeregisterException  {
+fun Error.toDeregisterException(): DeregisterException {
     return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVICE_ERROR) {
         DeregisterException.ServerException("$this")
-    }
-    else {
+    } else {
         DeregisterException.GraphQLException("$this")
     }
 }
 
-fun Error.toGlobalSignOutException() : GlobalSignOutException  {
+fun Error.toGlobalSignOutException(): GlobalSignOutException {
     return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVICE_ERROR) {
         GlobalSignOutException.ServerException("$this")
-    }
-    else {
+    } else {
         GlobalSignOutException.GraphQLException("$this")
     }
 }
 
-fun Error.toRegistrationException() : RegisterException  {
+fun Error.toRegistrationException(): RegisterException {
     return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVICE_ERROR) {
         RegisterException.ServerException("$this")
-    }
-    else {
+    } else {
         RegisterException.GraphQLException("$this")
     }
 }
 
-fun Error.toResetUserDataException() : ResetUserDataException {
+fun Error.toResetUserDataException(): ResetUserDataException {
     return if (this.customAttributes()[GRAPHQL_ERROR_TYPE] == GRAPHQL_ERROR_SERVICE_ERROR) {
         ResetUserDataException.ServerException("$this")
-    }
-    else {
+    } else {
         ResetUserDataException.GraphQLException("$this")
     }
 }

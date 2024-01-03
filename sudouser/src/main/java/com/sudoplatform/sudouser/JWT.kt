@@ -35,7 +35,7 @@ data class JWT(
     val expiry: Date = Date(Date().time + (DEFAULT_LIFETIME * 1000)),
     val issuedAt: Date = Date(),
     val notValidBefore: Date? = null,
-    val payload: JSONObject = JSONObject()
+    val payload: JSONObject = JSONObject(),
 ) {
     companion object {
         private const val DEFAULT_ALGORITHM = "RS256"
@@ -79,7 +79,7 @@ data class JWT(
                             if (!keyManager.verifySignatureWithPublicKey(
                                     kid,
                                     "${array[0]}.${array[1]}".toByteArray(),
-                                    signatureBytes
+                                    signatureBytes,
                                 )
                             ) {
                                 return null
@@ -95,11 +95,11 @@ data class JWT(
                         val expiry = payload.opt(EXP) as Int?
                         val notValidBefore = payload.opt(NBF) as Int?
 
-                        if (issuer != null
-                            && audience != null
-                            && subject != null
-                            && issuedAt != null
-                            && expiry != null
+                        if (issuer != null &&
+                            audience != null &&
+                            subject != null &&
+                            issuedAt != null &&
+                            expiry != null
                         ) {
                             jwt = JWT(
                                 issuer,
@@ -111,7 +111,7 @@ data class JWT(
                                 Date(TimeUnit.SECONDS.toMillis(expiry.toLong())),
                                 Date(TimeUnit.SECONDS.toMillis(issuedAt.toLong())),
                                 if (notValidBefore != null) Date(TimeUnit.SECONDS.toMillis(notValidBefore.toLong())) else null,
-                                payload
+                                payload,
                             )
                         }
                     }
@@ -133,8 +133,8 @@ data class JWT(
         val headers = JSONObject(
             mapOf(
                 ALG to this.algorithm,
-                KID to keyId
-            )
+                KID to keyId,
+            ),
         )
 
         val id = this.id ?: UUID.randomUUID().toString()
@@ -144,7 +144,7 @@ data class JWT(
             AUD to this.audience,
             SUB to this.subject,
             IAT to TimeUnit.MILLISECONDS.toSeconds(this.issuedAt.time),
-            EXP to TimeUnit.MILLISECONDS.toSeconds(this.expiry.time)
+            EXP to TimeUnit.MILLISECONDS.toSeconds(this.expiry.time),
         )
 
         if (this.notValidBefore != null) {
@@ -155,12 +155,12 @@ data class JWT(
 
         val encodedHeader = Base64.encodeToString(
             headers.toString().toByteArray(),
-            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
         )
 
         val encodedPayload = Base64.encodeToString(
             JSONObject(payload as Map<*, *>).toString().toByteArray(),
-            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
         )
 
         val encoded = "$encodedHeader.$encodedPayload"
@@ -169,7 +169,7 @@ data class JWT(
 
         return "$encoded.${Base64.encodeToString(
             signature,
-            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP
+            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
         )}"
     }
 }

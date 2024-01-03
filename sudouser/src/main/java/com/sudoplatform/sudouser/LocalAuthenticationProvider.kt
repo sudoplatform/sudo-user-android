@@ -34,7 +34,6 @@ class LocalAuthenticationInfo(private val jwt: String, private val username: Str
     override fun getUsername(): String {
         return this.username
     }
-
 }
 
 /**
@@ -56,7 +55,7 @@ class LocalAuthenticationProvider(
     private val keyManager: KeyManagerInterface,
     private val keyId: String,
     private val username: String,
-    private val customAttributes: Map<String, Any>? = null
+    private val customAttributes: Map<String, Any>? = null,
 ) :
     AuthenticationProvider {
 
@@ -68,15 +67,17 @@ class LocalAuthenticationProvider(
         val privateKeyData = Base64.decode(
             privateKey.replace("\n", "")
                 .replace("-----BEGIN RSA PRIVATE KEY-----", "")
-                .replace("-----END RSA PRIVATE KEY-----", ""), Base64.DEFAULT
+                .replace("-----END RSA PRIVATE KEY-----", ""),
+            Base64.DEFAULT,
         )
 
         val publicKeyData: ByteArray
-        if(publicKey != null) {
+        if (publicKey != null) {
             publicKeyData = Base64.decode(
                 publicKey.replace("\n", "")
                     .replace("-----BEGIN RSA PUBLIC KEY-----", "")
-                    .replace("-----END RSA PUBLIC KEY-----", ""), Base64.DEFAULT
+                    .replace("-----END RSA PUBLIC KEY-----", ""),
+                Base64.DEFAULT,
             )
         } else {
             // Generated the public key from the private key bits.
@@ -89,9 +90,11 @@ class LocalAuthenticationProvider(
                 RSAPublicKeySpec(key.modulus, key.publicExponent)
 
             val publicKeyInfo =
-                SubjectPublicKeyInfo.getInstance(factory.generatePublic(
-                    publicKeySpec
-                ).encoded)
+                SubjectPublicKeyInfo.getInstance(
+                    factory.generatePublic(
+                        publicKeySpec,
+                    ).encoded,
+                )
             val publicKeyPKCS1ASN1 = publicKeyInfo.parsePublicKey()
             publicKeyData = publicKeyPKCS1ASN1.encoded
         }

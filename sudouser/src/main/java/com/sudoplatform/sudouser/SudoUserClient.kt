@@ -15,12 +15,12 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.regions.Regions
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.appmattus.certificatetransparency.cache.AndroidDiskCache
-import com.sudoplatform.sudokeymanager.KeyManagerFactory
-import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.appmattus.certificatetransparency.loglist.LogListDataSourceFactory
 import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudokeymanager.AndroidSQLiteStore
+import com.sudoplatform.sudokeymanager.KeyManagerFactory
+import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import com.sudoplatform.sudouser.exceptions.DeregisterException
@@ -28,21 +28,21 @@ import com.sudoplatform.sudouser.exceptions.GlobalSignOutException
 import com.sudoplatform.sudouser.exceptions.RegisterException
 import com.sudoplatform.sudouser.exceptions.ResetUserDataException
 import com.sudoplatform.sudouser.exceptions.SignOutException
+import com.sudoplatform.sudouser.extensions.enqueue
+import com.sudoplatform.sudouser.extensions.toDeregisterException
+import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
+import com.sudoplatform.sudouser.extensions.toRegistrationException
+import com.sudoplatform.sudouser.extensions.toResetUserDataException
 import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import org.json.JSONObject
-import java.util.Date
-import java.util.Locale
-import com.sudoplatform.sudouser.extensions.enqueue
-import com.sudoplatform.sudouser.extensions.toDeregisterException
-import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
-import com.sudoplatform.sudouser.extensions.toRegistrationException
-import com.sudoplatform.sudouser.extensions.toResetUserDataException
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.Date
+import java.util.Locale
 
 /**
  * Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
@@ -57,7 +57,6 @@ interface SudoUserClient {
          */
         fun builder(context: Context) =
             Builder(context)
-
     }
 
     /**
@@ -166,7 +165,7 @@ interface SudoUserClient {
                 this.credentialsProvider,
                 this.authUI,
                 this.idGenerator ?: IdGenerateImpl(),
-                this.databaseName ?: AndroidSQLiteStore.DEFAULT_DATABASE_NAME
+                this.databaseName ?: AndroidSQLiteStore.DEFAULT_DATABASE_NAME,
             )
         }
     }
@@ -211,7 +210,7 @@ interface SudoUserClient {
     @Throws(RegisterException::class)
     suspend fun registerWithAuthenticationProvider(
         authenticationProvider: AuthenticationProvider,
-        registrationId: String?
+        registrationId: String?,
     ): String
 
     /**
@@ -228,8 +227,9 @@ interface SudoUserClient {
         packageName: String,
         deviceId: String,
         token: String,
-        registrationId: String?
+        registrationId: String?,
     ): String
+
     /**
      * De-registers a user.
      */
@@ -412,7 +412,6 @@ interface SudoUserClient {
      * the user. Should only be used in tests.
      */
     suspend fun resetUserData()
-
 }
 
 /**
@@ -472,7 +471,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "17.0.0"
+    override val version: String = "18.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -550,14 +549,14 @@ class DefaultSudoUserClient(
         this.keyManager =
             keyManager ?: KeyManagerFactory(context).createAndroidKeyManager(
                 this.namespace,
-                this.databaseName
+                this.databaseName,
             )
         this.identityProvider = identityProvider ?: CognitoUserPoolIdentityProvider(
             identityServiceConfig,
             context,
             this.keyManager,
             PasswordGeneratorImpl(),
-            this.logger
+            this.logger,
         )
 
         val apiUrl = identityServiceConfig[CONFIG_API_URL] as String?
@@ -579,7 +578,7 @@ class DefaultSudoUserClient(
         if (federatedSignInConfig != null) {
             this.authUI = authUI ?: CognitoAuthUI(
                 federatedSignInConfig,
-                context
+                context,
             )
 
             refreshTokenLifetime = federatedSignInConfig.optInt(CONFIG_REFRESH_TOKEN_LIFETIME, 60)
@@ -610,7 +609,7 @@ class DefaultSudoUserClient(
         this.credentialsProvider = credentialsProvider ?: CognitoCachingCredentialsProvider(
             context,
             identityPoolId,
-            Regions.fromName(region)
+            Regions.fromName(region),
         )
     }
 
@@ -644,7 +643,7 @@ class DefaultSudoUserClient(
 
     override suspend fun registerWithAuthenticationProvider(
         authenticationProvider: AuthenticationProvider,
-        registrationId: String?
+        registrationId: String?,
     ): String {
         this.logger.info("Registering using external authentication provider.")
 
@@ -656,8 +655,10 @@ class DefaultSudoUserClient(
             val parameters = mutableMapOf(
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,
                 CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (registrationId
-                    ?: this.idGenerator.generateId())
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
+                    registrationId
+                        ?: this.idGenerator.generateId()
+                    ),
             )
 
             if (authInfo.type == "TEST") {
@@ -679,7 +680,7 @@ class DefaultSudoUserClient(
         packageName: String,
         deviceId: String,
         token: String,
-        registrationId: String?
+        registrationId: String?,
     ): String {
         this.logger.info("Registering using Google Play Integrity.")
 
@@ -692,8 +693,10 @@ class DefaultSudoUserClient(
             CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_DEVICE_ID to deviceId,
             CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PACKAGE_NAME to packageName,
             CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (registrationId
-                ?: this.idGenerator.generateId())
+            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
+                registrationId
+                    ?: this.idGenerator.generateId()
+                ),
         )
 
         // Generate a signing key.
@@ -747,7 +750,7 @@ class DefaultSudoUserClient(
 
         if (uid != null && userKeyId != null) {
             val parameters = mapOf(
-                SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId
+                SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId,
             )
 
             this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
@@ -759,7 +762,7 @@ class DefaultSudoUserClient(
                     authenticationTokens.idToken,
                     authenticationTokens.accessToken,
                     authenticationTokens.refreshToken,
-                    authenticationTokens.lifetime
+                    authenticationTokens.lifetime,
                 )
 
                 this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
@@ -771,9 +774,8 @@ class DefaultSudoUserClient(
                     authenticationTokens.idToken,
                     authenticationTokens.accessToken,
                     authenticationTokens.refreshToken,
-                    authenticationTokens.lifetime
+                    authenticationTokens.lifetime,
                 )
-
             } catch (e: AuthenticationException) {
                 signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
                 throw e
@@ -790,19 +792,19 @@ class DefaultSudoUserClient(
                 is FederatedSignInResult.Success -> {
                     this@DefaultSudoUserClient.keyManager.deletePassword(
 
-                        KEY_NAME_USER_ID
+                        KEY_NAME_USER_ID,
 
                     )
                     this@DefaultSudoUserClient.keyManager.addPassword(
                         result.username.toByteArray(),
-                        KEY_NAME_USER_ID
+                        KEY_NAME_USER_ID,
                     )
 
                     this@DefaultSudoUserClient.storeTokens(
                         result.idToken,
                         result.accessToken,
                         result.refreshToken,
-                        result.lifetime
+                        result.lifetime,
                     )
 
                     this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
@@ -825,7 +827,7 @@ class DefaultSudoUserClient(
                                 authenticationTokens.accessToken,
                                 authenticationTokens.refreshToken,
                                 authenticationTokens.lifetime,
-                            )
+                            ),
                         )
                     }
                 }
@@ -843,26 +845,26 @@ class DefaultSudoUserClient(
 
     override fun processFederatedSignInTokens(
         data: Uri,
-        callback: (FederatedSignInResult) -> Unit
+        callback: (FederatedSignInResult) -> Unit,
     ) {
         this.authUI?.processFederatedSignInTokens(data) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
                     this@DefaultSudoUserClient.keyManager.deletePassword(
 
-                        KEY_NAME_USER_ID
+                        KEY_NAME_USER_ID,
 
                     )
                     this@DefaultSudoUserClient.keyManager.addPassword(
                         result.username.toByteArray(),
-                        KEY_NAME_USER_ID
+                        KEY_NAME_USER_ID,
                     )
 
                     this@DefaultSudoUserClient.storeTokens(
                         result.idToken,
                         result.accessToken,
                         result.refreshToken,
-                        result.lifetime
+                        result.lifetime,
                     )
 
                     this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
@@ -878,8 +880,8 @@ class DefaultSudoUserClient(
                                 result.accessToken,
                                 result.refreshToken,
                                 result.lifetime,
-                                result.username
-                            )
+                                result.username,
+                            ),
                         )
                     }
                 }
@@ -900,7 +902,7 @@ class DefaultSudoUserClient(
 
         val parameters = mapOf(
             SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
-            SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode()
+            SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode(),
         )
 
         this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
@@ -912,7 +914,7 @@ class DefaultSudoUserClient(
                 authenticationTokens.idToken,
                 authenticationTokens.accessToken,
                 authenticationTokens.refreshToken,
-                authenticationTokens.lifetime
+                authenticationTokens.lifetime,
             )
 
             this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
@@ -924,7 +926,7 @@ class DefaultSudoUserClient(
                 authenticationTokens.idToken,
                 authenticationTokens.accessToken,
                 authenticationTokens.refreshToken,
-                authenticationTokens.lifetime
+                authenticationTokens.lifetime,
             )
         } catch (e: AuthenticationException) {
             signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
@@ -943,7 +945,7 @@ class DefaultSudoUserClient(
                 refreshTokenResult.idToken,
                 refreshTokenResult.accessToken,
                 refreshTokenResult.refreshToken,
-                refreshTokenResult.lifetime
+                refreshTokenResult.lifetime,
             )
 
             this.credentialsProvider.logins = this.getLogins()
@@ -951,19 +953,19 @@ class DefaultSudoUserClient(
 
             this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
                 it.signInStatusChanged(
-                    SignInStatus.SIGNED_IN
+                    SignInStatus.SIGNED_IN,
                 )
             }
             return AuthenticationTokens(
                 refreshTokenResult.idToken,
                 refreshTokenResult.accessToken,
                 refreshTokenResult.refreshToken,
-                refreshTokenResult.lifetime
+                refreshTokenResult.lifetime,
             )
         } catch (e: AuthenticationException) {
             this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
                 it.signInStatusChanged(
-                    SignInStatus.NOT_SIGNED_IN
+                    SignInStatus.NOT_SIGNED_IN,
                 )
             }
             throw e
@@ -1198,7 +1200,7 @@ class DefaultSudoUserClient(
         idToken: String,
         accessToken: String,
         refreshToken: String,
-        lifetime: Int
+        lifetime: Int,
     ) {
         this.keyManager.deletePassword(KEY_NAME_ID_TOKEN)
         this.keyManager.addPassword(idToken.toByteArray(), KEY_NAME_ID_TOKEN)
@@ -1212,7 +1214,7 @@ class DefaultSudoUserClient(
         this.keyManager.deletePassword(KEY_NAME_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${lifetime * 1000 + Date().time}".toByteArray(),
-            KEY_NAME_TOKEN_EXPIRY
+            KEY_NAME_TOKEN_EXPIRY,
         )
     }
 
@@ -1221,7 +1223,7 @@ class DefaultSudoUserClient(
         this.keyManager.deletePassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)
         this.keyManager.addPassword(
             "${refreshTokenLifetime * 24L * 60L * 60L * 1000L + Date().time}".toByteArray(),
-            KEY_NAME_REFRESH_TOKEN_EXPIRY
+            KEY_NAME_REFRESH_TOKEN_EXPIRY,
         )
     }
 
@@ -1229,7 +1231,7 @@ class DefaultSudoUserClient(
         idToken: String,
         accessToken: String,
         refreshToken: String,
-        lifetime: Int
+        lifetime: Int,
     ): AuthenticationTokens {
         this.logger.info("Registering federated ID.")
 
@@ -1259,7 +1261,6 @@ class DefaultSudoUserClient(
             } else {
                 throw RegisterException.FailedException("Mutation succeeded but output was null.")
             }
-
         } catch (t: Throwable) {
             when (t) {
                 is RegisterException -> throw t
@@ -1275,18 +1276,21 @@ class DefaultSudoUserClient(
         val url = ctLogListUrl ?: "https://www.gstatic.com/ct/log_list/v3/"
         this.logger.info("Using CT log list URL: $url")
         val interceptor = certificateTransparencyInterceptor {
-            setLogListDataSource(LogListDataSourceFactory.createDataSource(
-                logListService = LogListDataSourceFactory.createLogListService(url),
-                diskCache = AndroidDiskCache(context),
-                now = {
-                    // Currently there's an issue where the new version of CT library invalidates the
-                    // cached log list if the log list timestamp is more than 24 hours old. This assumes
-                    // Google's log list and our mirror is updated every 24 hours which is not guaranteed.
-                    // We will override the definition of now to be 2 weeks in the past to be in
-                    // sync with our update interval. This override only impacts the calculation of cache
-                    // expiry in the CT library.
-                    Instant.now().minus(14, ChronoUnit.DAYS)
-                }))
+            setLogListDataSource(
+                LogListDataSourceFactory.createDataSource(
+                    logListService = LogListDataSourceFactory.createLogListService(url),
+                    diskCache = AndroidDiskCache(context),
+                    now = {
+                        // Currently there's an issue where the new version of CT library invalidates the
+                        // cached log list if the log list timestamp is more than 24 hours old. This assumes
+                        // Google's log list and our mirror is updated every 24 hours which is not guaranteed.
+                        // We will override the definition of now to be 2 weeks in the past to be in
+                        // sync with our update interval. This override only impacts the calculation of cache
+                        // expiry in the CT library.
+                        Instant.now().minus(14, ChronoUnit.DAYS)
+                    },
+                ),
+            )
         }
         val okHttpClient = OkHttpClient.Builder().apply {
             // Convert exceptions from certificate transparency into http errors that stop the
@@ -1298,5 +1302,4 @@ class DefaultSudoUserClient(
         }
         return okHttpClient.build()
     }
-
 }

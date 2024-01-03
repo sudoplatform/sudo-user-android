@@ -24,7 +24,7 @@ interface IdGenerator {
 /**
  * Default ID generator implementation.
  */
-class IdGenerateImpl: IdGenerator {
+class IdGenerateImpl : IdGenerator {
 
     override fun generateId(): String {
         return UUID.randomUUID().toString()

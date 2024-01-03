@@ -6,7 +6,7 @@
 
 package com.sudoplatform.sudouser.exceptions
 
-sealed class RegisterException(message: String? = null, cause: Throwable? = null) :  RuntimeException(message, cause) {
+sealed class RegisterException(message: String? = null, cause: Throwable? = null) : RuntimeException(message, cause) {
 
     class IllegalStateException(message: String? = null, cause: Throwable? = null) :
         RegisterException(message = message, cause = cause)
