@@ -21,6 +21,7 @@ import com.sudoplatform.sudoconfigmanager.DefaultSudoConfigManager
 import com.sudoplatform.sudokeymanager.AndroidSQLiteStore
 import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
+import com.sudoplatform.sudokeymanager.KeyNotFoundException
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.exceptions.AuthenticationException
 import com.sudoplatform.sudouser.exceptions.DeregisterException
@@ -753,7 +754,7 @@ class DefaultSudoUserClient(
                 SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId,
             )
 
-            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+            this.invokeSignInStatusObservers(SignInStatus.SIGNING_IN)
 
             try {
                 val authenticationTokens = identityProvider.signIn(uid, parameters)
@@ -777,11 +778,11 @@ class DefaultSudoUserClient(
                     authenticationTokens.lifetime,
                 )
             } catch (e: AuthenticationException) {
-                signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+                this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
                 throw e
             }
         } else {
-            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+            this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
             throw AuthenticationException.NotRegisteredException("Not registered.")
         }
     }
@@ -905,7 +906,7 @@ class DefaultSudoUserClient(
             SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode(),
         )
 
-        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+        this.invokeSignInStatusObservers(SignInStatus.SIGNING_IN)
 
         try {
             val authenticationTokens = this.identityProvider.signIn(uid, parameters)
@@ -929,7 +930,7 @@ class DefaultSudoUserClient(
                 authenticationTokens.lifetime,
             )
         } catch (e: AuthenticationException) {
-            signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.NOT_SIGNED_IN) }
+            this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
             throw e
         }
     }
@@ -937,7 +938,7 @@ class DefaultSudoUserClient(
     override suspend fun refreshTokens(refreshToken: String): AuthenticationTokens {
         this.logger.info("Refreshing authentication tokens.")
 
-        this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNING_IN) }
+        this.invokeSignInStatusObservers(SignInStatus.SIGNING_IN)
 
         try {
             val refreshTokenResult = identityProvider.refreshTokens(refreshToken)
@@ -951,11 +952,7 @@ class DefaultSudoUserClient(
             this.credentialsProvider.logins = this.getLogins()
             this.credentialsProvider.refresh()
 
-            this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
-                it.signInStatusChanged(
-                    SignInStatus.SIGNED_IN,
-                )
-            }
+            this.invokeSignInStatusObservers(SignInStatus.SIGNED_IN)
             return AuthenticationTokens(
                 refreshTokenResult.idToken,
                 refreshTokenResult.accessToken,
@@ -963,11 +960,7 @@ class DefaultSudoUserClient(
                 refreshTokenResult.lifetime,
             )
         } catch (e: AuthenticationException) {
-            this@DefaultSudoUserClient.signInStatusObservers.values.forEach {
-                it.signInStatusChanged(
-                    SignInStatus.NOT_SIGNED_IN,
-                )
-            }
+            this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
             throw e
         }
     }
@@ -993,7 +986,7 @@ class DefaultSudoUserClient(
         this.keyManager.generateKeyPair(keyId)
 
         // Retrieve the public key so it can be registered with the backend.
-        val keyData = this.keyManager.getPublicKeyData(keyId)
+        val keyData = this.keyManager.getPublicKeyData(keyId) ?: throw KeyNotFoundException("Public key of generated key pair not found")
 
         return PublicKey(keyId, keyData)
     }
@@ -1239,7 +1232,7 @@ class DefaultSudoUserClient(
         // the federated identity again.
         val identityId = this.getUserClaim("custom:identityId")
         if (identityId != null) {
-            this.signInStatusObservers.values.forEach { it.signInStatusChanged(SignInStatus.SIGNED_IN) }
+            this.invokeSignInStatusObservers(SignInStatus.SIGNED_IN)
             return AuthenticationTokens(idToken, accessToken, refreshToken, lifetime)
         }
 
@@ -1301,5 +1294,13 @@ class DefaultSudoUserClient(
             addNetworkInterceptor(interceptor)
         }
         return okHttpClient.build()
+    }
+
+    private fun invokeSignInStatusObservers(signInStatus: SignInStatus) {
+        // Clone the current set of observers to allow for observers
+        // to adjust the registered observers themselves (e.g. to
+        // deregister themselves).
+        val observers = this.signInStatusObservers.values.toList()
+        observers.forEach { it.signInStatusChanged(signInStatus) }
     }
 }
