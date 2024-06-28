@@ -227,6 +227,7 @@ $dokka.location:com.sudoplatform.sudouser/SignInStatus.NOT_SIGNED_IN///PointingT
 $dokka.location:com.sudoplatform.sudouser/SignInStatus.SIGNED_IN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}sudouser/com.sudoplatform.sudouser/-sign-in-status/-s-i-g-n-e-d_-i-n/index.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatus.SIGNING_IN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}sudouser/com.sudoplatform.sudouser/-sign-in-status/-s-i-g-n-i-n-g_-i-n/index.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatus///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status/index.html
+$dokka.location:com.sudoplatform.sudouser/SignInStatus/entries/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status/entries.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatus/valueOf/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status/value-of.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatus/values/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status/values.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatusObserver///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status-observer/index.html

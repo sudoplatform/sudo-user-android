@@ -472,7 +472,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "18.0.0"
+    override val version: String = "19.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
