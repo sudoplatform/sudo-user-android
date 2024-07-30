@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2024 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,9 +11,13 @@ import android.content.Context
 import android.net.Uri
 import com.amazonaws.auth.CognitoCachingCredentialsProvider
 import com.amazonaws.auth.CognitoCredentialsProvider
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.regions.Regions
-import com.apollographql.apollo.exception.ApolloHttpException
+import com.amplifyframework.api.ApiCategory
+import com.amplifyframework.api.ApiCategoryConfiguration
+import com.amplifyframework.api.ApiException
+import com.amplifyframework.api.aws.AWSApiPlugin
+import com.amplifyframework.api.aws.ApiAuthProviders
+import com.apollographql.apollo3.api.Optional
 import com.appmattus.certificatetransparency.cache.AndroidDiskCache
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.appmattus.certificatetransparency.loglist.LogListDataSourceFactory
@@ -23,18 +27,16 @@ import com.sudoplatform.sudokeymanager.KeyManagerFactory
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudokeymanager.KeyNotFoundException
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudouser.exceptions.AuthenticationException
-import com.sudoplatform.sudouser.exceptions.DeregisterException
-import com.sudoplatform.sudouser.exceptions.GlobalSignOutException
-import com.sudoplatform.sudouser.exceptions.RegisterException
-import com.sudoplatform.sudouser.exceptions.ResetUserDataException
-import com.sudoplatform.sudouser.exceptions.SignOutException
-import com.sudoplatform.sudouser.extensions.enqueue
-import com.sudoplatform.sudouser.extensions.toDeregisterException
-import com.sudoplatform.sudouser.extensions.toGlobalSignOutException
-import com.sudoplatform.sudouser.extensions.toRegistrationException
-import com.sudoplatform.sudouser.extensions.toResetUserDataException
-import com.sudoplatform.sudouser.type.RegisterFederatedIdInput
+import com.sudoplatform.sudouser.amplify.GraphQLAuthProvider
+import com.sudoplatform.sudouser.amplify.GraphQLClient
+import com.sudoplatform.sudouser.exceptions.SudoUserException
+import com.sudoplatform.sudouser.exceptions.SudoUserException.Companion.toSudoUserException
+import com.sudoplatform.sudouser.graphql.DeregisterMutation
+import com.sudoplatform.sudouser.graphql.GlobalSignOutMutation
+import com.sudoplatform.sudouser.graphql.RegisterFederatedIdMutation
+import com.sudoplatform.sudouser.graphql.ResetMutation
+import com.sudoplatform.sudouser.graphql.type.RegisterFederatedIdInput
+import com.sudoplatform.sudouser.http.ConvertClientErrorsInterceptor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,7 +66,7 @@ interface SudoUserClient {
      * Builder used to construct [SudoUserClient].
      */
     class Builder(private val context: Context) {
-        private var apiClient: AWSAppSyncClient? = null
+        private var apiClient: GraphQLClient? = null
         private var namespace: String? = "ids"
         private var logger: Logger? = null
         private var config: JSONObject? = null
@@ -76,10 +78,10 @@ interface SudoUserClient {
         private var databaseName: String? = AndroidSQLiteStore.DEFAULT_DATABASE_NAME
 
         /**
-         * Provide an [AWSAppSyncClient] for the [SudoUserClient]. If this is not supplied,
-         * a default [AWSAppSyncClient] will be used. This is mainly used for unit testing.
+         * Provide an [GraphQLClient] for the [SudoUserClient]. If this is not supplied,
+         * a default [GraphQLClient] will be used. This is mainly used for unit testing.
          */
-        fun setApiClient(apiClient: AWSAppSyncClient) = also {
+        fun setApiClient(apiClient: GraphQLClient) = also {
             this.apiClient = apiClient
         }
 
@@ -208,7 +210,7 @@ interface SudoUserClient {
      * @param registrationId registration ID to uniquely identify this registration request.
      * @return user ID of the newly created user
      */
-    @Throws(RegisterException::class)
+    @Throws(SudoUserException::class)
     suspend fun registerWithAuthenticationProvider(
         authenticationProvider: AuthenticationProvider,
         registrationId: String?,
@@ -223,7 +225,7 @@ interface SudoUserClient {
      * @param registrationId registration ID to uniquely identify this registration request.
      * @return user ID of the newly created user
      */
-    @Throws(RegisterException::class)
+    @Throws(SudoUserException::class)
     suspend fun registerWithGooglePlayIntegrity(
         packageName: String,
         deviceId: String,
@@ -234,7 +236,7 @@ interface SudoUserClient {
     /**
      * De-registers a user.
      */
-    @Throws(DeregisterException::class)
+    @Throws(SudoUserException::class)
     suspend fun deregister()
 
     /**
@@ -243,7 +245,7 @@ interface SudoUserClient {
      *
      * @return Successful authentication result [AuthenticationTokens]
      */
-    @Throws(AuthenticationException::class)
+    @Throws(SudoUserException::class)
     suspend fun signInWithKey(): AuthenticationTokens
 
     /**
@@ -285,7 +287,7 @@ interface SudoUserClient {
      *
      * @return successful authentication result [AuthenticationTokens]
      */
-    @Throws(AuthenticationException::class)
+    @Throws(SudoUserException::class)
     suspend fun refreshTokens(refreshToken: String): AuthenticationTokens
 
     /**
@@ -354,13 +356,13 @@ interface SudoUserClient {
     /**
      * Signs out the user from this device only.
      */
-    @Throws(SignOutException::class)
+    @Throws(SudoUserException::class)
     suspend fun signOut()
 
     /**
      * Signs out the user from all devices.
      */
-    @Throws(SignOutException::class)
+    @Throws(SudoUserException::class)
     suspend fun globalSignOut()
 
     /**
@@ -438,7 +440,7 @@ class DefaultSudoUserClient(
     config: JSONObject? = null,
     keyManager: KeyManagerInterface? = null,
     identityProvider: IdentityProvider? = null,
-    apiClient: AWSAppSyncClient? = null,
+    apiClient: GraphQLClient? = null,
     credentialsProvider: CognitoCredentialsProvider? = null,
     authUI: AuthUI? = null,
     idGenerator: IdGenerator = IdGenerateImpl(),
@@ -472,7 +474,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "19.0.0"
+    override val version: String = "20.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -522,7 +524,7 @@ class DefaultSudoUserClient(
     /**
      * GraphQL client used for calling identity service API.
      */
-    private val apiClient: AWSAppSyncClient
+    private val apiClient: GraphQLClient
 
     /**
      * List of sign in status observers.
@@ -566,13 +568,45 @@ class DefaultSudoUserClient(
 
         val authProvider = GraphQLAuthProvider(this)
         val logListUrl = ctLogListServiceConfig?.getString(CONFIG_LOG_LIST_URL)
-        this.apiClient = apiClient ?: AWSAppSyncClient.builder()
-            .serverUrl(apiUrl)
-            .region(Regions.fromName(region))
-            .cognitoUserPoolsAuthProvider(authProvider)
-            .context(this.context)
-            .okHttpClient(buildOkHttpClient(context, logListUrl))
-            .build()
+        if (apiClient !== null) {
+            this.apiClient = apiClient
+        } else {
+            val graphqlConfig = JSONObject(
+                """
+                {
+                    'plugins': {
+                        'awsAPIPlugin': {
+                            '$CONFIG_NAMESPACE_IDENTITY_SERVICE': {
+                                'endpointType': 'GraphQL',
+                                'endpoint': '$apiUrl',
+                                'region': '${Regions.fromName(region)}',
+                                'authorizationType': 'AMAZON_COGNITO_USER_POOLS'
+                            }
+                        }
+                    }
+                } 
+                """.trimIndent(),
+            )
+
+            val apiCategoryConfiguration = ApiCategoryConfiguration()
+            apiCategoryConfiguration.populateFromJSON(graphqlConfig)
+            val apiCategory = ApiCategory()
+            val authProviders = ApiAuthProviders.builder().cognitoUserPoolsAuthProvider(authProvider).build()
+            val awsApiPlugin = AWSApiPlugin
+                .builder()
+                .apiAuthProviders(authProviders)
+                .configureClient(
+                    CONFIG_NAMESPACE_IDENTITY_SERVICE,
+                ) { builder -> this.buildOkHttpClient(builder, context, logListUrl) }
+                .build()
+
+            apiCategory.addPlugin(awsApiPlugin)
+            apiCategory.configure(apiCategoryConfiguration, context)
+
+            apiCategory.initialize(context)
+
+            this.apiClient = GraphQLClient(apiCategory)
+        }
 
         this.idGenerator = idGenerator
 
@@ -636,7 +670,6 @@ class DefaultSudoUserClient(
         this.logger.info("Resetting client.")
 
         this.keyManager.removeAllKeys()
-        this.apiClient.clearCaches()
         this.credentialsProvider.clear()
         this.credentialsProvider.clearCredentials()
         this.clearAuthTokens()
@@ -673,7 +706,7 @@ class DefaultSudoUserClient(
             this.setUserName(userId)
             return userId
         } else {
-            throw RegisterException.AlreadyRegisteredException("Client is already registered.")
+            throw SudoUserException.AlreadyRegisteredException("Client is already registered.")
         }
     }
 
@@ -686,7 +719,7 @@ class DefaultSudoUserClient(
         this.logger.info("Registering using Google Play Integrity.")
 
         if (this.isRegistered()) {
-            throw RegisterException.AlreadyRegisteredException("Client is already registered.")
+            throw SudoUserException.AlreadyRegisteredException("Client is already registered.")
         }
 
         val parameters = mutableMapOf(
@@ -715,29 +748,29 @@ class DefaultSudoUserClient(
         this.logger.info("De-registering user.")
 
         if (!this.isSignedIn()) {
-            throw AuthenticationException.NotSignedInException()
+            throw SudoUserException.NotSignedInException()
         }
 
         try {
-            val mutation = DeregisterMutation.builder().build()
-
-            val response = this.apiClient.mutate(mutation).enqueue()
+            val response = this.apiClient.mutate<DeregisterMutation, DeregisterMutation.Data>(
+                DeregisterMutation.OPERATION_DOCUMENT,
+                emptyMap(),
+            )
 
             if (response.hasErrors()) {
-                throw response.errors().first().toDeregisterException()
+                throw response.errors.first().toSudoUserException()
             }
 
-            val result = response.data()?.deregister()
-            if (result != null) {
+            val result = response.data?.deregister
+            if (result != null && result.success) {
                 this.reset()
-                return
             } else {
-                throw DeregisterException.FailedException("Mutation succeeded but output was null.")
+                throw SudoUserException.FailedException("Mutation succeeded but output was null.")
             }
         } catch (t: Throwable) {
             when (t) {
-                is DeregisterException -> throw t
-                else -> throw DeregisterException.FailedException(cause = t)
+                is SudoUserException -> throw t
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -777,13 +810,13 @@ class DefaultSudoUserClient(
                     authenticationTokens.refreshToken,
                     authenticationTokens.lifetime,
                 )
-            } catch (e: AuthenticationException) {
+            } catch (e: SudoUserException) {
                 this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
                 throw e
             }
         } else {
             this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
-            throw AuthenticationException.NotRegisteredException("Not registered.")
+            throw SudoUserException.NotRegisteredException("Not registered.")
         }
     }
 
@@ -929,7 +962,7 @@ class DefaultSudoUserClient(
                 authenticationTokens.refreshToken,
                 authenticationTokens.lifetime,
             )
-        } catch (e: AuthenticationException) {
+        } catch (e: SudoUserException) {
             this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
             throw e
         }
@@ -959,7 +992,7 @@ class DefaultSudoUserClient(
                 refreshTokenResult.refreshToken,
                 refreshTokenResult.lifetime,
             )
-        } catch (e: AuthenticationException) {
+        } catch (e: SudoUserException) {
             this.invokeSignInStatusObservers(SignInStatus.NOT_SIGNED_IN)
             throw e
         }
@@ -1067,15 +1100,15 @@ class DefaultSudoUserClient(
         this.logger.info("Signing out user from this device.")
 
         val refreshToken =
-            this.getRefreshToken() ?: throw AuthenticationException.NotSignedInException()
+            this.getRefreshToken() ?: throw SudoUserException.NotSignedInException()
 
         try {
             identityProvider.signOut(refreshToken)
             this.clearAuthTokens()
         } catch (t: Throwable) {
             when (t) {
-                is SignOutException -> throw t
-                else -> throw SignOutException.FailedException(cause = t)
+                is SudoUserException -> throw t
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -1084,37 +1117,31 @@ class DefaultSudoUserClient(
         this.logger.info("Globally signing out user.")
 
         if (!this.isSignedIn()) {
-            throw AuthenticationException.NotSignedInException()
+            throw SudoUserException.NotSignedInException()
         }
 
         try {
-            val mutation = GlobalSignOutMutation.builder().build()
-
-            val response = this.apiClient.mutate(mutation).enqueue()
+            val response = this.apiClient.mutate<GlobalSignOutMutation, GlobalSignOutMutation.Data>(
+                GlobalSignOutMutation.OPERATION_DOCUMENT,
+                emptyMap(),
+            )
 
             if (response.hasErrors()) {
-                throw response.errors().first().toGlobalSignOutException()
+                throw response.errors.first().toSudoUserException()
             }
 
-            val result = response.data()?.globalSignOut()
+            val result = response.data
             if (result != null) {
                 this.clearAuthTokens()
                 return
             } else {
-                throw GlobalSignOutException.FailedException("Mutation succeeded but output was null.")
+                throw SudoUserException.FailedException("Mutation succeeded but output was null.")
             }
         } catch (t: Throwable) {
             when (t) {
-                is GlobalSignOutException -> throw t
-                is ApolloHttpException -> {
-                    if (t.code() == 401) {
-                        throw GlobalSignOutException.NotAuthorizedException(cause = t)
-                    } else {
-                        throw GlobalSignOutException.FailedException(cause = t)
-                    }
-                }
-
-                else -> throw GlobalSignOutException.FailedException(cause = t)
+                is SudoUserException -> throw t
+                is ApiException.ApiAuthException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -1149,33 +1176,28 @@ class DefaultSudoUserClient(
         this.logger.info("Resetting user data.")
 
         if (!this.isSignedIn()) {
-            throw AuthenticationException.NotSignedInException()
+            throw SudoUserException.NotSignedInException()
         }
 
         try {
-            val mutation = ResetMutation.builder().build()
-
-            val response = this.apiClient.mutate(mutation).enqueue()
+            val response = this.apiClient.mutate<ResetMutation, ResetMutation.Data>(
+                ResetMutation.OPERATION_DOCUMENT,
+                emptyMap(),
+            )
 
             if (response.hasErrors()) {
-                throw response.errors().first().toResetUserDataException()
+                throw response.errors.first().toSudoUserException()
             }
 
-            if (response.data()?.reset()?.success() != true) {
-                throw ResetUserDataException.FailedException("Mutation succeeded but success status was not true.")
+            if (response.data?.reset?.success != true) {
+                throw SudoUserException.FailedException("Mutation succeeded but success status was not true.")
             }
         } catch (t: Throwable) {
             when (t) {
-                is ResetUserDataException -> throw t
-                is ApolloHttpException -> {
-                    if (t.code() == 401) {
-                        throw ResetUserDataException.NotAuthorizedException(cause = t)
-                    } else {
-                        throw ResetUserDataException.FailedException(cause = t)
-                    }
-                }
+                is SudoUserException -> throw t
+                is ApiException.ApiAuthException -> throw SudoUserException.NotAuthorizedException(cause = t)
 
-                else -> throw ResetUserDataException.FailedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -1237,27 +1259,26 @@ class DefaultSudoUserClient(
         }
 
         try {
-            val input = RegisterFederatedIdInput.builder().idToken(idToken).build()
-
-            val mutation = RegisterFederatedIdMutation.builder().input(input).build()
-
-            val response = this.apiClient.mutate(mutation)
-                .enqueue()
+            val input = RegisterFederatedIdInput(idToken)
+            val response = this.apiClient.mutate<RegisterFederatedIdMutation, RegisterFederatedIdMutation.Data>(
+                RegisterFederatedIdMutation.OPERATION_DOCUMENT,
+                mapOf("input" to Optional.presentIfNotNull(input)),
+            )
 
             if (response.hasErrors()) {
-                throw response.errors().first().toRegistrationException()
+                throw response.errors.first().toSudoUserException()
             }
 
-            val result = response.data()?.registerFederatedId()
+            val result = response.data?.registerFederatedId?.identityId
             if (result != null) {
                 return refreshTokens(refreshToken)
             } else {
-                throw RegisterException.FailedException("Mutation succeeded but output was null.")
+                throw SudoUserException.FailedException("Mutation succeeded but output was null.")
             }
         } catch (t: Throwable) {
             when (t) {
-                is RegisterException -> throw t
-                else -> throw RegisterException.FailedException(cause = t)
+                is SudoUserException -> throw t
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -1265,7 +1286,7 @@ class DefaultSudoUserClient(
     /**
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
-    private fun buildOkHttpClient(context: Context, ctLogListUrl: String?): OkHttpClient {
+    private fun buildOkHttpClient(builder: OkHttpClient.Builder, context: Context, ctLogListUrl: String?): OkHttpClient.Builder {
         val url = ctLogListUrl ?: "https://www.gstatic.com/ct/log_list/v3/"
         this.logger.info("Using CT log list URL: $url")
         val interceptor = certificateTransparencyInterceptor {
@@ -1285,15 +1306,13 @@ class DefaultSudoUserClient(
                 ),
             )
         }
-        val okHttpClient = OkHttpClient.Builder().apply {
-            // Convert exceptions from certificate transparency into http errors that stop the
-            // exponential backoff retrying of [AWSAppSyncClient]
-            addInterceptor(ConvertSslErrorsInterceptor())
+        val okHttpClient = builder.apply {
+            addInterceptor(ConvertClientErrorsInterceptor())
 
             // Certificate transparency checking
             addNetworkInterceptor(interceptor)
         }
-        return okHttpClient.build()
+        return okHttpClient
     }
 
     private fun invokeSignInStatusObservers(signInStatus: SignInStatus) {

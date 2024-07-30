@@ -1,6 +1,6 @@
 buildscript {
     ext.kotlin_version = '1.9.24'
-    ext.appsync_version = '3.4.0'
+    ext.amplify_version = '2.19.1'
     ext.aws_version = '2.75.2'
     ext.dokka_version = '1.9.20'
 
@@ -10,21 +10,21 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.5.0'
+        classpath 'com.android.tools.build:gradle:8.5.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
         classpath "org.owasp:dependency-check-gradle:8.2.1"
         classpath "org.jmailen.gradle:kotlinter-gradle:3.16.0"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
-        classpath "com.amazonaws:aws-android-sdk-appsync-gradle-plugin:$appsync_version"
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.0.0.2929"
-        classpath "com.cookpad.android.licensetools:license-tools-plugin:1.7.0"
+        classpath "gradle.plugin.com.cookpad.android.plugin:plugin:1.2.8"
     }
 }
 
 plugins {
     id "io.github.gradle-nexus.publish-plugin" version "1.3.0"
+    id "com.apollographql.apollo3" version "4.0.0-beta.7"
 }
 
 ext {

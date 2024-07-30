@@ -160,12 +160,6 @@
   copyrightHolder: Google, Inc.
   license: The Apache Software License, Version 2.0
   url: https://mvnrepository.com/artifact/com.google.code.gson/gson
-- artifact: com.google.code.findbugs:jsr305:+
-  name: FindBugs-jsr305
-  copyrightHolder: Free Software Foundation, Inc.
-  license: The Apache Software License, Version 2.0
-  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: http://findbugs.sourceforge.net/
 - artifact: com.squareup.okhttp3:okhttp:+
   name: OkHttp
   copyrightHolder: Square, Inc.
@@ -176,40 +170,6 @@
   copyrightHolder: Amazon
   license: Amazon Software License
   url: http://aws.amazon.com/sdkforandroid
-- artifact: com.nytimes.android:cache:+
-  name: com.nytimes.android
-  copyrightHolder: New York Times
-  license: Apache License
-  licenseUrl: http://www.apache.org/licenses/
-  url: https://github.com/nytimes/Store/
-- artifact: com.amazonaws:aws-android-sdk-auth-userpools:+
-  name: AWS SDK for Android - AWS Cognito Userpools SignIn
-  copyrightHolder: Amazon
-  license: Amazon Software License
-  url: http://aws.amazon.com/sdkforandroid
-- artifact: javax.annotation:jsr250-api:+
-  name: JSR-250 Common Annotations for the JavaTM Platform
-  copyrightHolder: Oracle Corp.
-  license: COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
-  licenseUrl: https://glassfish.dev.java.net/public/CDDLv1.0.html
-  url: http://jcp.org/aboutJava/communityprocess/final/jsr250/index.html
-- artifact: com.amazonaws:aws-android-sdk-appsync-runtime:+
-  name: AWS Android SDK - AppSync GraphQL Runtime
-  copyrightHolder: Amazon
-  license: Apache License 2.0
-  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0
-  url: https://github.com/awslabs/aws-mobile-appsync-sdk-android
-- artifact: com.amazonaws:aws-android-sdk-auth-core:+
-  name: AWS SDK for Android - AWS Authentication Core
-  copyrightHolder: Amazon
-  license: Amazon Software License
-  url: http://aws.amazon.com/sdkforandroid
-- artifact: com.amazonaws:aws-android-sdk-appsync-api:+
-  name: AWS SDK for Android GraphQL API
-  copyrightHolder: Amazon
-  license: Apache License 2.0
-  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0
-  url: https://github.com/awslabs/aws-mobile-appsync-sdk-android
 - artifact: com.amazonaws:aws-android-sdk-cognitoidentityprovider-asf:+
   name: AWS SDK for Android - Amazon Cognito Identity Provider ASF
   copyrightHolder: Amazon
@@ -222,17 +182,6 @@
   license: Amazon Software License
   licenseUrl: http://aws.amazon.com/asl/
   url: http://aws.amazon.com/sdkforandroid
-- artifact: com.amazonaws:aws-android-sdk-mobile-client:+
-  name: AWS SDK for Android - AWS Mobile Client
-  copyrightHolder: Amazon
-  license: Amazon Software License
-  url: http://aws.amazon.com/sdkforandroid
-- artifact: com.amazonaws:aws-android-sdk-appsync:+
-  name: AWS Android SDK - AppSync GraphQL
-  copyrightHolder: Amazon
-  license: Apache License 2.0
-  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0
-  url: https://github.com/awslabs/aws-mobile-appsync-sdk-android
 - artifact: androidx.documentfile:documentfile:+
   name: Android Support Library Document File
   copyrightHolder: Google, Inc.
@@ -524,3 +473,368 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx/releases/resourceinspection#1.0.1
+- artifact: androidx.swiperefreshlayout:swiperefreshlayout:+
+  name: Android Support Library Custom View
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: aws.smithy.kotlin:http-client-engine-default-jvm:+
+  name: http-client-engine-default
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.apollographql.apollo3:apollo-runtime-jvm:+
+  name: Apollo GraphQL Runtime
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: aws.smithy.kotlin:aws-protocol-core-jvm:+
+  name: aws-protocol-core
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: org.jetbrains.kotlin:kotlin-parcelize-runtime:+
+  name: Parcelize Runtime
+  copyrightHolder: Jetbrains, Inc.
+  license: The Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://kotlinlang.org/
+- artifact: aws.smithy.kotlin:logging-slf4j2-jvm:+
+  name: logging-slf4j2
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.amplifyframework:annotations:+
+  name: Amplify Framework for Android - Annotations
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: com.benasher44:uuid-jvm:+
+  name: UUID
+  copyrightHolder: Ben Asher
+  license: MIT License
+  licenseUrl: https://opensource.org/licenses/mit-license
+  url: https://github.com/benasher44/uuid/
+- artifact: com.amplifyframework:aws-api-appsync:+
+  name: Amplify Framework for Android - AppSync
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: com.amplifyframework:common-core:+
+  name: Amplify Framework for Android - Common Core
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: androidx.navigation:navigation-runtime:+
+  name: Android Navigation Runtime
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: aws.smithy.kotlin:telemetry-defaults-jvm:+
+  name: telemetry-defaults
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.sdk.kotlin:aws-core-jvm:+
+  name: aws-core
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: org.jetbrains.kotlin:kotlin-android-extensions-runtime:+
+  name: Kotlin Android Extensions Runtime
+  copyrightHolder: Jetbrains, Inc.
+  license: The Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://kotlinlang.org/
+- artifact: androidx.navigation:navigation-common:+
+  name: Android Navigation Common
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: aws.smithy.kotlin:http-client-engine-okhttp-jvm:+
+  name: http-client-engine-okhttp
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.apollographql.apollo3:apollo-api-jvm:+
+  name: Apollo GraphQL API
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo3:apollo-annotations-jvm:+
+  name: Apollo GraphQL Annotations
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: androidx.media:media:+
+  name: Android Support Library media compat
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: aws.smithy.kotlin:aws-xml-protocols-jvm:+
+  name: aws-xml-protocols
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.smithy.kotlin:serde-jvm:+
+  name: serde
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.sdk.kotlin:aws-config-jvm:+
+  name: aws-config
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: aws.smithy.kotlin:http-client-jvm:+
+  name: http-client
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: androidx.asynclayoutinflater:asynclayoutinflater:+
+  name: Android Support Library Async Layout Inflater
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: aws.smithy.kotlin:telemetry-api-jvm:+
+  name: telemetry-api
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.amplifyframework:aws-api:+
+  name: Amplify Framework for Android - API
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: aws.smithy.kotlin:identity-api-jvm:+
+  name: identity-api
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.amplifyframework:aws-core:+
+  name: Amplify Framework for Android - AWS Core
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: com.amplifyframework:aws-auth-plugins-core:+
+  name: Amplify Framework for Android - AWS Auth Plugins Core
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: aws.sdk.kotlin:cognitoidentityprovider-jvm:+
+  name: cognitoidentityprovider
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: aws.smithy.kotlin:http-jvm:+
+  name: http
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: androidx.legacy:legacy-support-core-ui:+
+  name: Android Support Library core UI
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: com.amplifyframework:aws-auth-cognito:+
+  name: Amplify Framework for Android - Auth
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: com.amplifyframework:core:+
+  name: Amplify Framework for Android - Core
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: aws.smithy.kotlin:aws-signing-default-jvm:+
+  name: aws-signing-default
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: androidx.security:security-crypto:+
+  name: AndroidX Security
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/jetpack/androidx
+- artifact: aws.smithy.kotlin:serde-form-url-jvm:+
+  name: serde-form-url
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: androidx.legacy:legacy-support-v4:+
+  name: Android Support Library v4
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: com.amplifyframework:core-kotlin:+
+  name: Amplify Framework for Android - Kotlin facade for Core library
+  copyrightHolder: Amazon
+  license: Apache 2.0
+  licenseUrl: http://aws.amazon.com/apache2.0
+  url: https://github.com/aws-amplify/amplify-android
+- artifact: androidx.navigation:navigation-fragment:+
+  name: Android Navigation Fragment
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: aws.smithy.kotlin:serde-json-jvm:+
+  name: serde-json
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.smithy.kotlin:serde-xml-jvm:+
+  name: serde-xml
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: org.slf4j:slf4j-api:+
+  name: SLF4J API Module
+  copyrightHolder: QOS.CH Sarl (Switzerland)
+  license: CC BY-SA 4.0
+  url: http://www.slf4j.org
+- artifact: org.jetbrains.kotlinx:atomicfu-jvm:+
+  name: atomicfu
+  copyrightHolder: Jetbrains, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/Kotlin/kotlinx.atomicfu
+- artifact: aws.smithy.kotlin:aws-signing-common-jvm:+
+  name: aws-signing-common
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.smithy.kotlin:runtime-core-jvm:+
+  name: runtime-core
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: androidx.navigation:navigation-ui:+
+  name: Android Navigation UI
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/topic/libraries/architecture/index.html
+- artifact: com.squareup.okhttp3:okhttp-coroutines:+
+  name: okhttp-coroutines
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://square.github.io/okhttp/
+- artifact: androidx.slidingpanelayout:slidingpanelayout:+
+  name: Android Support Library Sliding Pane Layout
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://developer.android.com/tools/extras/support-library.html
+- artifact: com.apollographql.apollo3:apollo-mpp-utils-jvm:+
+  name: Apollo MPP Utils
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: aws.smithy.kotlin:http-auth-api-jvm:+
+  name: http-auth-api
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.smithy.kotlin:http-auth-jvm:+
+  name: http-auth
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.smithy.kotlin:http-auth-aws-jvm:+
+  name: http-auth-aws
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.sdk.kotlin:aws-endpoint-jvm:+
+  name: aws-endpoint
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: aws.sdk.kotlin:aws-http-jvm:+
+  name: aws-http
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: aws.smithy.kotlin:aws-credentials-jvm:+
+  name: aws-credentials
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: aws.sdk.kotlin:cognitoidentity-jvm:+
+  name: cognitoidentity
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/aws-sdk-kotlin
+- artifact: aws.smithy.kotlin:smithy-client-jvm:+
+  name: smithy-client
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: com.google.crypto.tink:tink-android:+
+  name: Tink Cryptography API for Android
+  copyrightHolder: Tink AB
+  license: Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: http://github.com/google/tink
+- artifact: aws.smithy.kotlin:aws-json-protocols-jvm:+
+  name: aws-json-protocols
+  copyrightHolder: Amazon
+  license: The Apache License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://github.com/awslabs/smithy-kotlin
+- artifact: org.jetbrains.kotlin:kotlin-reflect:+
+  name: kotlin-reflect
+  copyrightHolder: JetBrains, Inc.
+  license: The Apache License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://kotlinlang.org/

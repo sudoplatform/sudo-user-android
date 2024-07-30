@@ -1,5 +1,5 @@
 /*
- * Copyright © 2023 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2024 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,10 +23,7 @@ import com.amazonaws.services.cognitoidentityprovider.model.RevokeTokenRequest
 import com.amazonaws.services.cognitoidentityprovider.model.UserNotFoundException
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
 import com.sudoplatform.sudologging.Logger
-import com.sudoplatform.sudouser.exceptions.AuthenticationException
-import com.sudoplatform.sudouser.exceptions.DeregisterException
-import com.sudoplatform.sudouser.exceptions.RegisterException
-import com.sudoplatform.sudouser.exceptions.SignOutException
+import com.sudoplatform.sudouser.exceptions.SudoUserException
 import com.sudoplatform.sudouser.extensions.signUp
 import org.json.JSONObject
 import java.util.Date
@@ -123,7 +120,7 @@ interface IdentityProvider {
      * @param parameters registration parameters.
      * @return user ID
      */
-    @Throws(RegisterException::class)
+    @Throws(SudoUserException::class)
     suspend fun register(
         uid: String,
         parameters: Map<String, String>,
@@ -135,7 +132,7 @@ interface IdentityProvider {
      * @param uid user ID.
      * @param accessToken access token to authenticate and authorize the request.
      */
-    @Throws(RegisterException::class)
+    @Throws(SudoUserException::class)
     suspend fun deregister(uid: String, accessToken: String)
 
     /**
@@ -145,7 +142,7 @@ interface IdentityProvider {
      * @param parameters sign-in parameters.
      * @returns Successful authentication result [AuthenticationTokens]
      */
-    @Throws(AuthenticationException::class)
+    @Throws(SudoUserException::class)
     suspend fun signIn(
         uid: String,
         parameters: Map<String, String>,
@@ -157,7 +154,7 @@ interface IdentityProvider {
      * @param refreshToken refresh token used to refresh the access and ID tokens.
      * @return Successful authentication result [AuthenticationTokens] containing refreshed tokens
      */
-    @Throws(AuthenticationException::class)
+    @Throws(SudoUserException::class)
     suspend fun refreshTokens(refreshToken: String): AuthenticationTokens
 
     /**
@@ -165,7 +162,7 @@ interface IdentityProvider {
      *
      * @param refreshToken refresh token tied to this device.
      */
-    @Throws(AuthenticationException::class)
+    @Throws(SudoUserException::class)
     suspend fun signOut(refreshToken: String)
 
     /**
@@ -173,7 +170,7 @@ interface IdentityProvider {
      *
      * @param accessToken access token used to authorize the request.
      */
-    @Throws(SignOutException::class)
+    @Throws(SudoUserException::class)
     suspend fun globalSignOut(accessToken: String)
 }
 
@@ -350,21 +347,21 @@ internal class CognitoUserPoolIdentityProvider(
                             lifetime,
                         )
                     } else {
-                        throw AuthenticationException.FailedException("Authentication tokens not found.")
+                        throw SudoUserException.FailedException("Authentication tokens not found.")
                     }
                 } else {
-                    throw AuthenticationException.FailedException("Challenge answer not found.")
+                    throw SudoUserException.FailedException("Challenge answer not found.")
                 }
             } else {
-                throw AuthenticationException.FailedException("Invalid initiate auth result.")
+                throw SudoUserException.FailedException("Invalid initiate auth result.")
             }
         } catch (t: Throwable) {
             when (t) {
-                is AuthenticationException -> throw t
-                is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(
+                is SudoUserException -> throw t
+                is NotAuthorizedException -> throw SudoUserException.NotAuthorizedException(
                     cause = t,
                 )
-                else -> throw AuthenticationException.FailedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -378,8 +375,8 @@ internal class CognitoUserPoolIdentityProvider(
             this.idpClient.deleteUser(deleteUserRequest)
         } catch (t: Throwable) {
             when (t) {
-                is NotAuthorizedException -> throw DeregisterException.NotAuthorizedException(cause = t)
-                else -> throw DeregisterException.FailedException(cause = t)
+                is NotAuthorizedException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -405,16 +402,16 @@ internal class CognitoUserPoolIdentityProvider(
                     lifetime,
                 )
             } else {
-                throw AuthenticationException.FailedException(
+                throw SudoUserException.FailedException(
                     "Authentication tokens not found.",
                 )
             }
         } catch (t: Throwable) {
             when (t) {
-                is UserNotFoundException -> throw AuthenticationException.NotAuthorizedException(cause = t)
-                is AuthenticationException -> throw t
-                is NotAuthorizedException -> throw AuthenticationException.NotAuthorizedException(cause = t)
-                else -> throw AuthenticationException.FailedException(cause = t)
+                is UserNotFoundException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                is SudoUserException -> throw t
+                is NotAuthorizedException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -428,8 +425,8 @@ internal class CognitoUserPoolIdentityProvider(
             this.idpClient.revokeToken(request)
         } catch (t: Throwable) {
             when (t) {
-                is NotAuthorizedException -> throw SignOutException.NotAuthorizedException(cause = t)
-                else -> throw SignOutException.FailedException(cause = t)
+                is NotAuthorizedException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }
@@ -442,8 +439,8 @@ internal class CognitoUserPoolIdentityProvider(
             this.idpClient.globalSignOut(request)
         } catch (t: Throwable) {
             when (t) {
-                is NotAuthorizedException -> throw SignOutException.NotAuthorizedException(cause = t)
-                else -> throw SignOutException.FailedException(cause = t)
+                is NotAuthorizedException -> throw SudoUserException.NotAuthorizedException(cause = t)
+                else -> throw SudoUserException.FailedException(cause = t)
             }
         }
     }

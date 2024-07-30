@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2024 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ import android.net.Uri
 import com.amazonaws.mobileconnectors.cognitoauth.Auth
 import com.amazonaws.mobileconnectors.cognitoauth.AuthUserSession
 import com.amazonaws.mobileconnectors.cognitoauth.handlers.AuthHandler
-import com.sudoplatform.sudouser.exceptions.AuthenticationException
+import com.sudoplatform.sudouser.exceptions.SudoUserException
 import org.json.JSONObject
 import java.util.Date
 
@@ -151,7 +151,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
-                            AuthenticationException.FailedException(
+                            SudoUserException.FailedException(
                                 "Authentication tokens missing.",
                             ),
                         ),
@@ -225,7 +225,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
                 } else {
                     callback(
                         FederatedSignInResult.Failure(
-                            AuthenticationException.FailedException(
+                            SudoUserException.FailedException(
                                 "Authentication tokens missing.",
                             ),
                         ),

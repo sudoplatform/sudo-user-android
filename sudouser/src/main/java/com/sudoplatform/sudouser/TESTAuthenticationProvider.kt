@@ -1,5 +1,5 @@
 /*
- * Copyright © 2022 Anonyome Labs, Inc. All rights reserved.
+ * Copyright © 2024 Anonyome Labs, Inc. All rights reserved.
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.sudoplatform.sudouser
 
 import android.util.Base64
 import com.sudoplatform.sudokeymanager.KeyManagerInterface
-import com.sudoplatform.sudouser.exceptions.AuthenticationException
+import com.sudoplatform.sudouser.exceptions.SudoUserException
 import org.json.JSONObject
 import org.spongycastle.asn1.x509.SubjectPublicKeyInfo
 import java.security.KeyFactory
@@ -38,7 +38,7 @@ class TESTAuthenticationInfo(private val jwt: String) : AuthenticationInfo {
         if (username != null) {
             return username
         } else {
-            throw AuthenticationException.FailedException("TEST registration JWT does not have sub.")
+            throw SudoUserException.FailedException("TEST registration JWT does not have sub.")
         }
     }
 }
