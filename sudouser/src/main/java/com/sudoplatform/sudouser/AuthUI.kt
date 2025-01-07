@@ -48,7 +48,7 @@ sealed class FederatedSignInResult {
 /**
  *  Responsible for managing the authentication flow for browser based federated sign in.
  */
-interface AuthUI {
+interface AuthUI : AutoCloseable {
 
     /**
      * Presents the sign in UI for federated sign in using an external identity provider.
@@ -100,6 +100,9 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
      * Builder for AWS Cognito Auth API used for federated sign in.
      */
     private var authBuilder: Auth.Builder
+
+    /** [Auth] instances that might be bound to a service and require releasing */
+    private val boundAuthInstances = mutableListOf<Auth>()
 
     init {
         val appClientId = config[CONFIG_APP_CLIENT_ID] as String?
@@ -173,6 +176,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
         }).build()
 
         auth.getSession(activity)
+        boundAuthInstances.add(auth)
     }
 
     override fun presentFederatedSignOutUI(callback: (ApiResult) -> Unit) {
@@ -195,6 +199,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
         }).build()
 
         auth.signOut()
+        boundAuthInstances.add(auth)
     }
 
     override fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit) {
@@ -247,6 +252,7 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
         }).build()
 
         auth.getTokens(data)
+        boundAuthInstances.add(auth)
     }
 
     override fun reset() {
@@ -262,5 +268,17 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
         }).build()
 
         auth.signOut(true)
+        boundAuthInstances.add(auth)
+    }
+
+    override fun close() {
+        boundAuthInstances.forEach { auth ->
+            try {
+                auth.release()
+            } catch (e: Exception) {
+                // Suppress
+            }
+        }
+        boundAuthInstances.clear()
     }
 }

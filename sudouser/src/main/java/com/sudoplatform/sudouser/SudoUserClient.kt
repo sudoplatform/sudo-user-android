@@ -51,7 +51,7 @@ import java.util.Locale
  * Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
  * cryptographic operations.
  */
-interface SudoUserClient {
+interface SudoUserClient : AutoCloseable {
 
     companion object {
 
@@ -474,7 +474,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "20.0.0"
+    override val version: String = "20.0.1"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -673,6 +673,10 @@ class DefaultSudoUserClient(
         this.credentialsProvider.clear()
         this.credentialsProvider.clearCredentials()
         this.clearAuthTokens()
+    }
+
+    override fun close() {
+        this.authUI?.close()
     }
 
     override suspend fun registerWithAuthenticationProvider(

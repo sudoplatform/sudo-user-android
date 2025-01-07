@@ -294,12 +294,12 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://developer.android.com/jetpack/androidx
-- artifact: androidx.constraintlayout:constraintlayout-solver:+
-  name: Android ConstraintLayout Solver
+- artifact: androidx.constraintlayout:constraintlayout-core:+
+  name: constraintlayout-core
   copyrightHolder: Google, Inc.
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
-  url: https://developer.android.com/jetpack/androidx
+  url: http://tools.android.com
 - artifact: androidx.arch.core:core-common:+
   name: Android Arch-Common
   copyrightHolder: Google, Inc.

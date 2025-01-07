@@ -82,6 +82,7 @@ $dokka.location:com.sudoplatform.sudouser/AuthenticationTokens/refreshToken/#/Po
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI.Companion///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/-companion/index.html
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/index.html
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI/CognitoAuthUI/#org.json.JSONObject#android.content.Context/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/-cognito-auth-u-i.html
+$dokka.location:com.sudoplatform.sudouser/CognitoAuthUI/close/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/close.html
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI/config/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/config.html
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI/context/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/context.html
 $dokka.location:com.sudoplatform.sudouser/CognitoAuthUI/presentFederatedSignInUI/#android.app.Activity#kotlin.Function1[com.sudoplatform.sudouser.FederatedSignInResult,kotlin.Unit]/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-cognito-auth-u-i/present-federated-sign-in-u-i.html
@@ -96,6 +97,7 @@ $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient.Companion///Poin
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/index.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/DefaultSudoUserClient/#android.content.Context#kotlin.String#com.sudoplatform.sudologging.Logger#org.json.JSONObject?#com.sudoplatform.sudokeymanager.KeyManagerInterface?#com.sudoplatform.sudouser.IdentityProvider?#com.sudoplatform.sudouser.amplify.GraphQLClient?#com.amazonaws.auth.CognitoCredentialsProvider?#com.sudoplatform.sudouser.AuthUI?#com.sudoplatform.sudouser.IdGenerator#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/-default-sudo-user-client.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/clearAuthTokens/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/clear-auth-tokens.html
+$dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/close/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/close.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/deregister/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/deregister.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/deregisterSignInStatusObserver/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/deregister-sign-in-status-observer.html
 $dokka.location:com.sudoplatform.sudouser/DefaultSudoUserClient/getAccessToken/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-default-sudo-user-client/get-access-token.html
