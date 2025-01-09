@@ -260,6 +260,7 @@ apollo {
         packageName.set("com.sudoplatform.sudouser.graphql")
     }
 }
+
 // Sonarqube code analysis
 if (project.file("${rootProject.projectDir}/util/sonarqube.gradle").exists()) {
     ext.sonarProjectKey = "sudo-user-android"
@@ -289,4 +290,19 @@ if(project.findProperty("tag") &&
 }
 else if (project.file("${rootProject.projectDir}/util/publish-internal-android.gradle").exists()) {
     apply from: "${rootProject.projectDir}/util/publish-internal-android.gradle"
+}
+
+// Keep gradle happy. Stop it complaining about implicit dependencies.
+def taskNames = [
+    "generateDebugAndroidTestResValues",
+    "processDebugManifest",
+    "checkDebugAndroidTestAarMetadata",
+    "compileDebugLibraryResources",
+    "mergeDebugAndroidTestResources",
+    "processDebugAndroidTestManifest",
+    "processDebugAndroidTestResources",
+    "compileDebugAndroidTestKotlin"
+]
+tasks.withType(JacocoReport).configureEach {
+    dependsOn(taskNames)
 }

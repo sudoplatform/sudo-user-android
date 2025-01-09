@@ -46,6 +46,7 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.cancellation.CancellationException
 
 /**
  * Interface encapsulating a library of functions for calling Sudo Platform identity service, managing keys, performing
@@ -849,24 +850,30 @@ class DefaultSudoUserClient(
 
                     this.credentialsProvider.logins = this.getLogins()
                     CoroutineScope(Dispatchers.IO).launch {
-                        this@DefaultSudoUserClient.credentialsProvider.refresh()
+                        try {
+                            this@DefaultSudoUserClient.credentialsProvider.refresh()
 
-                        val authenticationTokens =
-                            this@DefaultSudoUserClient.registerFederatedIdAndRefreshTokens(
-                                result.idToken,
-                                result.accessToken,
-                                result.refreshToken,
-                                result.lifetime,
+                            val authenticationTokens =
+                                this@DefaultSudoUserClient.registerFederatedIdAndRefreshTokens(
+                                    result.idToken,
+                                    result.accessToken,
+                                    result.refreshToken,
+                                    result.lifetime,
+                                )
+
+                            callback(
+                                SignInResult.Success(
+                                    authenticationTokens.idToken,
+                                    authenticationTokens.accessToken,
+                                    authenticationTokens.refreshToken,
+                                    authenticationTokens.lifetime,
+                                ),
                             )
-
-                        callback(
-                            SignInResult.Success(
-                                authenticationTokens.idToken,
-                                authenticationTokens.accessToken,
-                                authenticationTokens.refreshToken,
-                                authenticationTokens.lifetime,
-                            ),
-                        )
+                        } catch (e: CancellationException) {
+                            throw e
+                        } catch (e: Exception) {
+                            callback(SignInResult.Failure(e))
+                        }
                     }
                 }
 
