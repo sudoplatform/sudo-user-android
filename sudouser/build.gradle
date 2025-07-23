@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdkVersion 26
         targetSdkVersion 34
-        versionName "20.0.0"
+        versionName "20.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments clearPackageData: "true"
     }
@@ -95,7 +95,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${kotlin_version}"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:2.0.21"
 
     // AWS SDKs
     //
@@ -117,23 +117,23 @@ dependencies {
     implementation("com.apollographql.apollo3:apollo-runtime:4.0.0-beta.7")
 
     // Sudo Platform SDKs.
-    implementation 'com.sudoplatform:sudokeymanager:8.0.0'
-    implementation 'com.sudoplatform:sudologging:5.0.0'
-    implementation 'com.sudoplatform:sudoconfigmanager:8.0.0'
+    implementation 'com.sudoplatform:sudokeymanager:8.1.0'
+    implementation 'com.sudoplatform:sudologging:5.0.2'
+    implementation 'com.sudoplatform:sudoconfigmanager:8.0.1'
 
     implementation 'com.appmattus.certificatetransparency:certificatetransparency-android:2.5.42'
 
     // Testing
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.3.1'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.4.0'
     testImplementation 'org.mockito:mockito-inline:5.2.0'
-    testImplementation 'org.json:json:20240303'
-    androidTestImplementation 'androidx.test:runner:1.6.1'
+    testImplementation 'org.json:json:20250517'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
     androidTestImplementation 'androidx.test:rules:1.6.1'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
     androidTestImplementation "io.kotlintest:kotlintest-assertions:$kotlintest_version"
-    androidTestImplementation 'com.google.android.play:integrity:1.3.0'
+    androidTestImplementation 'com.google.android.play:integrity:1.4.0'
 }
 
 task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {

@@ -475,7 +475,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "20.0.1"
+    override val version: String = "20.0.2"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -829,26 +829,8 @@ class DefaultSudoUserClient(
         this.authUI?.presentFederatedSignInUI(activity) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
-                    this@DefaultSudoUserClient.keyManager.deletePassword(
+                    handleFederatedSignInSuccess(result)
 
-                        KEY_NAME_USER_ID,
-
-                    )
-                    this@DefaultSudoUserClient.keyManager.addPassword(
-                        result.username.toByteArray(),
-                        KEY_NAME_USER_ID,
-                    )
-
-                    this@DefaultSudoUserClient.storeTokens(
-                        result.idToken,
-                        result.accessToken,
-                        result.refreshToken,
-                        result.lifetime,
-                    )
-
-                    this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
-
-                    this.credentialsProvider.logins = this.getLogins()
                     CoroutineScope(Dispatchers.IO).launch {
                         try {
                             this@DefaultSudoUserClient.credentialsProvider.refresh()
@@ -895,26 +877,7 @@ class DefaultSudoUserClient(
         this.authUI?.processFederatedSignInTokens(data) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
-                    this@DefaultSudoUserClient.keyManager.deletePassword(
-
-                        KEY_NAME_USER_ID,
-
-                    )
-                    this@DefaultSudoUserClient.keyManager.addPassword(
-                        result.username.toByteArray(),
-                        KEY_NAME_USER_ID,
-                    )
-
-                    this@DefaultSudoUserClient.storeTokens(
-                        result.idToken,
-                        result.accessToken,
-                        result.refreshToken,
-                        result.lifetime,
-                    )
-
-                    this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
-
-                    this.credentialsProvider.logins = this.getLogins()
+                    handleFederatedSignInSuccess(result)
 
                     CoroutineScope(Dispatchers.IO).launch {
                         this@DefaultSudoUserClient.credentialsProvider.refresh()
@@ -1211,6 +1174,35 @@ class DefaultSudoUserClient(
                 else -> throw SudoUserException.FailedException(cause = t)
             }
         }
+    }
+
+    /**
+     * Perform the work required on successful federated signin. We need to replace our user id ('password'),
+     * store tokens and setup our credentials with the credentials provider.
+     *
+     * @param result [FederatedSignInResult] success result including token values
+     *
+     */
+    private fun handleFederatedSignInSuccess(result: FederatedSignInResult.Success) {
+        this@DefaultSudoUserClient.keyManager.deletePassword(
+            KEY_NAME_USER_ID,
+        )
+        this@DefaultSudoUserClient.keyManager.addPassword(
+            result.username.toByteArray(),
+            KEY_NAME_USER_ID,
+        )
+
+        this@DefaultSudoUserClient.storeTokens(
+            result.idToken,
+            result.accessToken,
+            result.refreshToken,
+            result.lifetime,
+        )
+
+        this.storeRefreshTokenLifetime(this.refreshTokenLifetime)
+
+        this.credentialsProvider.clear()
+        this.credentialsProvider.logins = this.getLogins()
     }
 
     /**
