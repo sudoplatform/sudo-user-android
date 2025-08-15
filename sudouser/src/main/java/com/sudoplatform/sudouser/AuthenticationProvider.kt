@@ -11,7 +11,6 @@ package com.sudoplatform.sudouser
  * required to sign into the backend.
  */
 interface AuthenticationProvider {
-
     /**
      * Generates and returns an authentication information.
      *

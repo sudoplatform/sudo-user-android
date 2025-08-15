@@ -17,7 +17,7 @@ import com.amplifyframework.api.ApiCategoryConfiguration
 import com.amplifyframework.api.ApiException
 import com.amplifyframework.api.aws.AWSApiPlugin
 import com.amplifyframework.api.aws.ApiAuthProviders
-import com.apollographql.apollo3.api.Optional
+import com.apollographql.apollo.api.Optional
 import com.appmattus.certificatetransparency.cache.AndroidDiskCache
 import com.appmattus.certificatetransparency.certificateTransparencyInterceptor
 import com.appmattus.certificatetransparency.loglist.LogListDataSourceFactory
@@ -53,20 +53,19 @@ import kotlin.coroutines.cancellation.CancellationException
  * cryptographic operations.
  */
 interface SudoUserClient : AutoCloseable {
-
     companion object {
-
         /**
          * Creates a [Builder] for [SudoUserClient].
          */
-        fun builder(context: Context) =
-            Builder(context)
+        fun builder(context: Context) = Builder(context)
     }
 
     /**
      * Builder used to construct [SudoUserClient].
      */
-    class Builder(private val context: Context) {
+    class Builder(
+        private val context: Context,
+    ) {
         private var apiClient: GraphQLClient? = null
         private var namespace: String? = "ids"
         private var logger: Logger? = null
@@ -82,83 +81,93 @@ interface SudoUserClient : AutoCloseable {
          * Provide an [GraphQLClient] for the [SudoUserClient]. If this is not supplied,
          * a default [GraphQLClient] will be used. This is mainly used for unit testing.
          */
-        fun setApiClient(apiClient: GraphQLClient) = also {
-            this.apiClient = apiClient
-        }
+        fun setApiClient(apiClient: GraphQLClient) =
+            also {
+                this.apiClient = apiClient
+            }
 
         /**
          * Provide the namespace to use for internal data and cryptographic keys. This should be unique
          * per client per app to avoid name conflicts between multiple clients. If a value is not supplied
          * a default value will be used.
          */
-        fun setNamespace(namespace: String) = also {
-            this.namespace = namespace
-        }
+        fun setNamespace(namespace: String) =
+            also {
+                this.namespace = namespace
+            }
 
         /**
          * Provide the database name to use for exportable key store database.
          */
-        fun setDatabaseName(databaseName: String) = also {
-            this.databaseName = databaseName
-        }
+        fun setDatabaseName(databaseName: String) =
+            also {
+                this.databaseName = databaseName
+            }
 
         /**
          * Provide the implementation of the [Logger] used for logging. If a value is not supplied
          * a default implementation will be used.
          */
-        fun setLogger(logger: Logger) = also {
-            this.logger = logger
-        }
+        fun setLogger(logger: Logger) =
+            also {
+                this.logger = logger
+            }
 
         /**
          * Provide the configuration parameters.
          */
-        fun setConfig(config: JSONObject) = also {
-            this.config = config
-        }
+        fun setConfig(config: JSONObject) =
+            also {
+                this.config = config
+            }
 
         /**
          * Provide custom [KeyManagerInterface] implementation. This is mainly used for unit testing (optional).
          */
-        fun setKeyManager(keyManager: KeyManagerInterface) = also {
-            this.keyManager = keyManager
-        }
+        fun setKeyManager(keyManager: KeyManagerInterface) =
+            also {
+                this.keyManager = keyManager
+            }
 
         /**
          * Provide a custom identity provider. This is mainly used for unit testing (optional).
          */
-        fun setIdentityProvider(identityProvider: IdentityProvider) = also {
-            this.identityProvider = identityProvider
-        }
+        fun setIdentityProvider(identityProvider: IdentityProvider) =
+            also {
+                this.identityProvider = identityProvider
+            }
 
         /**
          * Provide a custom credentials provider. This is mainly used for unit testing (optional).
          * If a value is not provided, a default implementation will be used.
          */
-        fun setCredentialsProvider(credentialsProvider: CognitoCredentialsProvider) = also {
-            this.credentialsProvider = credentialsProvider
-        }
+        fun setCredentialsProvider(credentialsProvider: CognitoCredentialsProvider) =
+            also {
+                this.credentialsProvider = credentialsProvider
+            }
 
         /**
          * Provide a custom auth UI. This is mainly used for unit testing (optional).
          */
-        fun setAuthUI(authUI: AuthUI) = also {
-            this.authUI = authUI
-        }
+        fun setAuthUI(authUI: AuthUI) =
+            also {
+                this.authUI = authUI
+            }
 
         /**
          * Provide a custom ID generator. This is mainly used for unit testing.
          * If a value is not provided, a default implementation will be used.
          */
-        fun setIdGenerator(idGenerator: IdGenerator) = also {
-            this.idGenerator = idGenerator
-        }
+        fun setIdGenerator(idGenerator: IdGenerator) =
+            also {
+                this.idGenerator = idGenerator
+            }
 
         /**
          * Constructs and returns an [SudoUserClient].
          */
-        fun build(): SudoUserClient {
-            return DefaultSudoUserClient(
+        fun build(): SudoUserClient =
+            DefaultSudoUserClient(
                 this.context,
                 this.namespace ?: "ids",
                 this.logger ?: DefaultLogger.instance,
@@ -171,7 +180,6 @@ interface SudoUserClient : AutoCloseable {
                 this.idGenerator ?: IdGenerateImpl(),
                 this.databaseName ?: AndroidSQLiteStore.DEFAULT_DATABASE_NAME,
             )
-        }
     }
 
     /**
@@ -255,7 +263,10 @@ interface SudoUserClient : AutoCloseable {
      * @param activity activity to launch custom tabs from and to listen for the intent completions.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun presentFederatedSignInUI(activity: Activity, callback: (SignInResult) -> Unit)
+    fun presentFederatedSignInUI(
+        activity: Activity,
+        callback: (SignInResult) -> Unit,
+    )
 
     /**
      * Sign into the backend  with an external authentication provider. Caller must implement `AuthenticationProvider`
@@ -281,7 +292,10 @@ interface SudoUserClient : AutoCloseable {
      * @param data URL to intent data containing the tokens.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit)
+    fun processFederatedSignInTokens(
+        data: Uri,
+        callback: (FederatedSignInResult) -> Unit,
+    )
 
     /**
      * Refresh the access and ID tokens using the refresh token.
@@ -402,7 +416,10 @@ interface SudoUserClient : AutoCloseable {
      * @param id unique ID to associate with the observer.
      * @param observer sign in status observer to register.
      */
-    fun registerSignInStatusObserver(id: String, observer: SignInStatusObserver)
+    fun registerSignInStatusObserver(
+        id: String,
+        observer: SignInStatusObserver,
+    )
 
     /**
      * Deregisters an existing sign in status observer.
@@ -447,7 +464,6 @@ class DefaultSudoUserClient(
     idGenerator: IdGenerator = IdGenerateImpl(),
     private val databaseName: String = AndroidSQLiteStore.DEFAULT_DATABASE_NAME,
 ) : SudoUserClient {
-
     companion object {
         private const val KEY_NAME_USER_ID = "userId"
         private const val KEY_NAME_USER_KEY_ID = "userKeyId"
@@ -475,7 +491,7 @@ class DefaultSudoUserClient(
         private const val SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY = "PLAY_INTEGRITY"
     }
 
-    override val version: String = "20.0.2"
+    override val version: String = "21.0.0"
 
     /**
      * [KeyManagerInterface] instance needed for cryptographic operations.
@@ -572,34 +588,36 @@ class DefaultSudoUserClient(
         if (apiClient !== null) {
             this.apiClient = apiClient
         } else {
-            val graphqlConfig = JSONObject(
-                """
-                {
-                    'plugins': {
-                        'awsAPIPlugin': {
-                            '$CONFIG_NAMESPACE_IDENTITY_SERVICE': {
-                                'endpointType': 'GraphQL',
-                                'endpoint': '$apiUrl',
-                                'region': '${Regions.fromName(region)}',
-                                'authorizationType': 'AMAZON_COGNITO_USER_POOLS'
+            val graphqlConfig =
+                JSONObject(
+                    """
+                    {
+                        'plugins': {
+                            'awsAPIPlugin': {
+                                '$CONFIG_NAMESPACE_IDENTITY_SERVICE': {
+                                    'endpointType': 'GraphQL',
+                                    'endpoint': '$apiUrl',
+                                    'region': '${Regions.fromName(region)}',
+                                    'authorizationType': 'AMAZON_COGNITO_USER_POOLS'
+                                }
                             }
                         }
-                    }
-                } 
-                """.trimIndent(),
-            )
+                    } 
+                    """.trimIndent(),
+                )
 
             val apiCategoryConfiguration = ApiCategoryConfiguration()
             apiCategoryConfiguration.populateFromJSON(graphqlConfig)
             val apiCategory = ApiCategory()
             val authProviders = ApiAuthProviders.builder().cognitoUserPoolsAuthProvider(authProvider).build()
-            val awsApiPlugin = AWSApiPlugin
-                .builder()
-                .apiAuthProviders(authProviders)
-                .configureClient(
-                    CONFIG_NAMESPACE_IDENTITY_SERVICE,
-                ) { builder -> this.buildOkHttpClient(builder, context, logListUrl) }
-                .build()
+            val awsApiPlugin =
+                AWSApiPlugin
+                    .builder()
+                    .apiAuthProviders(authProviders)
+                    .configureClient(
+                        CONFIG_NAMESPACE_IDENTITY_SERVICE,
+                    ) { builder -> this.buildOkHttpClient(builder, context, logListUrl) }
+                    .build()
 
             apiCategory.addPlugin(awsApiPlugin)
             apiCategory.configure(apiCategoryConfiguration, context)
@@ -691,14 +709,15 @@ class DefaultSudoUserClient(
             val token = authInfo.encode()
             val uid = authInfo.getUsername()
 
-            val parameters = mutableMapOf(
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
-                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
-                    registrationId
-                        ?: this.idGenerator.generateId()
+            val parameters =
+                mutableMapOf(
+                    CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to authInfo.type,
+                    CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
+                    CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
+                        registrationId
+                            ?: this.idGenerator.generateId()
                     ),
-            )
+                )
 
             if (authInfo.type == "TEST") {
                 // Generate a signing key for TEST registration.
@@ -727,16 +746,17 @@ class DefaultSudoUserClient(
             throw SudoUserException.AlreadyRegisteredException("Client is already registered.")
         }
 
-        val parameters = mutableMapOf(
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY,
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_DEVICE_ID to deviceId,
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PACKAGE_NAME to packageName,
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
-            CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
-                registrationId
-                    ?: this.idGenerator.generateId()
+        val parameters =
+            mutableMapOf(
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_CHALLENGE_TYPE to SIGN_IN_PARAM_VALUE_CHALLENGE_TYPE_PLAY_INTEGRITY,
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_DEVICE_ID to deviceId,
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_PACKAGE_NAME to packageName,
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_ANSWER to token,
+                CognitoUserPoolIdentityProvider.REGISTRATION_PARAM_REGISTRATION_ID to (
+                    registrationId
+                        ?: this.idGenerator.generateId()
                 ),
-        )
+            )
 
         // Generate a signing key.
         val publicKey = this.generateRegistrationData()
@@ -757,10 +777,11 @@ class DefaultSudoUserClient(
         }
 
         try {
-            val response = this.apiClient.mutate<DeregisterMutation, DeregisterMutation.Data>(
-                DeregisterMutation.OPERATION_DOCUMENT,
-                emptyMap(),
-            )
+            val response =
+                this.apiClient.mutate<DeregisterMutation, DeregisterMutation.Data>(
+                    DeregisterMutation.OPERATION_DOCUMENT,
+                    emptyMap(),
+                )
 
             if (response.hasErrors()) {
                 throw response.errors.first().toSudoUserException()
@@ -784,13 +805,16 @@ class DefaultSudoUserClient(
         this.logger.info("Signing in using private key.")
 
         val uid = this.getUserName()
-        val userKeyId = this.keyManager.getPassword(KEY_NAME_USER_KEY_ID)
-            ?.toString(Charsets.UTF_8)
+        val userKeyId =
+            this.keyManager
+                .getPassword(KEY_NAME_USER_KEY_ID)
+                ?.toString(Charsets.UTF_8)
 
         if (uid != null && userKeyId != null) {
-            val parameters = mapOf(
-                SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId,
-            )
+            val parameters =
+                mapOf(
+                    SIGN_IN_PARAM_NAME_USER_KEY_ID to userKeyId,
+                )
 
             this.invokeSignInStatusObservers(SignInStatus.SIGNING_IN)
 
@@ -825,7 +849,10 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun presentFederatedSignInUI(activity: Activity, callback: (SignInResult) -> Unit) {
+    override fun presentFederatedSignInUI(
+        activity: Activity,
+        callback: (SignInResult) -> Unit,
+    ) {
         this.authUI?.presentFederatedSignInUI(activity) { result ->
             when (result) {
                 is FederatedSignInResult.Success -> {
@@ -908,10 +935,11 @@ class DefaultSudoUserClient(
         val authInfo = authenticationProvider.getAuthenticationInfo()
         val uid = authInfo.getUsername()
 
-        val parameters = mapOf(
-            SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
-            SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode(),
-        )
+        val parameters =
+            mapOf(
+                SIGN_IN_PARAM_NAME_CHALLENGE_TYPE to authInfo.type,
+                SIGN_IN_PARAM_NAME_ANSWER to authInfo.encode(),
+            )
 
         this.invokeSignInStatusObservers(SignInStatus.SIGNING_IN)
 
@@ -998,25 +1026,25 @@ class DefaultSudoUserClient(
         return PublicKey(keyId, keyData)
     }
 
-    override fun getIdToken(): String? {
-        return this.keyManager.getPassword(KEY_NAME_ID_TOKEN)?.toString(Charsets.UTF_8)
-    }
+    override fun getIdToken(): String? = this.keyManager.getPassword(KEY_NAME_ID_TOKEN)?.toString(Charsets.UTF_8)
 
-    override fun getAccessToken(): String? {
-        return this.keyManager.getPassword(KEY_NAME_ACCESS_TOKEN)
+    override fun getAccessToken(): String? =
+        this.keyManager
+            .getPassword(KEY_NAME_ACCESS_TOKEN)
             ?.toString(Charsets.UTF_8)
-    }
 
-    override fun getRefreshToken(): String? {
-        return this.keyManager.getPassword(KEY_NAME_REFRESH_TOKEN)
+    override fun getRefreshToken(): String? =
+        this.keyManager
+            .getPassword(KEY_NAME_REFRESH_TOKEN)
             ?.toString(Charsets.UTF_8)
-    }
 
     override fun getTokenExpiry(): Date? {
         var expiry: Date? = null
 
         val timeSinceEpoch =
-            this.keyManager.getPassword(KEY_NAME_TOKEN_EXPIRY)?.toString(Charsets.UTF_8)
+            this.keyManager
+                .getPassword(KEY_NAME_TOKEN_EXPIRY)
+                ?.toString(Charsets.UTF_8)
                 ?.toLong()
         if (timeSinceEpoch != null) {
             expiry = Date(timeSinceEpoch)
@@ -1029,7 +1057,9 @@ class DefaultSudoUserClient(
         var expiry: Date? = null
 
         val timeSinceEpoch =
-            this.keyManager.getPassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)?.toString(Charsets.UTF_8)
+            this.keyManager
+                .getPassword(KEY_NAME_REFRESH_TOKEN_EXPIRY)
+                ?.toString(Charsets.UTF_8)
                 ?.toLong()
         if (timeSinceEpoch != null) {
             expiry = Date(timeSinceEpoch)
@@ -1038,18 +1068,14 @@ class DefaultSudoUserClient(
         return expiry
     }
 
-    override fun getUserName(): String? {
-        return this.keyManager.getPassword(KEY_NAME_USER_ID)?.toString(Charsets.UTF_8)
-    }
+    override fun getUserName(): String? = this.keyManager.getPassword(KEY_NAME_USER_ID)?.toString(Charsets.UTF_8)
 
     override fun setUserName(name: String) {
         this.keyManager.deletePassword(KEY_NAME_USER_ID)
         this.keyManager.addPassword(name.toByteArray(), KEY_NAME_USER_ID)
     }
 
-    override fun getSubject(): String? {
-        return this.getUserClaim("sub") as? String
-    }
+    override fun getSubject(): String? = this.getUserClaim("sub") as? String
 
     @Synchronized
     override fun clearAuthTokens() {
@@ -1095,10 +1121,11 @@ class DefaultSudoUserClient(
         }
 
         try {
-            val response = this.apiClient.mutate<GlobalSignOutMutation, GlobalSignOutMutation.Data>(
-                GlobalSignOutMutation.OPERATION_DOCUMENT,
-                emptyMap(),
-            )
+            val response =
+                this.apiClient.mutate<GlobalSignOutMutation, GlobalSignOutMutation.Data>(
+                    GlobalSignOutMutation.OPERATION_DOCUMENT,
+                    emptyMap(),
+                )
 
             if (response.hasErrors()) {
                 throw response.errors.first().toSudoUserException()
@@ -1120,9 +1147,7 @@ class DefaultSudoUserClient(
         }
     }
 
-    override fun getCredentialsProvider(): CognitoCredentialsProvider {
-        return this.credentialsProvider
-    }
+    override fun getCredentialsProvider(): CognitoCredentialsProvider = this.credentialsProvider
 
     override fun getUserClaim(name: String): Any? {
         var value: Any? = null
@@ -1138,7 +1163,10 @@ class DefaultSudoUserClient(
         return value
     }
 
-    override fun registerSignInStatusObserver(id: String, observer: SignInStatusObserver) {
+    override fun registerSignInStatusObserver(
+        id: String,
+        observer: SignInStatusObserver,
+    ) {
         this.signInStatusObservers[id] = observer
     }
 
@@ -1154,10 +1182,11 @@ class DefaultSudoUserClient(
         }
 
         try {
-            val response = this.apiClient.mutate<ResetMutation, ResetMutation.Data>(
-                ResetMutation.OPERATION_DOCUMENT,
-                emptyMap(),
-            )
+            val response =
+                this.apiClient.mutate<ResetMutation, ResetMutation.Data>(
+                    ResetMutation.OPERATION_DOCUMENT,
+                    emptyMap(),
+                )
 
             if (response.hasErrors()) {
                 throw response.errors.first().toSudoUserException()
@@ -1263,10 +1292,11 @@ class DefaultSudoUserClient(
 
         try {
             val input = RegisterFederatedIdInput(idToken)
-            val response = this.apiClient.mutate<RegisterFederatedIdMutation, RegisterFederatedIdMutation.Data>(
-                RegisterFederatedIdMutation.OPERATION_DOCUMENT,
-                mapOf("input" to Optional.presentIfNotNull(input)),
-            )
+            val response =
+                this.apiClient.mutate<RegisterFederatedIdMutation, RegisterFederatedIdMutation.Data>(
+                    RegisterFederatedIdMutation.OPERATION_DOCUMENT,
+                    mapOf("input" to Optional.presentIfNotNull(input)),
+                )
 
             if (response.hasErrors()) {
                 throw response.errors.first().toSudoUserException()
@@ -1289,32 +1319,38 @@ class DefaultSudoUserClient(
     /**
      * Construct the [OkHttpClient] configured with the certificate transparency checking interceptor.
      */
-    private fun buildOkHttpClient(builder: OkHttpClient.Builder, context: Context, ctLogListUrl: String?): OkHttpClient.Builder {
+    private fun buildOkHttpClient(
+        builder: OkHttpClient.Builder,
+        context: Context,
+        ctLogListUrl: String?,
+    ): OkHttpClient.Builder {
         val url = ctLogListUrl ?: "https://www.gstatic.com/ct/log_list/v3/"
         this.logger.info("Using CT log list URL: $url")
-        val interceptor = certificateTransparencyInterceptor {
-            setLogListDataSource(
-                LogListDataSourceFactory.createDataSource(
-                    logListService = LogListDataSourceFactory.createLogListService(url),
-                    diskCache = AndroidDiskCache(context),
-                    now = {
-                        // Currently there's an issue where the new version of CT library invalidates the
-                        // cached log list if the log list timestamp is more than 24 hours old. This assumes
-                        // Google's log list and our mirror is updated every 24 hours which is not guaranteed.
-                        // We will override the definition of now to be 2 weeks in the past to be in
-                        // sync with our update interval. This override only impacts the calculation of cache
-                        // expiry in the CT library.
-                        Instant.now().minus(14, ChronoUnit.DAYS)
-                    },
-                ),
-            )
-        }
-        val okHttpClient = builder.apply {
-            addInterceptor(ConvertClientErrorsInterceptor())
+        val interceptor =
+            certificateTransparencyInterceptor {
+                setLogListDataSource(
+                    LogListDataSourceFactory.createDataSource(
+                        logListService = LogListDataSourceFactory.createLogListService(url),
+                        diskCache = AndroidDiskCache(context),
+                        now = {
+                            // Currently there's an issue where the new version of CT library invalidates the
+                            // cached log list if the log list timestamp is more than 24 hours old. This assumes
+                            // Google's log list and our mirror is updated every 24 hours which is not guaranteed.
+                            // We will override the definition of now to be 2 weeks in the past to be in
+                            // sync with our update interval. This override only impacts the calculation of cache
+                            // expiry in the CT library.
+                            Instant.now().minus(14, ChronoUnit.DAYS)
+                        },
+                    ),
+                )
+            }
+        val okHttpClient =
+            builder.apply {
+                addInterceptor(ConvertClientErrorsInterceptor())
 
-            // Certificate transparency checking
-            addNetworkInterceptor(interceptor)
-        }
+                // Certificate transparency checking
+                addNetworkInterceptor(interceptor)
+            }
         return okHttpClient
     }
 

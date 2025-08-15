@@ -19,21 +19,17 @@ import java.util.UUID
 /**
  * Authentication info consisting of a JWT signed using the locally stored private key.
  */
-class LocalAuthenticationInfo(private val jwt: String, private val username: String) : AuthenticationInfo {
-
+class LocalAuthenticationInfo(
+    private val jwt: String,
+    private val username: String,
+) : AuthenticationInfo {
     override val type: String = "FSSO"
 
-    override fun encode(): String {
-        return this.jwt
-    }
+    override fun encode(): String = this.jwt
 
-    override fun isValid(): Boolean {
-        return true
-    }
+    override fun isValid(): Boolean = true
 
-    override fun getUsername(): String {
-        return this.username
-    }
+    override fun getUsername(): String = this.username
 }
 
 /**
@@ -56,29 +52,31 @@ class LocalAuthenticationProvider(
     private val keyId: String,
     private val username: String,
     private val customAttributes: Map<String, Any>? = null,
-) :
-    AuthenticationProvider {
-
+) : AuthenticationProvider {
     companion object {
         private const val AUDIENCE = "identity-service"
     }
 
     init {
-        val privateKeyData = Base64.decode(
-            privateKey.replace("\n", "")
-                .replace("-----BEGIN RSA PRIVATE KEY-----", "")
-                .replace("-----END RSA PRIVATE KEY-----", ""),
-            Base64.DEFAULT,
-        )
+        val privateKeyData =
+            Base64.decode(
+                privateKey
+                    .replace("\n", "")
+                    .replace("-----BEGIN RSA PRIVATE KEY-----", "")
+                    .replace("-----END RSA PRIVATE KEY-----", ""),
+                Base64.DEFAULT,
+            )
 
         val publicKeyData: ByteArray
         if (publicKey != null) {
-            publicKeyData = Base64.decode(
-                publicKey.replace("\n", "")
-                    .replace("-----BEGIN RSA PUBLIC KEY-----", "")
-                    .replace("-----END RSA PUBLIC KEY-----", ""),
-                Base64.DEFAULT,
-            )
+            publicKeyData =
+                Base64.decode(
+                    publicKey
+                        .replace("\n", "")
+                        .replace("-----BEGIN RSA PUBLIC KEY-----", "")
+                        .replace("-----END RSA PUBLIC KEY-----", ""),
+                    Base64.DEFAULT,
+                )
         } else {
             // Generated the public key from the private key bits.
             val keySpec = PKCS8EncodedKeySpec(privateKeyData)
@@ -91,9 +89,10 @@ class LocalAuthenticationProvider(
 
             val publicKeyInfo =
                 SubjectPublicKeyInfo.getInstance(
-                    factory.generatePublic(
-                        publicKeySpec,
-                    ).encoded,
+                    factory
+                        .generatePublic(
+                            publicKeySpec,
+                        ).encoded,
                 )
             val publicKeyPKCS1ASN1 = publicKeyInfo.parsePublicKey()
             publicKeyData = publicKeyPKCS1ASN1.encoded
@@ -104,7 +103,21 @@ class LocalAuthenticationProvider(
     }
 
     override suspend fun getAuthenticationInfo(): AuthenticationInfo {
-        val jwt = JWT(this.name, AUDIENCE, this.username, UUID.randomUUID().toString(), payload = if (this.customAttributes != null) JSONObject(this.customAttributes) else JSONObject())
+        val jwt =
+            JWT(
+                this.name,
+                AUDIENCE,
+                this.username,
+                UUID.randomUUID().toString(),
+                payload =
+                    if (this.customAttributes !=
+                        null
+                    ) {
+                        JSONObject(this.customAttributes)
+                    } else {
+                        JSONObject()
+                    },
+            )
         return LocalAuthenticationInfo(jwt.signAndEncode(this.keyManager, this.keyId), this.username)
     }
 

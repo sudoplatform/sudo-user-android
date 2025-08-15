@@ -14,10 +14,10 @@ import com.amplifyframework.api.graphql.GraphQLResponse
 import com.amplifyframework.api.graphql.SimpleGraphQLRequest
 import com.amplifyframework.core.Action
 import com.amplifyframework.core.Consumer
-import com.apollographql.apollo3.api.Mutation
-import com.apollographql.apollo3.api.Optional
-import com.apollographql.apollo3.api.Query
-import com.apollographql.apollo3.api.Subscription
+import com.apollographql.apollo.api.Mutation
+import com.apollographql.apollo.api.Optional
+import com.apollographql.apollo.api.Query
+import com.apollographql.apollo.api.Subscription
 import com.sudoplatform.sudouser.extensions.GsonFactoryExt
 import com.sudoplatform.sudouser.extensions.mutate
 import com.sudoplatform.sudouser.extensions.query
@@ -26,17 +26,20 @@ import com.sudoplatform.sudouser.extensions.subscribe
 /**
  * Wrapper class around the apiCategory to maintain concept cleanliness.
  */
-class GraphQLClient(var apiCategory: ApiCategory) {
+class GraphQLClient(
+    var apiCategory: ApiCategory,
+) {
     suspend inline fun <reified T : Mutation<D>, reified D : Mutation.Data> mutate(
         document: String,
         variables: Map<String, Any?>,
     ): GraphQLResponse<D> {
-        val mutation = SimpleGraphQLRequest<D>(
-            document,
-            variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-            D::class.java,
-            GsonVariablesSerializer(),
-        )
+        val mutation =
+            SimpleGraphQLRequest<D>(
+                document,
+                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                D::class.java,
+                GsonVariablesSerializer(),
+            )
 
         val response =
             mutation.mutate(this.apiCategory, {
@@ -51,12 +54,13 @@ class GraphQLClient(var apiCategory: ApiCategory) {
         document: String,
         variables: Map<String, Any?>,
     ): GraphQLResponse<D> {
-        val query = SimpleGraphQLRequest<D>(
-            document,
-            variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-            D::class.java,
-            GsonVariablesSerializer(),
-        )
+        val query =
+            SimpleGraphQLRequest<D>(
+                document,
+                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                D::class.java,
+                GsonVariablesSerializer(),
+            )
 
         val response =
             query.query(this.apiCategory, {
@@ -75,12 +79,13 @@ class GraphQLClient(var apiCategory: ApiCategory) {
         onSubscriptionCompleted: Action,
         onFailure: Consumer<ApiException>,
     ): GraphQLOperation<D>? {
-        val subscriber = SimpleGraphQLRequest<D>(
-            document,
-            variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-            D::class.java,
-            GsonVariablesSerializer(),
-        )
+        val subscriber =
+            SimpleGraphQLRequest<D>(
+                document,
+                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                D::class.java,
+                GsonVariablesSerializer(),
+            )
 
         val response =
             subscriber.subscribe(

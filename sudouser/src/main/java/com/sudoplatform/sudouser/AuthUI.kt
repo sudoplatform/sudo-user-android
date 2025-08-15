@@ -34,29 +34,32 @@ sealed class FederatedSignInResult {
         val refreshToken: String,
         val lifetime: Int,
         val username: String,
-    ) :
-        FederatedSignInResult()
+    ) : FederatedSignInResult()
 
     /**
      * Encapsulates a failed sign-in result.
      *
      * @param error [Throwable] encapsulating the error detail.
      */
-    data class Failure(val error: Throwable) : FederatedSignInResult()
+    data class Failure(
+        val error: Throwable,
+    ) : FederatedSignInResult()
 }
 
 /**
  *  Responsible for managing the authentication flow for browser based federated sign in.
  */
 interface AuthUI : AutoCloseable {
-
     /**
      * Presents the sign in UI for federated sign in using an external identity provider.
      *
      * @param activity activity to launch custom tabs from and to listen for the intent completions.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun presentFederatedSignInUI(activity: Activity, callback: (FederatedSignInResult) -> Unit)
+    fun presentFederatedSignInUI(
+        activity: Activity,
+        callback: (FederatedSignInResult) -> Unit,
+    )
 
     /**
      * Presents the sign out UI for federated sign in using an external identity provider.
@@ -72,7 +75,10 @@ interface AuthUI : AutoCloseable {
      * @param data URL to intent data containing the tokens.
      * @param callback callback for returning sign in result containing ID, access and refresh token or error.
      */
-    fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit)
+    fun processFederatedSignInTokens(
+        data: Uri,
+        callback: (FederatedSignInResult) -> Unit,
+    )
 
     /**
      * Resets any internal state.
@@ -86,9 +92,10 @@ interface AuthUI : AutoCloseable {
  * @param config configuration parameters.
  * @param context Android app context.
  */
-class CognitoAuthUI(val config: JSONObject, val context: Context) :
-    AuthUI {
-
+class CognitoAuthUI(
+    val config: JSONObject,
+    val context: Context,
+) : AuthUI {
     companion object {
         private const val CONFIG_APP_CLIENT_ID = "appClientId"
         private const val CONFIG_WEB_DOMAIN = "webDomain"
@@ -118,154 +125,179 @@ class CognitoAuthUI(val config: JSONObject, val context: Context) :
             throw IllegalArgumentException("appClientId, webDomain, signInRedirectUri or signOutRedirectUri was null.")
         }
 
-        this.authBuilder = Auth.Builder().setApplicationContext(context)
-            .setAppClientId(appClientId)
-            .setScopes(arrayOf("openid").toSet())
-            .setAppCognitoWebDomain(webDomain)
-            .setSignInRedirect(signInRedirectUri)
-            .setSignOutRedirect(signOutRedirectUri)
+        this.authBuilder =
+            Auth
+                .Builder()
+                .setApplicationContext(context)
+                .setAppClientId(appClientId)
+                .setScopes(arrayOf("openid").toSet())
+                .setAppCognitoWebDomain(webDomain)
+                .setSignInRedirect(signInRedirectUri)
+                .setSignOutRedirect(signOutRedirectUri)
     }
 
-    override fun presentFederatedSignInUI(activity: Activity, callback: (FederatedSignInResult) -> Unit) {
-        val auth = authBuilder.setAuthHandler(object : AuthHandler {
-            override fun onSuccess(session: AuthUserSession) {
-                val idToken = session.idToken.jwtToken
-                val username = session.username
-                val accessToken = session.accessToken.jwtToken
-                val refreshToken = session.refreshToken.token
-                val expirationTime = session.idToken.expiration
-                if (idToken != null &&
-                    accessToken != null &&
-                    refreshToken != null &&
-                    expirationTime != null &&
-                    username != null
-                ) {
-                    val lifetime = (expirationTime.time - Date().time) / 1000
+    override fun presentFederatedSignInUI(
+        activity: Activity,
+        callback: (FederatedSignInResult) -> Unit,
+    ) {
+        val auth =
+            authBuilder
+                .setAuthHandler(
+                    object : AuthHandler {
+                        override fun onSuccess(session: AuthUserSession) {
+                            val idToken = session.idToken.jwtToken
+                            val username = session.username
+                            val accessToken = session.accessToken.jwtToken
+                            val refreshToken = session.refreshToken.token
+                            val expirationTime = session.idToken.expiration
+                            if (idToken != null &&
+                                accessToken != null &&
+                                refreshToken != null &&
+                                expirationTime != null &&
+                                username != null
+                            ) {
+                                val lifetime = (expirationTime.time - Date().time) / 1000
 
-                    callback(
-                        FederatedSignInResult.Success(
-                            idToken,
-                            accessToken,
-                            refreshToken,
-                            lifetime.toInt(),
-                            username,
-                        ),
-                    )
-                } else {
-                    callback(
-                        FederatedSignInResult.Failure(
-                            SudoUserException.FailedException(
-                                "Authentication tokens missing.",
-                            ),
-                        ),
-                    )
-                }
-            }
+                                callback(
+                                    FederatedSignInResult.Success(
+                                        idToken,
+                                        accessToken,
+                                        refreshToken,
+                                        lifetime.toInt(),
+                                        username,
+                                    ),
+                                )
+                            } else {
+                                callback(
+                                    FederatedSignInResult.Failure(
+                                        SudoUserException.FailedException(
+                                            "Authentication tokens missing.",
+                                        ),
+                                    ),
+                                )
+                            }
+                        }
 
-            override fun onSignout() {
-                callback(
-                    FederatedSignInResult.Failure(
-                        IllegalStateException("Sign in caused sign out callback to be called."),
-                    ),
-                )
-            }
+                        override fun onSignout() {
+                            callback(
+                                FederatedSignInResult.Failure(
+                                    IllegalStateException("Sign in caused sign out callback to be called."),
+                                ),
+                            )
+                        }
 
-            override fun onFailure(e: Exception) {
-                callback(FederatedSignInResult.Failure(e))
-            }
-        }).build()
+                        override fun onFailure(e: Exception) {
+                            callback(FederatedSignInResult.Failure(e))
+                        }
+                    },
+                ).build()
 
         auth.getSession(activity)
         boundAuthInstances.add(auth)
     }
 
     override fun presentFederatedSignOutUI(callback: (ApiResult) -> Unit) {
-        val auth = this.authBuilder.setAuthHandler(object : AuthHandler {
-            override fun onSuccess(session: AuthUserSession) {
-                callback(
-                    ApiResult.Failure(
-                        IllegalStateException("Sign out caused sign in callback to be called."),
-                    ),
-                )
-            }
+        val auth =
+            this.authBuilder
+                .setAuthHandler(
+                    object : AuthHandler {
+                        override fun onSuccess(session: AuthUserSession) {
+                            callback(
+                                ApiResult.Failure(
+                                    IllegalStateException("Sign out caused sign in callback to be called."),
+                                ),
+                            )
+                        }
 
-            override fun onSignout() {
-                callback(ApiResult.Success)
-            }
+                        override fun onSignout() {
+                            callback(ApiResult.Success)
+                        }
 
-            override fun onFailure(e: Exception) {
-                callback(ApiResult.Failure(e))
-            }
-        }).build()
+                        override fun onFailure(e: Exception) {
+                            callback(ApiResult.Failure(e))
+                        }
+                    },
+                ).build()
 
         auth.signOut()
         boundAuthInstances.add(auth)
     }
 
-    override fun processFederatedSignInTokens(data: Uri, callback: (FederatedSignInResult) -> Unit) {
-        val auth = this.authBuilder.setAuthHandler(object : AuthHandler {
-            override fun onSuccess(session: AuthUserSession) {
-                val idToken = session.idToken.jwtToken
-                val username = session.username
-                val accessToken = session.accessToken.jwtToken
-                val refreshToken = session.refreshToken.token
-                val expirationTime = session.idToken.expiration
-                if (idToken != null &&
-                    accessToken != null &&
-                    refreshToken != null &&
-                    expirationTime != null &&
-                    username != null
-                ) {
-                    val lifetime = (expirationTime.time - Date().time) / 1000
+    override fun processFederatedSignInTokens(
+        data: Uri,
+        callback: (FederatedSignInResult) -> Unit,
+    ) {
+        val auth =
+            this.authBuilder
+                .setAuthHandler(
+                    object : AuthHandler {
+                        override fun onSuccess(session: AuthUserSession) {
+                            val idToken = session.idToken.jwtToken
+                            val username = session.username
+                            val accessToken = session.accessToken.jwtToken
+                            val refreshToken = session.refreshToken.token
+                            val expirationTime = session.idToken.expiration
+                            if (idToken != null &&
+                                accessToken != null &&
+                                refreshToken != null &&
+                                expirationTime != null &&
+                                username != null
+                            ) {
+                                val lifetime = (expirationTime.time - Date().time) / 1000
 
-                    callback(
-                        FederatedSignInResult.Success(
-                            idToken,
-                            accessToken,
-                            refreshToken,
-                            lifetime.toInt(),
-                            username,
-                        ),
-                    )
-                } else {
-                    callback(
-                        FederatedSignInResult.Failure(
-                            SudoUserException.FailedException(
-                                "Authentication tokens missing.",
-                            ),
-                        ),
-                    )
-                }
-            }
+                                callback(
+                                    FederatedSignInResult.Success(
+                                        idToken,
+                                        accessToken,
+                                        refreshToken,
+                                        lifetime.toInt(),
+                                        username,
+                                    ),
+                                )
+                            } else {
+                                callback(
+                                    FederatedSignInResult.Failure(
+                                        SudoUserException.FailedException(
+                                            "Authentication tokens missing.",
+                                        ),
+                                    ),
+                                )
+                            }
+                        }
 
-            override fun onSignout() {
-                callback(
-                    FederatedSignInResult.Failure(
-                        IllegalStateException("Sign in caused sign out callback to be called."),
-                    ),
-                )
-            }
+                        override fun onSignout() {
+                            callback(
+                                FederatedSignInResult.Failure(
+                                    IllegalStateException("Sign in caused sign out callback to be called."),
+                                ),
+                            )
+                        }
 
-            override fun onFailure(e: Exception) {
-                callback(FederatedSignInResult.Failure(e))
-            }
-        }).build()
+                        override fun onFailure(e: Exception) {
+                            callback(FederatedSignInResult.Failure(e))
+                        }
+                    },
+                ).build()
 
         auth.getTokens(data)
         boundAuthInstances.add(auth)
     }
 
     override fun reset() {
-        val auth = this.authBuilder.setAuthHandler(object : AuthHandler {
-            override fun onSuccess(session: AuthUserSession) {
-            }
+        val auth =
+            this.authBuilder
+                .setAuthHandler(
+                    object : AuthHandler {
+                        override fun onSuccess(session: AuthUserSession) {
+                        }
 
-            override fun onSignout() {
-            }
+                        override fun onSignout() {
+                        }
 
-            override fun onFailure(e: Exception) {
-            }
-        }).build()
+                        override fun onFailure(e: Exception) {
+                        }
+                    },
+                ).build()
 
         auth.signOut(true)
         boundAuthInstances.add(auth)

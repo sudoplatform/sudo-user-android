@@ -41,6 +41,9 @@ secret.properties
 register_key*
 compatibility_archive.txt
 
+# MCP configuration (project-specific)
+.mcp-project.json
+
 #amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*

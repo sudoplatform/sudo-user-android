@@ -57,7 +57,10 @@ data class JWT(
          * @param keyManager [KeyManagerInterface] to use for validating the signature (optional).
          * @return decoded JWT.
          */
-        fun decode(encoded: String, keyManager: KeyManagerInterface? = null): JWT? {
+        fun decode(
+            encoded: String,
+            keyManager: KeyManagerInterface? = null,
+        ): JWT? {
             var jwt: JWT? = null
 
             val array = encoded.split(".")
@@ -101,18 +104,19 @@ data class JWT(
                             issuedAt != null &&
                             expiry != null
                         ) {
-                            jwt = JWT(
-                                issuer,
-                                audience,
-                                subject,
-                                id,
-                                alg,
-                                kid,
-                                Date(TimeUnit.SECONDS.toMillis(expiry.toLong())),
-                                Date(TimeUnit.SECONDS.toMillis(issuedAt.toLong())),
-                                if (notValidBefore != null) Date(TimeUnit.SECONDS.toMillis(notValidBefore.toLong())) else null,
-                                payload,
-                            )
+                            jwt =
+                                JWT(
+                                    issuer,
+                                    audience,
+                                    subject,
+                                    id,
+                                    alg,
+                                    kid,
+                                    Date(TimeUnit.SECONDS.toMillis(expiry.toLong())),
+                                    Date(TimeUnit.SECONDS.toMillis(issuedAt.toLong())),
+                                    if (notValidBefore != null) Date(TimeUnit.SECONDS.toMillis(notValidBefore.toLong())) else null,
+                                    payload,
+                                )
                         }
                     }
                 }
@@ -129,23 +133,28 @@ data class JWT(
      * @param keyId identifier of the key to use for generate the signature.
      * @return signed and encoded JWT.
      */
-    fun signAndEncode(keyManager: KeyManagerInterface, keyId: String): String {
-        val headers = JSONObject(
-            mapOf(
-                ALG to this.algorithm,
-                KID to keyId,
-            ),
-        )
+    fun signAndEncode(
+        keyManager: KeyManagerInterface,
+        keyId: String,
+    ): String {
+        val headers =
+            JSONObject(
+                mapOf(
+                    ALG to this.algorithm,
+                    KID to keyId,
+                ),
+            )
 
         val id = this.id ?: UUID.randomUUID().toString()
-        val payload: MutableMap<String, Any> = mutableMapOf<String, Any>(
-            JTI to id,
-            ISS to this.issuer,
-            AUD to this.audience,
-            SUB to this.subject,
-            IAT to TimeUnit.MILLISECONDS.toSeconds(this.issuedAt.time),
-            EXP to TimeUnit.MILLISECONDS.toSeconds(this.expiry.time),
-        )
+        val payload: MutableMap<String, Any> =
+            mutableMapOf<String, Any>(
+                JTI to id,
+                ISS to this.issuer,
+                AUD to this.audience,
+                SUB to this.subject,
+                IAT to TimeUnit.MILLISECONDS.toSeconds(this.issuedAt.time),
+                EXP to TimeUnit.MILLISECONDS.toSeconds(this.expiry.time),
+            )
 
         if (this.notValidBefore != null) {
             payload[NBF] = TimeUnit.MILLISECONDS.toSeconds(this.notValidBefore.time)
@@ -153,15 +162,17 @@ data class JWT(
 
         this.payload.keys().forEach { payload[it] = this.payload[it] }
 
-        val encodedHeader = Base64.encodeToString(
-            headers.toString().toByteArray(),
-            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
-        )
+        val encodedHeader =
+            Base64.encodeToString(
+                headers.toString().toByteArray(),
+                Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
+            )
 
-        val encodedPayload = Base64.encodeToString(
-            JSONObject(payload as Map<*, *>).toString().toByteArray(),
-            Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
-        )
+        val encodedPayload =
+            Base64.encodeToString(
+                JSONObject(payload as Map<*, *>).toString().toByteArray(),
+                Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP,
+            )
 
         val encoded = "$encodedHeader.$encodedPayload"
 

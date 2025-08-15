@@ -168,18 +168,16 @@
 - artifact: com.amazonaws:aws-android-sdk-core:+
   name: AWS SDK for Android - Core Runtime
   copyrightHolder: Amazon
-  license: Amazon Software License
   url: http://aws.amazon.com/sdkforandroid
+  licenseUrl: http://aws.amazon.com/asl/
 - artifact: com.amazonaws:aws-android-sdk-cognitoidentityprovider-asf:+
   name: AWS SDK for Android - Amazon Cognito Identity Provider ASF
   copyrightHolder: Amazon
-  license: Amazon Software License
   licenseUrl: http://aws.amazon.com/asl/
   url: http://aws.amazon.com/sdkforandroid
 - artifact: com.amazonaws:aws-android-sdk-cognitoidentityprovider:+
   name: AWS SDK for Android - Amazon Cognito Identity Provider
   copyrightHolder: Amazon
-  license: Amazon Software License
   licenseUrl: http://aws.amazon.com/asl/
   url: http://aws.amazon.com/sdkforandroid
 - artifact: androidx.documentfile:documentfile:+
@@ -191,8 +189,8 @@
 - artifact: com.amazonaws:aws-android-sdk-s3:+
   name: AWS SDK for Android - Amazon S3
   copyrightHolder: Amazon
-  license: Amazon Software License
   url: http://aws.amazon.com/sdkforandroid
+  licenseUrl: http://aws.amazon.com/asl/
 - artifact: com.madgag.spongycastle:prov:+
   name: Spongy Castle
   copyrightHolder: The JSR-330 Expert Group
@@ -220,8 +218,8 @@
 - artifact: com.amazonaws:aws-android-sdk-kms:+
   name: AWS SDK for Android - AWS KMS
   copyrightHolder: Amazon
-  license: Amazon Software License
   url: http://aws.amazon.com/sdkforandroid
+  licenseUrl: http://aws.amazon.com/asl/
 - artifact: com.madgag.spongycastle:bcpkix-jdk15on:+
   name: Spongy Castle
   copyrightHolder: The JSR-330 Expert Group
@@ -392,7 +390,6 @@
 - artifact: com.amazonaws:aws-android-sdk-cognitoauth:+
   name: AWS SDK for Android - Amazon Cognito Auth
   copyrightHolder: Amazon
-  license: Amazon Software License
   licenseUrl: https://aws.amazon.com/asl/
   url: https://github.com/aws/aws-sdk-android
 - artifact: com.squareup.okio:okio-jvm:+
@@ -781,31 +778,31 @@
 - artifact: aws.smithy.kotlin:http-auth-jvm:+
   name: http-auth
   copyrightHolder: Amazon
-  license: The Apache License, Version 2.0
+  license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/smithy-kotlin
 - artifact: aws.smithy.kotlin:http-auth-aws-jvm:+
   name: http-auth-aws
   copyrightHolder: Amazon
-  license: The Apache License, Version 2.0
+  license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/smithy-kotlin
 - artifact: aws.sdk.kotlin:aws-endpoint-jvm:+
   name: aws-endpoint
   copyrightHolder: Amazon
-  license: The Apache License, Version 2.0
+  license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/aws-sdk-kotlin
 - artifact: aws.sdk.kotlin:aws-http-jvm:+
   name: aws-http
   copyrightHolder: Amazon
-  license: The Apache License, Version 2.0
+  license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/aws-sdk-kotlin
 - artifact: aws.smithy.kotlin:aws-credentials-jvm:+
   name: aws-credentials
   copyrightHolder: Amazon
-  license: The Apache License, Version 2.0
+  license: The Apache Software License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/smithy-kotlin
 - artifact: aws.sdk.kotlin:cognitoidentity-jvm:+
@@ -838,3 +835,77 @@
   license: The Apache License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://kotlinlang.org/
+- artifact: com.apollographql.apollo:apollo-api-jvm:+
+  name: apollo-api-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo:apollo-mpp-utils-jvm:+
+  name: apollo-mpp-utils-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo:apollo-runtime-jvm:+
+  name: apollo-runtime-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.google.android.gms:play-services-auth-api-phone:+
+  name: play-services-auth-api-phone
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-auth-base:+
+  name: play-services-auth-base
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-auth:+
+  name: play-services-auth
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-base:+
+  name: play-services-base
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.gms:play-services-fido:+
+  name: play-services-fido
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.google.android.libraries.identity.googleid:googleid:+
+  name: googleid
+  copyrightHolder: Google Inc.
+  license: Android Software Development Kit License
+  licenseUrl: https://developer.android.com/studio/terms.html
+  url: https://developer.android.com
+- artifact: com.squareup.okhttp3:okhttp-jvm:+
+  name: okhttp-jvm
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://square.github.io/okhttp/
+- artifact: androidx.credentials:credentials-play-services-auth:+
+  name: credentials-play-services-auth
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/jetpack/androidx/releases/credentials#1.3.0
+- artifact: androidx.credentials:credentials:+
+  name: credentials
+  copyrightHolder: Google, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://developer.android.com/jetpack/androidx/releases/credentials#1.3.0
+- artifact: com.apollographql.apollo:apollo-annotations-jvm:+
+  name: apollo-annotations-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT
+  url: https://github.com/apollographql/apollo-kotlin/

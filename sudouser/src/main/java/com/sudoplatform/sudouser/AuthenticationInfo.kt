@@ -10,7 +10,6 @@ package com.sudoplatform.sudouser
  * Encapsulates an authentication information.
  */
 interface AuthenticationInfo {
-
     /**
      * Authentication type.
      */

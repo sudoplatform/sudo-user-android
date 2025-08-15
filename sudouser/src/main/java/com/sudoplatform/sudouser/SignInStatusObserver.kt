@@ -20,7 +20,6 @@ enum class SignInStatus {
  * of sign in or refresh token operation then you must implement this protocol.
  */
 interface SignInStatusObserver {
-
     /**
      * Notifies the changes to the sign in or refresh token operation.
      *

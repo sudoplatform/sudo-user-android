@@ -111,6 +111,7 @@
         <cve>CVE-2024-29025</cve>
         <cve>CVE-2024-47535</cve>
         <cve>CVE-2025-24970</cve>
+        <cve>CVE-2025-25193</cve>
     </suppress>
     <suppress until="2025-12-30">
         <notes><![CDATA[
@@ -140,5 +141,40 @@
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/org\.eclipse\.jgit/org\.eclipse\.jgit@.*$</packageUrl>
         <cve>CVE-2025-4949</cve>
+    </suppress>
+    <suppress until="2025-12-30">
+        <notes><![CDATA[
+        file name: gson-2.10.1.jar
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.google\.code\.gson/gson@.*$</packageUrl>
+        <cve>CVE-2025-53864</cve>
+    </suppress>
+    <suppress until="2025-12-30">
+        <notes><![CDATA[
+        file name: launcher-0.0.9-alpha02.jar (shaded: com.google.code.gson:gson:2.8.9)
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.google\.code\.gson/gson@.*$</packageUrl>
+        <cve>CVE-2025-53864</cve>
+    </suppress>
+    <suppress until="2025-12-30">
+        <notes><![CDATA[
+        CVE-2019-10782 - Low severity vulnerability in ktlint and related tools
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.pinterest\.ktlint/.*$</packageUrl>
+        <cve>CVE-2019-10782</cve>
+    </suppress>
+    <suppress until="2025-12-30">
+        <notes><![CDATA[
+        CVE-2019-9658 - Vulnerability in ktlint and build tools dependencies
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/com\.pinterest\.ktlint/.*$</packageUrl>
+        <cve>CVE-2019-9658</cve>
+    </suppress>
+    <suppress until="2025-12-30">
+        <notes><![CDATA[
+        CVE-2024-7246 - Vulnerability in gRPC and protobuf components
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/io\.grpc/.*$</packageUrl>
+        <cve>CVE-2024-7246</cve>
     </suppress>
 </suppressions>

@@ -12,7 +12,6 @@ import java.util.UUID
  * Interface for generating universally unique identifiers (UUIDs).
  */
 interface IdGenerator {
-
     /**
      * Generates an UUID.
      *
@@ -25,8 +24,5 @@ interface IdGenerator {
  * Default ID generator implementation.
  */
 class IdGenerateImpl : IdGenerator {
-
-    override fun generateId(): String {
-        return UUID.randomUUID().toString()
-    }
+    override fun generateId(): String = UUID.randomUUID().toString()
 }

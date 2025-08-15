@@ -13,7 +13,7 @@ import com.amplifyframework.core.model.types.GsonJavaTypeAdapters
 import com.amplifyframework.datastore.appsync.ModelWithMetadataAdapter
 import com.amplifyframework.datastore.appsync.SerializedCustomTypeAdapter
 import com.amplifyframework.datastore.appsync.SerializedModelAdapter
-import com.apollographql.apollo3.api.Optional
+import com.apollographql.apollo.api.Optional
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonElement
@@ -37,11 +37,10 @@ class GsonFactoryExt {
          * @return A configured Gson instance.
          */
         @Synchronized
-        fun instance(): Gson {
-            return gson ?: synchronized(this) {
+        fun instance(): Gson =
+            gson ?: synchronized(this) {
                 gson ?: create().also { gson = it }
             }
-        }
 
         private fun create(): Gson {
             val builder = GsonBuilder()
@@ -57,6 +56,7 @@ class GsonFactoryExt {
         }
     }
 }
+
 class JsonOptionalSerializer<V> : JsonSerializer<Optional<V>> {
     override fun serialize(
         src: Optional<V>?,

@@ -23,7 +23,6 @@ data class PublicKey(
     val algorithm: String = RSA,
     val symmetricAlgorithm: String = AES_256,
 ) {
-
     companion object {
         private const val ALGORITHM = "algorithm"
         private const val SYMMETRIC_ALGORITHM = "symmetricAlgorithm"
@@ -40,14 +39,15 @@ data class PublicKey(
      * @return encoded key.
      */
     fun encode(): String {
-        val json = JSONObject(
-            mapOf(
-                ALGORITHM to this.algorithm,
-                SYMMETRIC_ALGORITHM to this.symmetricAlgorithm,
-                KEY_ID to this.keyId,
-                PUBLIC_KEY to Base64.encodeToString(this.publicKey, Base64.NO_WRAP),
-            ),
-        )
+        val json =
+            JSONObject(
+                mapOf(
+                    ALGORITHM to this.algorithm,
+                    SYMMETRIC_ALGORITHM to this.symmetricAlgorithm,
+                    KEY_ID to this.keyId,
+                    PUBLIC_KEY to Base64.encodeToString(this.publicKey, Base64.NO_WRAP),
+                ),
+            )
 
         return json.toString()
     }

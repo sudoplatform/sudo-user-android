@@ -19,19 +19,22 @@ import java.net.HttpURLConnection
  * Convert any client errors so that they are not swallowed by the Amplify GraphQLOperation response handler.
  */
 class ConvertClientErrorsInterceptor : Interceptor {
-
-    private class ErrorFromHttpCode(private val httpCode: Int) {
+    private class ErrorFromHttpCode(
+        private val httpCode: Int,
+    ) {
         override fun toString(): String {
-            val errors = mapOf(
-                "errors" to
-                    listOf(
-                        GraphQLResponse.Error(
-                            "Error response received from server",
-                            emptyList(),
-                            emptyList(), mapOf(HTTP_STATUS_CODE_KEY to this.httpCode),
+            val errors =
+                mapOf(
+                    "errors" to
+                        listOf(
+                            GraphQLResponse.Error(
+                                "Error response received from server",
+                                emptyList(),
+                                emptyList(),
+                                mapOf(HTTP_STATUS_CODE_KEY to this.httpCode),
+                            ),
                         ),
-                    ),
-            )
+                )
             return Gson().toJson(errors)
         }
     }
@@ -42,10 +45,15 @@ class ConvertClientErrorsInterceptor : Interceptor {
             return response
         }
         response.body.close()
-        val newResponse: ResponseBody = ErrorFromHttpCode(response.code)
-            .toString()
-            .toResponseBody("application/json".toMediaTypeOrNull())
+        val newResponse: ResponseBody =
+            ErrorFromHttpCode(response.code)
+                .toString()
+                .toResponseBody("application/json".toMediaTypeOrNull())
 
-        return response.newBuilder().body(newResponse).code(HttpURLConnection.HTTP_OK).build()
+        return response
+            .newBuilder()
+            .body(newResponse)
+            .code(HttpURLConnection.HTTP_OK)
+            .build()
     }
 }

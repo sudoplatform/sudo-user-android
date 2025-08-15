@@ -10,7 +10,6 @@ package com.sudoplatform.sudouser
  * Generates a password complying to a specific set of rules.
  */
 interface PasswordGenerator {
-
     /**
      * Generates a random password.
      *
@@ -34,7 +33,6 @@ interface PasswordGenerator {
  * Default password generator implementation.
  */
 class PasswordGeneratorImpl : PasswordGenerator {
-
     companion object {
         private val ALL_CHARS =
             "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!?;,&%$@#^*~".toList()

@@ -17,7 +17,12 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cognitoAttributes: CognitoUserAttributes, parameters: Map<String, String>) = suspendCoroutine<String> { cont ->
+internal suspend fun CognitoUserPool.signUp(
+    uid: String,
+    password: String,
+    cognitoAttributes: CognitoUserAttributes,
+    parameters: Map<String, String>,
+) = suspendCoroutine<String> { cont ->
 
     signUp(
         uid,
@@ -25,7 +30,6 @@ internal suspend fun CognitoUserPool.signUp(uid: String, password: String, cogni
         cognitoAttributes,
         parameters,
         object : SignUpHandler {
-
             override fun onSuccess(
                 user: CognitoUser?,
                 signUpResult: SignUpResult,

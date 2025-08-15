@@ -42,7 +42,9 @@ sealed class ApiResult {
      *
      * @param error [Throwable] encapsulating the error detail.
      */
-    data class Failure(val error: Throwable) : ApiResult()
+    data class Failure(
+        val error: Throwable,
+    ) : ApiResult()
 }
 
 /**
@@ -54,14 +56,18 @@ sealed class RegisterResult {
      *
      * @param uid user ID of the newly registered user.
      */
-    data class Success(val uid: String) : RegisterResult()
+    data class Success(
+        val uid: String,
+    ) : RegisterResult()
 
     /**
      * Encapsulates a failed registration result.
      *
      * @param error [Throwable] encapsulating the error detail.
      */
-    data class Failure(val error: Throwable) : RegisterResult()
+    data class Failure(
+        val error: Throwable,
+    ) : RegisterResult()
 }
 
 /**
@@ -81,15 +87,16 @@ sealed class SignInResult {
         val accessToken: String,
         val refreshToken: String,
         val lifetime: Int,
-    ) :
-        SignInResult()
+    ) : SignInResult()
 
     /**
      * Encapsulates a failed sign-in result.
      *
      * @param error [Throwable] encapsulating the error detail.
      */
-    data class Failure(val error: Throwable) : SignInResult()
+    data class Failure(
+        val error: Throwable,
+    ) : SignInResult()
 }
 
 /**
@@ -112,7 +119,6 @@ data class AuthenticationTokens(
  * within Sudo platform ecosystem.
  */
 interface IdentityProvider {
-
     /**
      * Registers a new user against the identity provider.
      *
@@ -133,7 +139,10 @@ interface IdentityProvider {
      * @param accessToken access token to authenticate and authorize the request.
      */
     @Throws(SudoUserException::class)
-    suspend fun deregister(uid: String, accessToken: String)
+    suspend fun deregister(
+        uid: String,
+        accessToken: String,
+    )
 
     /**
      * Sign into the identity provider.
@@ -184,7 +193,6 @@ internal class CognitoUserPoolIdentityProvider(
     private val passwordGenerator: PasswordGenerator,
     private val logger: Logger = DefaultLogger.instance,
 ) : IdentityProvider {
-
     companion object {
         private const val CONFIG_REGION = "region"
         private const val CONFIG_POOL_ID = "poolId"
@@ -244,20 +252,24 @@ internal class CognitoUserPoolIdentityProvider(
             throw IllegalArgumentException("region, poolId or clientId was null.")
         }
 
-        this.userPool = CognitoUserPool(
-            context,
-            poolId,
-            clientId,
-            null,
-            Regions.fromName(region),
-        )
+        this.userPool =
+            CognitoUserPool(
+                context,
+                poolId,
+                clientId,
+                null,
+                Regions.fromName(region),
+            )
 
         this.idpClient =
             AmazonCognitoIdentityProviderClient(AnonymousAWSCredentials(), ClientConfiguration())
         this.idpClient.setRegion(Region.getRegion(region))
     }
 
-    override suspend fun register(uid: String, parameters: Map<String, String>): String {
+    override suspend fun register(
+        uid: String,
+        parameters: Map<String, String>,
+    ): String {
         this.logger.debug("uid: $uid, parameters: $parameters")
 
         // Generate a random password. Currently, Cognito requires a password although we won't
@@ -276,7 +288,10 @@ internal class CognitoUserPoolIdentityProvider(
         return userPool.signUp(uid, password, cognitoAttributes, parameters)
     }
 
-    override suspend fun signIn(uid: String, parameters: Map<String, String>): AuthenticationTokens {
+    override suspend fun signIn(
+        uid: String,
+        parameters: Map<String, String>,
+    ): AuthenticationTokens {
         this.logger.debug("uid: $uid, parameters: $parameters")
 
         val initiateAuthRequest = InitiateAuthRequest()
@@ -308,27 +323,30 @@ internal class CognitoUserPoolIdentityProvider(
                     val userKeyId = parameters[SIGN_IN_PARAM_NAME_USER_KEY_ID]
 
                     if (userKeyId != null) {
-                        val jwt = JWT(
-                            uid,
-                            audience,
-                            uid,
-                            nonce,
-                            SIGN_IN_JWT_ALGORITHM,
-                            null,
-                            Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000)),
-                        )
-                        answer = jwt.signAndEncode(
-                            this@CognitoUserPoolIdentityProvider.keyManager,
-                            userKeyId,
-                        )
+                        val jwt =
+                            JWT(
+                                uid,
+                                audience,
+                                uid,
+                                nonce,
+                                SIGN_IN_JWT_ALGORITHM,
+                                null,
+                                Date(Date().time + (SIGN_IN_JWT_LIFETIME * 1000)),
+                            )
+                        answer =
+                            jwt.signAndEncode(
+                                this@CognitoUserPoolIdentityProvider.keyManager,
+                                userKeyId,
+                            )
                     }
                 }
 
                 if (answer != null) {
-                    respondToAuthChallengeRequest.challengeResponses = mapOf(
-                        AUTH_PARAM_NAME_USER_NAME to uid,
-                        AUTH_PARAM_NAME_ANSWER to answer,
-                    )
+                    respondToAuthChallengeRequest.challengeResponses =
+                        mapOf(
+                            AUTH_PARAM_NAME_USER_NAME to uid,
+                            AUTH_PARAM_NAME_ANSWER to answer,
+                        )
 
                     val respondToAuthChallengeResult =
                         this.idpClient.respondToAuthChallenge(respondToAuthChallengeRequest)
@@ -366,7 +384,10 @@ internal class CognitoUserPoolIdentityProvider(
         }
     }
 
-    override suspend fun deregister(uid: String, accessToken: String) {
+    override suspend fun deregister(
+        uid: String,
+        accessToken: String,
+    ) {
         this.logger.debug("uid: $uid, accessToken: $accessToken")
 
         val deleteUserRequest = DeleteUserRequest()

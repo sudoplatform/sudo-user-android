@@ -16,8 +16,9 @@ import java.util.Date
 /**
  * [SudoUserClient] based authentication provider implementation to be used by AWS Amplify client.
  */
-class GraphQLAuthProvider(private val client: SudoUserClient) : CognitoUserPoolsAuthProvider {
-
+class GraphQLAuthProvider(
+    private val client: SudoUserClient,
+) : CognitoUserPoolsAuthProvider {
     override fun getLatestAuthToken(): String {
         val idToken = this@GraphQLAuthProvider.client.getIdToken()
         val refreshToken = this@GraphQLAuthProvider.client.getRefreshToken()
@@ -29,9 +30,10 @@ class GraphQLAuthProvider(private val client: SudoUserClient) : CognitoUserPools
             } else {
                 // Refresh the token if it has expired or will expire in 10 mins.
                 return try {
-                    val result = runBlocking {
-                        this@GraphQLAuthProvider.client.refreshTokens(refreshToken)
-                    }
+                    val result =
+                        runBlocking {
+                            this@GraphQLAuthProvider.client.refreshTokens(refreshToken)
+                        }
                     result.idToken
                 } catch (e: SudoUserException.NotAuthorizedException) {
                     // Catch any NotAuthorizedException and return an invalid ID
