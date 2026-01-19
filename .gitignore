@@ -58,3 +58,4 @@ awsconfiguration.json
 config
 
 sudouser/jacoco.exec
+.aider*

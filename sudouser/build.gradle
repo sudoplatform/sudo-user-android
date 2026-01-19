@@ -197,7 +197,17 @@ afterEvaluate {
         nvd {
             datafeedUrl = "https://anonyome-nist-cve-mirror.s3.amazonaws.com/"
         }
+        analyzers {
+            assemblyEnabled = false
+            centralEnabled = false
+            ossIndex {
+                username = "${ossIndexUsername}"
+                password = "${ossIndexPassword}"
+                warnOnlyOnRemoteErrors = true
+            }
+        }
     }
+
 }
 
 // https://github.com/cookpad/license-tools-plugin

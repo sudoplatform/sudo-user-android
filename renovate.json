@@ -2,5 +2,30 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>platform/android-platform-renovate-config"
+  ],
+  "postUpgradeTasks": {
+    "executionMode": "branch",
+    "commands": [
+      "just renovate-post"
+    ]
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["gradle-wrapper"],
+      "allowedVersions": "<9.0.0",
+      "description": "Upgrading to 9.0.0 causes issues with the checkLicenses plugin."
+    },
+    {
+      "description": "Pin Kotlin to 2.1",
+      "matchDepNames": [
+        "org.jetbrains.kotlin:kotlin-stdlib",
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
+        "org.jetbrains.kotlin:kotlin-reflect",
+        "org.jetbrains.kotlin.plugin.parcelize",
+        "org.jetbrains.kotlin.android"
+      ],
+      "allowedVersions": "<2.2.0"
+    }
+
   ]
 }

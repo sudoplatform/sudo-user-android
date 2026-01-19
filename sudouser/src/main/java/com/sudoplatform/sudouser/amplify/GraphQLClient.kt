@@ -38,14 +38,14 @@ class GraphQLClient(
                 document,
                 variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
                 D::class.java,
-                GsonVariablesSerializer(),
+                GsonVariablesSerializer(GsonFactoryExt.instance()),
             )
 
         val response =
             mutation.mutate(this.apiCategory, {
                 val constructor = T::class.constructors.first()
                 constructor.call(*(variables.map { it.value }).toTypedArray())
-            }, null)
+            }, GsonVariablesSerializer(GsonFactoryExt.instance()))
 
         return response
     }
@@ -59,7 +59,7 @@ class GraphQLClient(
                 document,
                 variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
                 D::class.java,
-                GsonVariablesSerializer(),
+                GsonVariablesSerializer(GsonFactoryExt.instance()),
             )
 
         val response =

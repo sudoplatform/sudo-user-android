@@ -160,11 +160,6 @@
   copyrightHolder: Google, Inc.
   license: The Apache Software License, Version 2.0
   url: https://mvnrepository.com/artifact/com.google.code.gson/gson
-- artifact: com.squareup.okhttp3:okhttp:+
-  name: OkHttp
-  copyrightHolder: Square, Inc.
-  license: The Apache Software License, Version 2.0
-  url: https://square.github.io/okhttp/
 - artifact: com.amazonaws:aws-android-sdk-core:+
   name: AWS SDK for Android - Core Runtime
   copyrightHolder: Amazon
@@ -482,12 +477,6 @@
   license: The Apache License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/smithy-kotlin
-- artifact: com.apollographql.apollo3:apollo-runtime-jvm:+
-  name: Apollo GraphQL Runtime
-  copyrightHolder: Apollo Graph Inc
-  license: MIT License
-  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
-  url: https://github.com/apollographql/apollo-kotlin/
 - artifact: aws.smithy.kotlin:aws-protocol-core-jvm:+
   name: aws-protocol-core
   copyrightHolder: Amazon
@@ -566,18 +555,6 @@
   license: The Apache License, Version 2.0
   licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
   url: https://github.com/awslabs/smithy-kotlin
-- artifact: com.apollographql.apollo3:apollo-api-jvm:+
-  name: Apollo GraphQL API
-  copyrightHolder: Apollo Graph Inc
-  license: MIT License
-  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
-  url: https://github.com/apollographql/apollo-kotlin/
-- artifact: com.apollographql.apollo3:apollo-annotations-jvm:+
-  name: Apollo GraphQL Annotations
-  copyrightHolder: Apollo Graph Inc
-  license: MIT License
-  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
-  url: https://github.com/apollographql/apollo-kotlin/
 - artifact: androidx.media:media:+
   name: Android Support Library media compat
   copyrightHolder: Google, Inc.
@@ -763,12 +740,6 @@
   license: The Apache Software License, Version 2.0
   licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.txt
   url: http://developer.android.com/tools/extras/support-library.html
-- artifact: com.apollographql.apollo3:apollo-mpp-utils-jvm:+
-  name: Apollo MPP Utils
-  copyrightHolder: Apollo Graph Inc
-  license: MIT License
-  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
-  url: https://github.com/apollographql/apollo-kotlin/
 - artifact: aws.smithy.kotlin:http-auth-api-jvm:+
   name: http-auth-api
   copyrightHolder: Amazon
@@ -909,3 +880,33 @@
   copyrightHolder: Apollo Graph Inc
   license: MIT
   url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo3:apollo-annotations-jvm:+
+  name: apollo-annotations-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo3:apollo-api-jvm:+
+  name: apollo-api-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo3:apollo-mpp-utils-jvm:+
+  name: apollo-mpp-utils-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.apollographql.apollo3:apollo-runtime-jvm:+
+  name: apollo-runtime-jvm
+  copyrightHolder: Apollo Graph Inc
+  license: MIT License
+  licenseUrl: https://raw.githubusercontent.com/apollographql/apollo-kotlin/main/LICENSE
+  url: https://github.com/apollographql/apollo-kotlin/
+- artifact: com.squareup.okhttp3:okhttp:+
+  name: okhttp
+  copyrightHolder: Square, Inc.
+  license: The Apache Software License, Version 2.0
+  licenseUrl: https://www.apache.org/licenses/LICENSE-2.0.txt
+  url: https://square.github.io/okhttp/

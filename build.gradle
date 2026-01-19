@@ -45,6 +45,18 @@ else {
     ext["sonatypeStagingProfileId"] = ""
 }
 
+if (project.hasProperty("ossIndexUsername")) {
+    ext["ossIndexUsername"] = "$ossIndexUsername"
+} else {
+    ext["ossIndexUsername"] = ""
+}
+
+if (project.hasProperty("ossIndexPassword")) {
+    ext["ossIndexPassword"] = "$ossIndexPassword"
+} else {
+    ext["ossIndexPassword"] = ""
+}
+
 if (project.findProperty("tag") && sonatypeStagingProfileId) {
     nexusPublishing {
         repositories {

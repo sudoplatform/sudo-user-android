@@ -16,11 +16,11 @@ import com.amplifyframework.datastore.appsync.SerializedModelAdapter
 import com.apollographql.apollo.api.Optional
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonElement
-import com.google.gson.JsonNull
-import com.google.gson.JsonSerializationContext
-import com.google.gson.JsonSerializer
-import java.lang.reflect.Type
+import com.google.gson.TypeAdapter
+import com.google.gson.TypeAdapterFactory
+import com.google.gson.reflect.TypeToken
+import com.google.gson.stream.JsonReader
+import com.google.gson.stream.JsonWriter
 
 /**
  * Based on the GsonFactory in the AmplifyFramework. Includes all builder adjustments from
@@ -51,26 +51,52 @@ class GsonFactoryExt {
             ModelWithMetadataAdapter.register(builder)
             SerializedModelAdapter.register(builder)
             SerializedCustomTypeAdapter.register(builder)
-            builder.registerTypeAdapter(Optional::class.java, JsonOptionalSerializer<Any>())
+
+            builder.registerTypeAdapterFactory(
+                JsonOptionalTypeAdapterFactory(),
+            )
             return builder.create()
         }
     }
 }
 
-class JsonOptionalSerializer<V> : JsonSerializer<Optional<V>> {
-    override fun serialize(
-        src: Optional<V>?,
-        typeOfSrc: Type?,
-        context: JsonSerializationContext?,
-    ): JsonElement {
-        if (context == null) {
-            throw IllegalArgumentException("Provided serialization context is null")
+class JsonOptionalTypeAdapterFactory : TypeAdapterFactory {
+    override fun <T> create(
+        gson: Gson,
+        type: TypeToken<T>,
+    ): TypeAdapter<T>? {
+        if (type.rawType != Optional::class.java) return null
+
+        @Suppress("UNCHECKED_CAST")
+        return JsonNullableOptionalTypeAdapter<Any>(gson) as TypeAdapter<T>
+    }
+}
+
+class JsonNullableOptionalTypeAdapter<V>(
+    private val gson: Gson,
+) : TypeAdapter<Optional<V>>() {
+    override fun write(
+        out: JsonWriter,
+        value: Optional<V>?,
+    ) {
+        if (value == Optional.Absent) {
+            out.nullValue()
+            return
         }
-        val result = src?.getOrNull()
-        return if (result == null) {
-            JsonNull.INSTANCE
-        } else {
-            context.serialize(result)
+
+        val result = value?.getOrNull()
+        if (result != null) {
+            gson.toJson(result, result.javaClass, out)
+            return
         }
+
+        out.serializeNulls = true
+        out.nullValue()
+        out.serializeNulls = false
+    }
+
+    override fun read(`in`: JsonReader): Optional<V> {
+        // No serialization required as we do not read Optionals from the service
+        throw NotImplementedError("Unexpected attempt to read Optional value")
     }
 }
