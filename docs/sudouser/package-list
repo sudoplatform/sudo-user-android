@@ -203,6 +203,10 @@ $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success///PointingToDec
 $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success/Success/#kotlin.String/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/-success/-success.html
 $dokka.location:com.sudoplatform.sudouser/RegisterResult.Success/uid/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/-success/uid.html
 $dokka.location:com.sudoplatform.sudouser/RegisterResult///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-register-result/index.html
+$dokka.location:com.sudoplatform.sudouser/SignInGuard///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-guard/index.html
+$dokka.location:com.sudoplatform.sudouser/SignInGuard/SignInGuard/#com.sudoplatform.sudouser.SudoUserClient#com.sudoplatform.sudouser.SudoPlatformSignInCallback?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-guard/-sign-in-guard.html
+$dokka.location:com.sudoplatform.sudouser/SignInGuard/ensureSignedIn/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-guard/ensure-signed-in.html
+$dokka.location:com.sudoplatform.sudouser/SignInGuard/setCallback/#com.sudoplatform.sudouser.SudoPlatformSignInCallback?/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-guard/set-callback.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/index.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure/Failure/#kotlin.Throwable/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/-failure.html
 $dokka.location:com.sudoplatform.sudouser/SignInResult.Failure/error/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-result/-failure/error.html
@@ -222,6 +226,8 @@ $dokka.location:com.sudoplatform.sudouser/SignInStatus/valueOf/#kotlin.String/Po
 $dokka.location:com.sudoplatform.sudouser/SignInStatus/values/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status/values.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatusObserver///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status-observer/index.html
 $dokka.location:com.sudoplatform.sudouser/SignInStatusObserver/signInStatusChanged/#com.sudoplatform.sudouser.SignInStatus/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sign-in-status-observer/sign-in-status-changed.html
+$dokka.location:com.sudoplatform.sudouser/SudoPlatformSignInCallback///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-platform-sign-in-callback/index.html
+$dokka.location:com.sudoplatform.sudouser/SudoPlatformSignInCallback/signIn/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-platform-sign-in-callback/sign-in.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient.Builder///PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/-builder/index.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient.Builder/Builder/#android.content.Context/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/-builder/-builder.html
 $dokka.location:com.sudoplatform.sudouser/SudoUserClient.Builder/build/#/PointingToDeclaration/sudouser/com.sudoplatform.sudouser/-sudo-user-client/-builder/build.html

@@ -96,4 +96,25 @@
         <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-.*-runtime@.*$</packageUrl>
         <cve>CVE-2025-29903</cve>
     </suppress>
+    <suppress until="2026-06-30">
+        <notes><![CDATA[
+   file name: analysis-kotlin-descriptors-2.0.0.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.dokka/analysis-kotlin-descriptors@.*$</packageUrl>
+        <cve>CVE-2020-29582</cve>
+    </suppress>
+    <suppress until="2026-06-30">
+        <notes><![CDATA[
+   file name: kotlin-stdlib*.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-stdlib.*@.*$</packageUrl>
+        <cve>CVE-2020-29582</cve>
+    </suppress>
+    <suppress until="2026-06-30">
+        <notes><![CDATA[
+   file name: kotlin-reflect-*.jar
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-reflect@.*$</packageUrl>
+        <cve>CVE-2020-29582</cve>
+    </suppress>    
 </suppressions>
