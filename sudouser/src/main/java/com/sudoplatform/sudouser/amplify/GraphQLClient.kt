@@ -18,6 +18,7 @@ import com.apollographql.apollo.api.Mutation
 import com.apollographql.apollo.api.Optional
 import com.apollographql.apollo.api.Query
 import com.apollographql.apollo.api.Subscription
+import com.sudoplatform.sudouser.exceptions.HTTP_STATUS_CODE_KEY
 import com.sudoplatform.sudouser.extensions.GsonFactoryExt
 import com.sudoplatform.sudouser.extensions.mutate
 import com.sudoplatform.sudouser.extensions.query
@@ -28,6 +29,7 @@ import com.sudoplatform.sudouser.extensions.subscribe
  */
 class GraphQLClient(
     var apiCategory: ApiCategory,
+    var tokenRefreshCoordinator: TokenRefreshCoordinator? = null,
 ) {
     suspend inline fun <reified T : Mutation<D>, reified D : Mutation.Data> mutate(
         document: String,
@@ -46,6 +48,22 @@ class GraphQLClient(
                 val constructor = T::class.constructors.first()
                 constructor.call(*(variables.map { it.value }).toTypedArray())
             }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+        // Check for 401 errors indicating token rejection
+        val coordinator = this.tokenRefreshCoordinator
+        if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
+            // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
+            coordinator.refresh()
+
+            // Retry the operation exactly once with the new token
+            val retryResponse =
+                mutation.mutate(this.apiCategory, {
+                    val constructor = T::class.constructors.first()
+                    constructor.call(*(variables.map { it.value }).toTypedArray())
+                }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+            return retryResponse
+        }
 
         return response
     }
@@ -67,6 +85,22 @@ class GraphQLClient(
                 val constructor = T::class.constructors.first()
                 constructor.call(*(variables.map { it.value }).toTypedArray())
             }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+        // Check for 401 errors indicating token rejection
+        val coordinator = this.tokenRefreshCoordinator
+        if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
+            // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
+            coordinator.refresh()
+
+            // Retry the operation exactly once with the new token
+            val retryResponse =
+                query.query(this.apiCategory, {
+                    val constructor = T::class.constructors.first()
+                    constructor.call(*(variables.map { it.value }).toTypedArray())
+                }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+            return retryResponse
+        }
 
         return response
     }

@@ -59,3 +59,5 @@ config
 
 sudouser/jacoco.exec
 .aider*
+
+.kiro/**

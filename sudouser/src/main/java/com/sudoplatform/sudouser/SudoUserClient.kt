@@ -29,6 +29,7 @@ import com.sudoplatform.sudokeymanager.KeyNotFoundException
 import com.sudoplatform.sudologging.Logger
 import com.sudoplatform.sudouser.amplify.GraphQLAuthProvider
 import com.sudoplatform.sudouser.amplify.GraphQLClient
+import com.sudoplatform.sudouser.amplify.TokenRefreshCoordinator
 import com.sudoplatform.sudouser.exceptions.SudoUserException
 import com.sudoplatform.sudouser.exceptions.SudoUserException.Companion.toSudoUserException
 import com.sudoplatform.sudouser.graphql.DeregisterMutation
@@ -626,6 +627,9 @@ class DefaultSudoUserClient(
 
             this.apiClient = GraphQLClient(apiCategory)
         }
+
+        // Wire up the reactive token refresh coordinator
+        this.apiClient.tokenRefreshCoordinator = TokenRefreshCoordinator(this)
 
         this.idGenerator = idGenerator
 
@@ -1260,7 +1264,13 @@ class DefaultSudoUserClient(
 
         this.keyManager.deletePassword(KEY_NAME_TOKEN_EXPIRY)
         this.keyManager.addPassword(
-            "${lifetime * 1000 + Date().time}".toByteArray(),
+            (
+                JWT
+                    .decode(idToken)
+                    ?.expiry
+                    ?.time
+                    ?.toString() ?: "${lifetime * 1000 + Date().time}"
+            ).toByteArray(),
             KEY_NAME_TOKEN_EXPIRY,
         )
     }
