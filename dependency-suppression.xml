@@ -6,6 +6,11 @@
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-databind@.*$</packageUrl>
         <cve>CVE-2023-35116</cve>
+        <cve>CVE-2026-50193</cve>
+        <cve>CVE-2026-54512</cve>
+        <cve>CVE-2026-54513</cve>
+        <cve>CVE-2026-54514</cve>
+        <cve>CVE-2026-54515</cve>
     </suppress>
     <suppress until="2026-12-31">
         <notes><![CDATA[
@@ -52,13 +57,30 @@
         <cve>CVE-2026-42579</cve>
         <cve>CVE-2026-42580</cve>
         <cve>CVE-2026-42581</cve>
-        <cve>CVE-2026-42582</cve>
         <cve>CVE-2026-42583</cve>
         <cve>CVE-2026-42584</cve>
         <cve>CVE-2026-42585</cve>
         <cve>CVE-2026-42586</cve>
         <cve>CVE-2026-42587</cve>
         <cve>CVE-2026-44248</cve>
+        <cve>CVE-2026-44249</cve>
+        <cve>CVE-2026-44250</cve>
+        <cve>CVE-2026-44890</cve>
+        <cve>CVE-2026-44893</cve>
+        <cve>CVE-2026-45416</cve>
+        <cve>CVE-2026-45536</cve>
+        <cve>CVE-2026-45673</cve>
+        <cve>CVE-2026-45674</cve>
+        <cve>CVE-2026-46340</cve>
+        <cve>CVE-2026-47244</cve>
+        <cve>CVE-2026-47691</cve>
+        <cve>CVE-2026-48006</cve>
+        <cve>CVE-2026-48043</cve>
+        <cve>CVE-2026-48059</cve>
+        <cve>CVE-2026-50010</cve>
+        <cve>CVE-2026-50011</cve>
+        <cve>CVE-2026-50020</cve>
+        <cve>CVE-2026-50560</cve>
     </suppress>
     <suppress until="2026-12-31">
         <notes><![CDATA[
@@ -69,40 +91,11 @@
     </suppress>
     <suppress until="2026-12-31">
         <notes><![CDATA[
-   file name: jackson-core-2.12.7.jar
-   ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson\-core@.*$</packageUrl>
-        <cve>CVE-2025-49128</cve>
-        <cve>CVE-2025-52999</cve>
-    </suppress>
-    <suppress until="2026-12-31">
-        <notes><![CDATA[
-        file name: gson-2.10.1.jar
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.google\.code\.gson/gson@.*$</packageUrl>
-        <cve>CVE-2025-53864</cve>
-    </suppress>
-    <suppress until="2026-12-31">
-        <notes><![CDATA[
-        file name: launcher-0.0.9-alpha02.jar (shaded: com.google.code.gson:gson:2.8.9)
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/com\.google\.code\.gson/gson@.*$</packageUrl>
-        <cve>CVE-2025-53864</cve>
-    </suppress>
-    <suppress until="2026-12-31">
-        <notes><![CDATA[
         file name: netty-codec-http2-4.1.110.Final.jar and netty-codec-http2-4.1.93.Final.jar
         Suppress CVE-2025-55163 for netty-codec-http2 until upstream dependencies are updated.
         ]]></notes>
         <packageUrl regex="true">^pkg:maven/io\.netty/netty\-codec\-http2@.*$</packageUrl>
         <cve>CVE-2025-55163</cve>
-    </suppress>
-    <suppress until="2026-12-31">
-        <notes><![CDATA[
-        CVE-2024-7246 - Vulnerability in gRPC and protobuf components
-        ]]></notes>
-        <packageUrl regex="true">^pkg:maven/io\.grpc/.*$</packageUrl>
-        <cve>CVE-2024-7246</cve>
     </suppress>
     <suppress until="2026-12-31">
         <notes><![CDATA[
@@ -153,5 +146,22 @@
    ]]></notes>
         <packageUrl regex="true">^pkg:maven/androidx\.browser/browser@.*$</packageUrl>
         <cve>CVE-2008-7298</cve>
-    </suppress>    
+    </suppress>
+    <suppress until="2026-12-31">
+        <notes><![CDATA[
+   file name: kotlin-stdlib-2.2.0.jar, kotlin-compiler-embeddable-2.2.0.jar, and other kotlin components
+   CVE-2026-53914 affects Kotlin compiler and runtime components used as build/test dependencies.
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.kotlin/kotlin-.*@.*$</packageUrl>
+        <cve>CVE-2026-53914</cve>
+    </suppress>
+    <suppress until="2026-12-31">
+        <notes><![CDATA[
+   file name: analysis-kotlin-descriptors-2.0.0.jar, analysis-markdown-2.0.0.jar, dokka-base-2.0.0.jar, dokka-core-2.0.0.jar
+   CVE-2026-53914 affects shaded Kotlin components within Dokka.
+   ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.jetbrains\.dokka/.*@.*$</packageUrl>
+        <cve>CVE-2026-53914</cve>
+    </suppress>
+
 </suppressions>

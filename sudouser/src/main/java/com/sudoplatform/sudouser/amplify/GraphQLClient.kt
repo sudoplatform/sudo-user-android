@@ -27,114 +27,116 @@ import com.sudoplatform.sudouser.extensions.subscribe
 /**
  * Wrapper class around the apiCategory to maintain concept cleanliness.
  */
-class GraphQLClient(
-    var apiCategory: ApiCategory,
-    var tokenRefreshCoordinator: TokenRefreshCoordinator? = null,
-) {
-    suspend inline fun <reified T : Mutation<D>, reified D : Mutation.Data> mutate(
-        document: String,
-        variables: Map<String, Any?>,
-    ): GraphQLResponse<D> {
-        val mutation =
-            SimpleGraphQLRequest<D>(
-                document,
-                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-                D::class.java,
-                GsonVariablesSerializer(GsonFactoryExt.instance()),
-            )
+class GraphQLClient
+    @JvmOverloads
+    constructor(
+        var apiCategory: ApiCategory,
+        var tokenRefreshCoordinator: TokenRefreshCoordinator? = null,
+    ) {
+        suspend inline fun <reified T : Mutation<D>, reified D : Mutation.Data> mutate(
+            document: String,
+            variables: Map<String, Any?>,
+        ): GraphQLResponse<D> {
+            val mutation =
+                SimpleGraphQLRequest<D>(
+                    document,
+                    variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                    D::class.java,
+                    GsonVariablesSerializer(GsonFactoryExt.instance()),
+                )
 
-        val response =
-            mutation.mutate(this.apiCategory, {
-                val constructor = T::class.constructors.first()
-                constructor.call(*(variables.map { it.value }).toTypedArray())
-            }, GsonVariablesSerializer(GsonFactoryExt.instance()))
-
-        // Check for 401 errors indicating token rejection
-        val coordinator = this.tokenRefreshCoordinator
-        if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
-            // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
-            coordinator.refresh()
-
-            // Retry the operation exactly once with the new token
-            val retryResponse =
+            val response =
                 mutation.mutate(this.apiCategory, {
                     val constructor = T::class.constructors.first()
                     constructor.call(*(variables.map { it.value }).toTypedArray())
                 }, GsonVariablesSerializer(GsonFactoryExt.instance()))
 
-            return retryResponse
+            // Check for 401 errors indicating token rejection
+            val coordinator = this.tokenRefreshCoordinator
+            if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
+                // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
+                coordinator.refresh()
+
+                // Retry the operation exactly once with the new token
+                val retryResponse =
+                    mutation.mutate(this.apiCategory, {
+                        val constructor = T::class.constructors.first()
+                        constructor.call(*(variables.map { it.value }).toTypedArray())
+                    }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+                return retryResponse
+            }
+
+            return response
         }
 
-        return response
-    }
+        suspend inline fun <reified T : Query<D>, reified D : Query.Data> query(
+            document: String,
+            variables: Map<String, Any?>,
+        ): GraphQLResponse<D> {
+            val query =
+                SimpleGraphQLRequest<D>(
+                    document,
+                    variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                    D::class.java,
+                    GsonVariablesSerializer(GsonFactoryExt.instance()),
+                )
 
-    suspend inline fun <reified T : Query<D>, reified D : Query.Data> query(
-        document: String,
-        variables: Map<String, Any?>,
-    ): GraphQLResponse<D> {
-        val query =
-            SimpleGraphQLRequest<D>(
-                document,
-                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-                D::class.java,
-                GsonVariablesSerializer(GsonFactoryExt.instance()),
-            )
-
-        val response =
-            query.query(this.apiCategory, {
-                val constructor = T::class.constructors.first()
-                constructor.call(*(variables.map { it.value }).toTypedArray())
-            }, GsonVariablesSerializer(GsonFactoryExt.instance()))
-
-        // Check for 401 errors indicating token rejection
-        val coordinator = this.tokenRefreshCoordinator
-        if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
-            // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
-            coordinator.refresh()
-
-            // Retry the operation exactly once with the new token
-            val retryResponse =
+            val response =
                 query.query(this.apiCategory, {
                     val constructor = T::class.constructors.first()
                     constructor.call(*(variables.map { it.value }).toTypedArray())
                 }, GsonVariablesSerializer(GsonFactoryExt.instance()))
 
-            return retryResponse
+            // Check for 401 errors indicating token rejection
+            val coordinator = this.tokenRefreshCoordinator
+            if (coordinator != null && response.errors?.any { it.extensions?.get(HTTP_STATUS_CODE_KEY) == 401 } == true) {
+                // Attempt reactive token refresh (throws NotAuthorizedException if terminal)
+                coordinator.refresh()
+
+                // Retry the operation exactly once with the new token
+                val retryResponse =
+                    query.query(this.apiCategory, {
+                        val constructor = T::class.constructors.first()
+                        constructor.call(*(variables.map { it.value }).toTypedArray())
+                    }, GsonVariablesSerializer(GsonFactoryExt.instance()))
+
+                return retryResponse
+            }
+
+            return response
         }
 
-        return response
+        inline fun <reified T : Subscription<D>, reified D : Subscription.Data> subscribe(
+            document: String,
+            variables: Map<String, Any?>,
+            onSubscriptionEstablished: Consumer<GraphQLResponse<D>>,
+            onSubscription: Consumer<GraphQLResponse<D>>,
+            onSubscriptionCompleted: Action,
+            onFailure: Consumer<ApiException>,
+        ): GraphQLOperation<D>? {
+            val subscriber =
+                SimpleGraphQLRequest<D>(
+                    document,
+                    variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
+                    D::class.java,
+                    GsonVariablesSerializer(),
+                )
+
+            val response =
+                subscriber.subscribe(
+                    this.apiCategory,
+                    {
+                        val constructor = T::class.constructors.first()
+                        constructor.call(*(variables.map { it.value }).toTypedArray())
+                    },
+                    onSubscriptionEstablished,
+                    onSubscription,
+                    onSubscriptionCompleted,
+                    onFailure,
+                    null,
+                )
+
+            return response
+        }
     }
-
-    inline fun <reified T : Subscription<D>, reified D : Subscription.Data> subscribe(
-        document: String,
-        variables: Map<String, Any?>,
-        onSubscriptionEstablished: Consumer<GraphQLResponse<D>>,
-        onSubscription: Consumer<GraphQLResponse<D>>,
-        onSubscriptionCompleted: Action,
-        onFailure: Consumer<ApiException>,
-    ): GraphQLOperation<D>? {
-        val subscriber =
-            SimpleGraphQLRequest<D>(
-                document,
-                variables.mapValues { if (it.value is Optional<*>) (it.value as Optional<*>).getOrNull() else it.value },
-                D::class.java,
-                GsonVariablesSerializer(),
-            )
-
-        val response =
-            subscriber.subscribe(
-                this.apiCategory,
-                {
-                    val constructor = T::class.constructors.first()
-                    constructor.call(*(variables.map { it.value }).toTypedArray())
-                },
-                onSubscriptionEstablished,
-                onSubscription,
-                onSubscriptionCompleted,
-                onFailure,
-                null,
-            )
-
-        return response
-    }
-}
